@@ -16,6 +16,8 @@ allprojects {
     repositories {
         google()
         jcenter()
+        //Credit: https://github.com/heinrichreimer/material-intro
+        maven { url 'https://jitpack.io' }
     }
 }
 
