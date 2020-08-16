@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">Diabetes</string>
+
+    <!-- intro_registo -->
+    <string name="tvIntroRegisto1">Create your free account</string>
+    <string name="tvIntroRegisto3">I have an account</string>
+    <string name="tvIntroRegisto2">Start controlling your\n diabetes today</string>
+    <string name="btnIntroRegisto">Sign Up</string>
+
+    <!-- intro_3 -->
+    <string name="tvIntro_3_1">Family and Doctor</string>
+    <string name="tvIntro_3_2">Data available to your\n familiar member and doctor</string>
+
+    <!-- intro_2 -->
+    <string name="tvIntro_2_1">Design for the elderly</string>
+    <string name="tvIntro_2_2">Track your data\n in a simple and intuitive way</string>
+
+    <!-- intro_1 -->
+    <string name="tvIntro_1_1">Diabetes Information</string>
+    <string name="tvIntro1_2">Here you can manage your diabetes\n the easiest way</string>
 </resources>

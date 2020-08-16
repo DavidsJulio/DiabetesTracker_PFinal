@@ -1,4 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Diabetes</string>
+
+    <!-- intro_registo -->
+    <string name="tvIntroRegisto1">Crie a sua conta grátis</string>
+    <string name="tvIntroRegisto3">Já tenho conta</string>
+    <string name="tvIntroRegisto2">Comece hoje a controlar\n a sua diabetes</string>
+    <string name="btnIntroRegisto">Registar</string>
+
+    <!-- intro_3 -->
+    <string name="tvIntro_3_1">Familia e Médico</string>
+    <string name="tvIntro_3_2">Dados ao dispor do seu\n familiar e médico</string>
+
+    <!-- intro_2 -->
+    <string name="tvIntro_2_1">Desenhado para a população\n Idosa</string>
+    <string name="tvIntro_2_2">Acompanhe os seus dados\n de uma maneira simples e intuitiva</string>
+
+    <!-- intro_1 -->
+    <string name="tvIntro_1_1">Informação para a Diabetes</string>
+    <string name="tvIntro1_2">Aqui consegue gerir a sua diabetes\n da maneira máis fácil</string>
 </resources>

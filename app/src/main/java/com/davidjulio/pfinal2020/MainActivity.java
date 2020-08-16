@@ -18,22 +18,22 @@ public class MainActivity extends IntroActivity { //mudar de AppCompatActivity p
         setButtonNextVisible(false);
 
         addSlide(new FragmentSlide.Builder()
-                .background(R.color.colorIntro)
+                .background(R.color.colorWhite)
                 .fragment(R.layout.intro_1)
                 .build());
 
         addSlide(new FragmentSlide.Builder()
-                .background(R.color.colorIntro)
+                .background(R.color.colorWhite)
                 .fragment(R.layout.intro_2)
                 .build());
 
         addSlide(new FragmentSlide.Builder()
-                .background(R.color.colorIntro)
+                .background(R.color.colorWhite)
                 .fragment(R.layout.intro_3)
                 .build());
 
         addSlide(new FragmentSlide.Builder()
-                .background(R.color.colorIntro)
+                .background(R.color.colorWhite)
                 .fragment(R.layout.intro_registo)
                 .canGoForward(false)
                 .build());
