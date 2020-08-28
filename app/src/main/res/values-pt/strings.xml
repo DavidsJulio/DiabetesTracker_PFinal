@@ -19,4 +19,15 @@
     <!-- intro_1 -->
     <string name="tvIntro_1_1">Informação para a Diabetes</string>
     <string name="tvIntro1_2">Aqui consegue gerir a sua diabetes\n da maneira máis fácil</string>
+
+    <!-- Registo_Activity -->
+    <string name="crie_a_sua_conta_gratis">Crie a sua conta grátis!</string>
+    <string name="nome">Nome</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="registar">Registar</string>
+
+    <!-- Login Activity -->
+    <string name="acesse_sua_conta">Acesse à sua Conta</string>
+    <string name="entrar">Entrar</string>
 </resources>

@@ -18,4 +18,15 @@
     <!-- intro_1 -->
     <string name="tvIntro_1_1">Diabetes Information</string>
     <string name="tvIntro1_2">Here you can manage your diabetes\n the easiest way</string>
+
+    <!-- Registo_Activity -->
+    <string name="crie_a_sua_conta_gratis">Create your free account!</string>
+    <string name="nome">Name</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="registar">Sign Up</string>
+
+    <!-- Login Activity -->
+    <string name="acesse_sua_conta">Access to your account</string>
+    <string name="entrar">Sign In</string>
 </resources>

@@ -25,7 +25,7 @@
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
-        android:text="Crie a sua conta grátis!"
+        android:text="@string/crie_a_sua_conta_gratis"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/textInputLayout2"
@@ -49,7 +49,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nome" />
+            android:hint="@string/nome" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -58,7 +58,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Email" />
+                android:hint="@string/email" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -67,7 +67,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Password" />
+                    android:hint="@string/password" />
             </com.google.android.material.textfield.TextInputLayout>
         </com.google.android.material.textfield.TextInputLayout>
     </com.google.android.material.textfield.TextInputLayout>
@@ -79,7 +79,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:background="@drawable/background_botao_verde"
-        android:text="Registar"
+        android:text="@string/registar"
         android:textColor="@android:color/white"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
