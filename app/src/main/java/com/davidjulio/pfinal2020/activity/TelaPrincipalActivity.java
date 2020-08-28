@@ -36,7 +36,6 @@ public class TelaPrincipalActivity extends AppCompatActivity {
 
 
         FloatingActionButton fab = findViewById(R.id.fab);
-
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -46,16 +45,24 @@ public class TelaPrincipalActivity extends AppCompatActivity {
         });
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
+
+        //Cria referencia para a area de navegação
         NavigationView navigationView = findViewById(R.id.nav_view);
 
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+        // Define as configurações do Nav.Drawer
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
-                .setOpenableLayout(drawer)
-                .build();
+                R.id.nav_home, R.id.nav_calculadora, R.id.nav_refeicoes, R.id.nav_lembretes,
+                R.id.nav_info, R.id.nav_config)
+                .setOpenableLayout(drawer) //versão atual
+                .build(); //constroi
+
+        //config a area que carrega os fragmentos
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+
+        //configura o nav(controller) menu superior de navegação
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+
+        //Configura a navegação para o navView = carrega os itens de menu (diario, calculadora, etc)
         NavigationUI.setupWithNavController(navigationView, navController);
     }
 

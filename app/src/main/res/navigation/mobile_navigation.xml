@@ -12,14 +12,38 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.davidjulio.pfinal2020.activity.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:id="@+id/nav_calculadora"
+        android:name="com.davidjulio.pfinal2020.activity.ui.calculadora.CalculadoraFragment"
+        android:label="Calculadora"
+        tools:layout="@layout/fragment_calculadora" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.davidjulio.pfinal2020.activity.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/nav_config"
+        android:name="com.davidjulio.pfinal2020.activity.ui.configuration.ConfigurationFragment"
+        android:label="Configurações"
+        tools:layout="@layout/fragment_configuration" />
+
+    <fragment
+        android:id="@+id/nav_diario"
+        android:name="com.davidjulio.pfinal2020.activity.ui.diario.DiarioFragment"
+        android:label="Diário"
+        tools:layout="@layout/fragment_diario" />
+
+    <fragment
+        android:id="@+id/nav_refeicoes"
+        android:name="com.davidjulio.pfinal2020.activity.ui.refeicoes.RefeicoesFragment"
+        android:label="Refeições"
+        tools:layout="@layout/fragment_refeicoes" />
+
+    <fragment
+        android:id="@+id/nav_lembretes"
+        android:name="com.davidjulio.pfinal2020.activity.ui.lembretes.LembretesFragment"
+        android:label="Lembretes"
+        tools:layout="@layout/fragment_lembretes" />
+
+    <fragment
+        android:id="@+id/nav_info"
+        android:name="com.davidjulio.pfinal2020.activity.ui.info.InfoFragment"
+        android:label="Info"
+        tools:layout="@layout/fragment_info" />
 </navigation>
