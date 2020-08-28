@@ -7,10 +7,14 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.davidjulio.pfinal2020.R;
+import com.davidjulio.pfinal2020.config.ConfigFirebase;
+import com.google.firebase.auth.FirebaseAuth;
 import com.heinrichreimersoftware.materialintro.app.IntroActivity;
 import com.heinrichreimersoftware.materialintro.slide.FragmentSlide;
 
 public class MainActivity extends IntroActivity { //mudar de AppCompatActivity para extender IntroActivity
+
+    private FirebaseAuth autenticacao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +46,29 @@ public class MainActivity extends IntroActivity { //mudar de AppCompatActivity p
                 .build());
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        verificarUtilizadorLoggado();
+    }
+
     public void btnRegisto (View view){
         startActivity(new Intent(this, RegistoActivity.class));
     }
 
     public void btnEntrar (View view){
         startActivity(new Intent(this, LoginActivity.class));
+    }
+
+    public void verificarUtilizadorLoggado(){
+        autenticacao = ConfigFirebase.getFirebaseAutenticacao();
+        if( autenticacao.getCurrentUser() != null){
+            abrirActivityPrincipal();
+        }
+    }
+
+    public void abrirActivityPrincipal(){
+        //TODO: criar activity principal
+        //startActivity( new Intent( this, PrincipalActivity.class));
     }
 }

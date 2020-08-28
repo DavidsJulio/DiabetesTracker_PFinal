@@ -31,16 +31,17 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/btnLRegistar"
+        app:layout_constraintBottom_toTopOf="@+id/btnLoginRegistar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editLoginEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_email"
             android:drawablePadding="8dp"
+            android:drawableStart="@drawable/ic_email"
             android:hint="@string/email"
             android:inputType="textEmailAddress" />
 
@@ -51,6 +52,7 @@
             app:passwordToggleEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editLoginPass"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:cursorVisible="false"
@@ -58,13 +60,12 @@
                 android:drawableStart="@drawable/ic_pass"
                 android:enabled="true"
                 android:hint="@string/password"
-                android:inputType="textWebPassword"
-                />
+                android:inputType="textWebPassword" />
         </com.google.android.material.textfield.TextInputLayout>
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/btnLRegistar"
+        android:id="@+id/btnLoginRegistar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -76,14 +77,14 @@
         android:textColor="@color/colorWhite"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnLEntrar"
+        app:layout_constraintEnd_toStartOf="@+id/btnLoginEntrar"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
 
     <Button
-        android:id="@+id/btnLEntrar"
+        android:id="@+id/btnLoginEntrar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
@@ -95,7 +96,7 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btnLRegistar"
+        app:layout_constraintStart_toEndOf="@+id/btnLoginRegistar"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
