@@ -97,8 +97,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void abrirActivityPrincipal(){
-        //TODO: criar activity principal
-        //startActivity( new Intent( this, PrincipalActivity.class));
+        startActivity( new Intent( this, TelaPrincipalActivity.class));
         finish(); //fecha a activiti de login
     }
 

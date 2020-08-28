@@ -62,13 +62,14 @@ public class MainActivity extends IntroActivity { //mudar de AppCompatActivity p
 
     public void verificarUtilizadorLoggado(){
         autenticacao = ConfigFirebase.getFirebaseAutenticacao();
+        //autenticacao.signOut();
         if( autenticacao.getCurrentUser() != null){
             abrirActivityPrincipal();
         }
     }
 
     public void abrirActivityPrincipal(){
-        //TODO: criar activity principal
-        //startActivity( new Intent( this, PrincipalActivity.class));
+
+       startActivity( new Intent( this, TelaPrincipalActivity.class));
     }
 }
