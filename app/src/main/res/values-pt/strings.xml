@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Diabetes</string>
+    <string name="app_name">Monitor Diabetes</string>
 
     <!-- intro_registo -->
     <string name="tvIntroRegisto1">Crie a sua conta grátis</string>
