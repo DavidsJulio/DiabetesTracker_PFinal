@@ -1,12 +1,33 @@
 package com.davidjulio.pfinal2020.model;
 
+import com.davidjulio.pfinal2020.config.ConfigFirebase;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Exclude;
+
 public class Utilizador {
 
     private String nome;
     private String email;
     private String pass;
+    private String idUtilizador;
 
     public Utilizador() {
+    }
+
+    public void guardarUtilizador(){
+        DatabaseReference firebase = ConfigFirebase.getFirebaseDatabase();
+        firebase.child("utilizadores")
+                .child(this.idUtilizador)
+                .setValue(this);
+    }
+
+    @Exclude
+    public String getIdUtilizador() {
+        return idUtilizador;
+    }
+
+    public void setIdUtilizador(String idUtilizador) {
+        this.idUtilizador = idUtilizador;
     }
 
     public String getNome() {
@@ -25,6 +46,7 @@ public class Utilizador {
         this.email = email;
     }
 
+    @Exclude
     public String getPass() {
         return pass;
     }

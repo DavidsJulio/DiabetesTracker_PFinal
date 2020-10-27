@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.davidjulio.pfinal2020.R;
 import com.davidjulio.pfinal2020.config.ConfigFirebase;
+import com.davidjulio.pfinal2020.helper.Base64Custom;
 import com.davidjulio.pfinal2020.model.Utilizador;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -76,25 +77,6 @@ public class RegistoActivity extends AppCompatActivity {
             campoNome.requestFocus();
         }
 
-        //Alternativa, escolher 1 ou 2!
-        /*
-        if (!textoNome.isEmpty()){
-            if (!textEmail.isEmpty()){
-                if (!textoPass.isEmpty()){
-
-                }else{
-                    campoNome.setError("Insira a sua password");
-                    campoNome.requestFocus();
-                    //Toast.makeText(RegistoActivity.this, "Insira a sua password!", Toast.LENGTH_SHORT).show();
-                }
-            }else{
-                Toast.makeText(RegistoActivity.this, "Insira o seu email!", Toast.LENGTH_SHORT).show();
-            }
-        }else{
-            Toast.makeText(RegistoActivity.this, "Insira o seu nome!", Toast.LENGTH_SHORT).show();
-        }
-
-         */
     }
 
     public void registarUtilizador(){
@@ -107,6 +89,9 @@ public class RegistoActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if ( task.isSuccessful() ){
 
+                    String idUtilizador = Base64Custom.codificarBase64(utilizador.getEmail()); //email codificar para base64 e ficamos com o id
+                    utilizador.setIdUtilizador(idUtilizador); //guardamos o email
+                    utilizador.guardarUtilizador();
                     finish(); //fecha e envia para activity principal
 
                 }else{
