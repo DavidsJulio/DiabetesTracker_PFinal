@@ -1,8 +1,13 @@
 package com.davidjulio.pfinal2020.activity.ui.refeicoes;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -17,6 +22,7 @@ public class AdicionarRefeicaoActivity extends AppCompatActivity {
     private TextInputEditText campoNome, campoHidratos, campoCalorias, campoGordura, campoProteinas;
 
     private Refeicao refeicao;
+    private Double proteina ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +35,9 @@ public class AdicionarRefeicaoActivity extends AppCompatActivity {
         campoGordura = findViewById(R.id.editGorduraR);
         campoProteinas = findViewById(R.id.editProteinaR);
 
+        campoCalorias.setText("0");
+        campoGordura.setText("0.0");
+        campoProteinas.setText("0.0");
 
     }
 
@@ -41,15 +50,31 @@ public class AdicionarRefeicaoActivity extends AppCompatActivity {
             Double hidratos = Double.parseDouble(campoHidratos.getText().toString());
             refeicao.setHidratosCarbono(hidratos);
 
+            String textoCalorias = campoCalorias.getText().toString();
             Integer calorias = Integer.parseInt(campoCalorias.getText().toString());
-            refeicao.setCalorias(calorias);
+
+            //TODO: Corrigir quando vai empty.....
+            if(textoCalorias.length()>0) {
+                refeicao.setCalorias(calorias);
+            }else{
+                refeicao.setCalorias(0);
+            }
 
             Double gordura = Double.parseDouble(campoGordura.getText().toString());
-            refeicao.setGordura(gordura);
+            String textoGordura = campoHidratos.getText().toString();
+            if(!textoGordura.isEmpty()) {
+                refeicao.setGordura(gordura);
+            }else{
+                refeicao.setGordura(0.0);
+            }
 
-            Double proteina = Double.parseDouble(campoProteinas.getText().toString());
-            refeicao.setProteinas(proteina);
-
+            proteina = Double.parseDouble(campoProteinas.getText().toString());
+            String textoProteina = campoHidratos.getText().toString();
+            if(!textoProteina.isEmpty()) {
+                refeicao.setProteinas(proteina);
+            }else if(proteina == null){
+                refeicao.setProteinas(0.0);
+            }
             refeicao.guardar();
             finish();
 
@@ -78,5 +103,18 @@ public class AdicionarRefeicaoActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_voltar, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_undo:
+                finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

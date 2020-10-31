@@ -9,4 +9,5 @@
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorPrimaryText">#212121</color>
     <color name="colorIntro">#ffca28</color> <!-- #ffc107 -->
+    <color name="colorCINZA">#616161</color> <!-- #ffc107 -->
 </resources>

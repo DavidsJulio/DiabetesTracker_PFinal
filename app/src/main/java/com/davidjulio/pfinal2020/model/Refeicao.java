@@ -8,10 +8,11 @@ import com.google.firebase.database.DatabaseReference;
 public class Refeicao {
 
     private String nome;
-    private double hidratosCarbono;
-    private int calorias;
-    private double proteinas;
-    private double gordura;
+    private Double hidratosCarbono;
+    private Integer calorias;
+    private Double proteinas;
+    private Double gordura;
+    private String chave;
 
     public Refeicao() {
     }
@@ -27,6 +28,56 @@ public class Refeicao {
                 .setValue(this);
     }
 
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public Double getHidratosCarbono() {
+        return hidratosCarbono;
+    }
+
+    public void setHidratosCarbono(Double hidratosCarbono) {
+        this.hidratosCarbono = hidratosCarbono;
+    }
+
+    public Integer getCalorias() {
+        return calorias;
+    }
+
+    public void setCalorias(Integer calorias) {
+        this.calorias = calorias;
+    }
+
+    public Double getProteinas() {
+        return proteinas;
+    }
+
+    public void setProteinas(Double proteinas) {
+        this.proteinas = proteinas;
+    }
+
+    public Double getGordura() {
+        return gordura;
+    }
+
+    public void setGordura(Double gordura) {
+        this.gordura = gordura;
+    }
+
+    public String getChave() {
+        return chave;
+    }
+
+    public void setChave(String chave) {
+        this.chave = chave;
+    }
+
+
+    /*
     public String getNome() {
         return nome;
     }
@@ -55,6 +106,7 @@ public class Refeicao {
         return proteinas;
     }
 
+
     public void setProteinas(double proteinas) {
         this.proteinas = proteinas;
     }
@@ -66,4 +118,6 @@ public class Refeicao {
     public void setGordura(double gordura) {
         this.gordura = gordura;
     }
+
+ */
 }

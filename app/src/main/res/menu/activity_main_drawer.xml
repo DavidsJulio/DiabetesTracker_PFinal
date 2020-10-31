@@ -12,10 +12,10 @@
             android:id="@+id/nav_diario"
             android:icon="@drawable/ic_diario"
             android:title="Diário" />
-     <!--   <item
-            android:id="@+id/nav_calculator"
-            android:icon="@drawable/calculator"
-            android:title="@string/menu_calculadora" /> -->
+        <item
+            android:id="@+id/nav_calculadora"
+            android:icon="@drawable/ic_calculator"
+            android:title="Calculadora" />
         <item
             android:id="@+id/nav_refeicoes"
             android:icon="@drawable/ic_refeicoes"

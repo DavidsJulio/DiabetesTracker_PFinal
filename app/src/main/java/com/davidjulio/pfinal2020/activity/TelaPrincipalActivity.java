@@ -1,16 +1,26 @@
 package com.davidjulio.pfinal2020.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.widget.TextView;
 
 import com.davidjulio.pfinal2020.R;
 import com.davidjulio.pfinal2020.config.ConfigFirebase;
+import com.davidjulio.pfinal2020.helper.Base64Custom;
+import com.davidjulio.pfinal2020.model.Utilizador;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
+
+import java.text.DecimalFormat;
 
 import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
@@ -25,7 +35,15 @@ public class TelaPrincipalActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
 
-    private FirebaseAuth autenticacao;
+    private FirebaseAuth autenticacao = ConfigFirebase.getFirebaseAutenticacao();
+
+    private DatabaseReference firebaseRef = ConfigFirebase.getFirebaseDatabase();
+    private DatabaseReference utilizadorRef;
+
+    private TextView textoUsername, textoEmailUtilizador;
+    View hView;
+
+    private ValueEventListener valueEventListenerUtilizador;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +53,7 @@ public class TelaPrincipalActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
+        /*
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,12 +61,16 @@ public class TelaPrincipalActivity extends AppCompatActivity {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        });
+        });*/
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
 
         //Cria referencia para a area de navegação
         NavigationView navigationView = findViewById(R.id.nav_view);
+        //config para passar os dados
+        hView = navigationView.getHeaderView(0);
+        textoUsername = hView.findViewById(R.id.textUsernameNavHeader);
+        textoEmailUtilizador = hView.findViewById(R.id.textEmailNavHeader);
 
         // Define as configurações do Nav.Drawer
         mAppBarConfiguration = new AppBarConfiguration.Builder(
@@ -75,7 +98,7 @@ public class TelaPrincipalActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        autenticacao = ConfigFirebase.getFirebaseAutenticacao();
+        //autenticacao = ConfigFirebase.getFirebaseAutenticacao();
         int id = item.getItemId();
 
         if(id == R.id.action_exit){
@@ -92,4 +115,46 @@ public class TelaPrincipalActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
+
+
+    public void recuperarPerfil(){
+        String emailUtilizador = autenticacao.getCurrentUser().getEmail();
+        String idUtilizador = Base64Custom.codificarBase64( emailUtilizador );
+        utilizadorRef = firebaseRef.child("utilizadores")
+                                    .child( idUtilizador );
+
+        //valueEventListenerUsuario, objeto para o value
+        valueEventListenerUtilizador = utilizadorRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Utilizador utilizador = snapshot.getValue( Utilizador.class );
+
+                Log.d("Info", "utilizador: "+utilizador);
+                Log.d("infoUsername", "username: "+utilizador.getNome());
+                Log.d("infoUsername", "email: "+utilizador.getEmail());
+
+                textoUsername.setText( utilizador.getNome() );
+                //Log.d("infoUsername", "email: "+utilizador.getEmail());
+                textoEmailUtilizador.setText( utilizador.getEmail() );
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        recuperarPerfil();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        utilizadorRef.removeEventListener(valueEventListenerUtilizador); //vai remover o event listener
+    }
+
 }

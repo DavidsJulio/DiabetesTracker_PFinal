@@ -65,6 +65,7 @@ public class MainActivity extends IntroActivity { //mudar de AppCompatActivity p
         //autenticacao.signOut();
         if( autenticacao.getCurrentUser() != null){
             abrirActivityPrincipal();
+            finish();
         }
     }
 
