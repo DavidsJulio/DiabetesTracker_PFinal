@@ -17,13 +17,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.davidjulio.pfinal2020.R;
 import com.davidjulio.pfinal2020.adapter.AdapterRefeicoes;
 import com.davidjulio.pfinal2020.config.ConfigFirebase;
 import com.davidjulio.pfinal2020.helper.Base64Custom;
+import com.davidjulio.pfinal2020.helper.RecyclerItemClickListener;
 import com.davidjulio.pfinal2020.model.Refeicao;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -54,6 +57,8 @@ public class RefeicoesFragment extends Fragment {
     private ValueEventListener valueEventListenerRefeicoes;
 
     private DatabaseReference utilizadorRef;
+
+    Refeicao refeicao;
 
     public RefeicoesFragment() {
         // Required empty public constructor
@@ -112,6 +117,32 @@ public class RefeicoesFragment extends Fragment {
         recyclerViewRefeicoes.setHasFixedSize(true);
         recyclerViewRefeicoes.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayout.VERTICAL));
         recyclerViewRefeicoes.setAdapter(adapterRefeicoes);
+
+        //evento de click
+        recyclerViewRefeicoes.addOnItemTouchListener(
+                new RecyclerItemClickListener(getContext(), recyclerViewRefeicoes,
+                        new RecyclerItemClickListener.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(View view, int position) {
+
+                               // Toast.makeText(getContext(), "ID: "+listaRefeicoes., Toast.LENGTH_SHORT).show();
+                               /* Intent intent = new Intent();
+                                intent.setClass(getActivity(), AdicionarRefeicaoActivity.class);
+                                getActivity().startActivity(intent);*/
+                            }
+
+                            @Override
+                            public void onLongItemClick(View view, int position) {
+
+                            }
+
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                            }
+                        })
+        );
+
         return view;
 
     }
@@ -157,8 +188,9 @@ public class RefeicoesFragment extends Fragment {
 
                 for(DataSnapshot dadosRefeicoes: dataSnapshot.getChildren()){
                     Refeicao refeicao = dadosRefeicoes.getValue(Refeicao.class);
-                    refeicao.setChave( dadosRefeicoes.getKey() );
+                    refeicao.setIdRefeicao( dadosRefeicoes.getKey() );
 
+                    Log.d("DEBUG", "setID: "+refeicao.getIdRefeicao());
                     listaRefeicoes.add( refeicao );
                 }
                 adapterRefeicoes.notifyDataSetChanged();

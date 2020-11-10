@@ -12,7 +12,7 @@ public class Refeicao {
     private Integer calorias;
     private Double proteinas;
     private Double gordura;
-    private String chave;
+    //private String chave;
     private String idRefeicao;
     private String urlFoto;
 
@@ -89,14 +89,14 @@ public class Refeicao {
         this.gordura = gordura;
     }
 
-    public String getChave() {
+    /*public String getChave() {
         return chave;
     }
 
     public void setChave(String chave) {
         this.chave = chave;
     }
-
+*/
 
     /*
     public String getNome() {

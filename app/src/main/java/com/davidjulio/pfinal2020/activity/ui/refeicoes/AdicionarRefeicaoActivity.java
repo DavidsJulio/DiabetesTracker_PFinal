@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.davidjulio.pfinal2020.R;
 import com.davidjulio.pfinal2020.config.ConfigFirebase;
@@ -62,6 +63,8 @@ public class AdicionarRefeicaoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_adicionar_refeicao);
+
+
 
         storageRef = ConfigFirebase.getFirebaseStorage();
         refeicao = new Refeicao();
