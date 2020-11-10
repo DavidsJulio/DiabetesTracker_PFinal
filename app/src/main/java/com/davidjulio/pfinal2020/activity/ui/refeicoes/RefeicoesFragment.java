@@ -50,7 +50,6 @@ public class RefeicoesFragment extends Fragment {
     private List<Refeicao> listaRefeicoes = new ArrayList<>();
     private DatabaseReference refeicaoRef;
 
-    //private Refeicao refeicao;
 
     private ValueEventListener valueEventListenerRefeicoes;
 
@@ -123,14 +122,14 @@ public class RefeicoesFragment extends Fragment {
     //MENU ADDICIONAR
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_add, menu);
+        inflater.inflate(R.menu.menu_pesquisa, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
-            case R.id.action_add:
+            case R.id.action_pesquisa:
                 Intent intent = new Intent();
                 intent.setClass(getActivity(), AdicionarRefeicaoActivity.class);
                 getActivity().startActivity(intent);

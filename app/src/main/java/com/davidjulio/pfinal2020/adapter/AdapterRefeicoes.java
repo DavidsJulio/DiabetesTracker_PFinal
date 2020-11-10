@@ -4,11 +4,13 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.davidjulio.pfinal2020.R;
 import com.davidjulio.pfinal2020.model.Refeicao;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -45,6 +47,11 @@ public class AdapterRefeicoes extends RecyclerView.Adapter<AdapterRefeicoes.MyVi
         }else{
             holder.numeroCalorias.setText("Calorias: " + String.valueOf(refeicao.getCalorias()) + " kcal");
         }
+
+        //Image view usando a bibliotecaPicasso
+        String urlFoto = refeicao.getUrlFoto();
+        Picasso.get().load(urlFoto).into(holder.foto);
+
     }
 
 
@@ -56,6 +63,7 @@ public class AdapterRefeicoes extends RecyclerView.Adapter<AdapterRefeicoes.MyVi
     public class MyViewRefeicoes extends RecyclerView.ViewHolder{
 
         TextView nomeRefeicao, numeroHidratos, numeroCalorias;
+        ImageView foto;
 
         public MyViewRefeicoes(@NonNull View itemView) {
             super(itemView);
@@ -63,6 +71,7 @@ public class AdapterRefeicoes extends RecyclerView.Adapter<AdapterRefeicoes.MyVi
             nomeRefeicao = itemView.findViewById(R.id.textNomeRefeicao);
             numeroHidratos = itemView.findViewById(R.id.textNumeroHidratos);
             numeroCalorias = itemView.findViewById(R.id.textNumeroCalorias);
+            foto = itemView.findViewById(R.id.ivFotoRefeicao);
         }
     }
 

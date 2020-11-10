@@ -13,8 +13,12 @@ public class Refeicao {
     private Double proteinas;
     private Double gordura;
     private String chave;
+    private String idRefeicao;
+    private String urlFoto;
 
     public Refeicao() {
+        DatabaseReference reference = ConfigFirebase.getFirebaseDatabase().child("refeicoes");
+        setIdRefeicao( reference.push().getKey() );
     }
 
     public void guardar(){
@@ -24,8 +28,25 @@ public class Refeicao {
         DatabaseReference firebase = ConfigFirebase.getFirebaseDatabase();
         firebase.child("refeicoes")
                 .child(idUtilizador)
-                .push()
+                .child(idRefeicao)
                 .setValue(this);
+    }
+
+
+    public String getUrlFoto() {
+        return urlFoto;
+    }
+
+    public void setUrlFoto(String urlFoto) {
+        this.urlFoto = urlFoto;
+    }
+
+    public String getIdRefeicao() {
+        return idRefeicao;
+    }
+
+    public void setIdRefeicao(String idRefeicao) {
+        this.idRefeicao = idRefeicao;
     }
 
     public String getNome() {
