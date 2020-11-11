@@ -33,8 +33,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,8 +44,7 @@ import java.util.List;
 
 public class RefeicoesFragment extends Fragment {
 
-    //Widgets
-    //private SearchView searchViewRefeicoes;
+
     private FirebaseAuth autenticacao = ConfigFirebase.getFirebaseAutenticacao();
     private DatabaseReference firebaseRef = ConfigFirebase.getFirebaseDatabase();
 
@@ -56,9 +57,9 @@ public class RefeicoesFragment extends Fragment {
 
     private ValueEventListener valueEventListenerRefeicoes;
 
-    private DatabaseReference utilizadorRef;
-
+  /*  private DatabaseReference utilizadorRef;
     Refeicao refeicao;
+    private StorageReference storageRef;*/
 
     public RefeicoesFragment() {
         // Required empty public constructor
@@ -108,10 +109,10 @@ public class RefeicoesFragment extends Fragment {
             }
         }); //listener para quando o utilizador começa a digitar o texto ou pesquisa */
 
-        //Configura adapter
+        //Configurar adapter
         adapterRefeicoes = new AdapterRefeicoes(listaRefeicoes, getContext());
 
-        //configurar recycler
+        //Configurar recycler
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerViewRefeicoes.setLayoutManager(layoutManager);
         recyclerViewRefeicoes.setHasFixedSize(true);
@@ -124,33 +125,24 @@ public class RefeicoesFragment extends Fragment {
                         new RecyclerItemClickListener.OnItemClickListener() {
                             @Override
                             public void onItemClick(View view, int position) {
+                                Refeicao refeicaoSelecionada = listaRefeicoes.get(position);
 
-                               // Toast.makeText(getContext(), "ID: "+listaRefeicoes., Toast.LENGTH_SHORT).show();
-                               /* Intent intent = new Intent();
-                                intent.setClass(getActivity(), AdicionarRefeicaoActivity.class);
-                                getActivity().startActivity(intent);*/
+                                Intent intent = new Intent(getActivity(), AdicionarRefeicaoActivity.class);
+                                intent.putExtra("refeicao", refeicaoSelecionada);
+                                startActivity(intent);
                             }
-
                             @Override
                             public void onLongItemClick(View view, int position) {
-
                             }
-
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
                             }
                         })
         );
-
         return view;
-
     }
 
 
-
-
-    //MENU ADDICIONAR
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.menu_pesquisa, menu);
@@ -161,9 +153,7 @@ public class RefeicoesFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_pesquisa:
-                Intent intent = new Intent();
-                intent.setClass(getActivity(), AdicionarRefeicaoActivity.class);
-                getActivity().startActivity(intent);
+               //TODO: PESQUISA
         }
         return super.onOptionsItemSelected(item);
     }
@@ -189,8 +179,6 @@ public class RefeicoesFragment extends Fragment {
                 for(DataSnapshot dadosRefeicoes: dataSnapshot.getChildren()){
                     Refeicao refeicao = dadosRefeicoes.getValue(Refeicao.class);
                     refeicao.setIdRefeicao( dadosRefeicoes.getKey() );
-
-                    Log.d("DEBUG", "setID: "+refeicao.getIdRefeicao());
                     listaRefeicoes.add( refeicao );
                 }
                 adapterRefeicoes.notifyDataSetChanged();

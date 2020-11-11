@@ -2,6 +2,8 @@ package com.davidjulio.pfinal2020.activity.ui.refeicoes;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,7 +21,6 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.davidjulio.pfinal2020.R;
 import com.davidjulio.pfinal2020.config.ConfigFirebase;
@@ -32,8 +33,10 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 
@@ -41,6 +44,7 @@ public class AdicionarRefeicaoActivity extends AppCompatActivity {
 
     private TextInputEditText campoNome, campoHidratos, campoCalorias, campoGordura, campoProteinas;
     private FirebaseAuth autenticacao = ConfigFirebase.getFirebaseAutenticacao();
+    private DatabaseReference firebaseRef = ConfigFirebase.getFirebaseDatabase();
 
     private Refeicao refeicao;
     private Double proteina ;
@@ -57,14 +61,21 @@ public class AdicionarRefeicaoActivity extends AppCompatActivity {
 
     private StorageReference storageRef;
 
-   private Bitmap imagem = null;
+    private Bitmap imagem = null;
+
+    private Refeicao refeicaoSelecionada;
+
+    Bundle bundle;
+
+    private ActionBar actionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_adicionar_refeicao);
 
-
+        actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         storageRef = ConfigFirebase.getFirebaseStorage();
         refeicao = new Refeicao();
@@ -81,6 +92,9 @@ public class AdicionarRefeicaoActivity extends AppCompatActivity {
         ibCamara = findViewById(R.id.ibAdicionarFoto);
         ibGaleria = findViewById(R.id.ibAdicionarImagem);
         ivRefeicoes = findViewById(R.id.ivAdicionarRefeicao);
+
+
+        //carregaDados();
 
         campoCalorias.setText("0");
         campoGordura.setText("0.0");
@@ -109,12 +123,18 @@ public class AdicionarRefeicaoActivity extends AppCompatActivity {
                 }
             }
         });
+
+        //recuperar os dados da refeicao
+        bundle = getIntent().getExtras();
+        if(bundle != null)
+            actionBar.setTitle("Editar - Apagar Refeição");
+
+        carregaDados();
+
     }
 
     public void guardarRefeicao(View view){
        if ( validarCamposRefeicao() ){
-            //refeicao = new Refeicao();
-
             refeicao.setNome(campoNome.getText().toString());
 
             Double hidratos = Double.parseDouble(campoHidratos.getText().toString());
@@ -175,15 +195,21 @@ public class AdicionarRefeicaoActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_voltar, menu);
+        if (bundle != null)
+            getMenuInflater().inflate(R.menu.menu_eliminar, menu);
+
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
-            case R.id.action_undo:
+            case android.R.id.home:
                 finish();
+                break;
+            case R.id.action_delete:
+                eliminarDialog();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -294,6 +320,56 @@ public class AdicionarRefeicaoActivity extends AppCompatActivity {
         });
 
         AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    public void carregaDados(){
+        if(bundle != null){
+            //caso o bundle seja diferente de null conseguimos recuperar a refeicao
+            refeicaoSelecionada = (Refeicao) bundle.getSerializable("refeicao"); //refeicao recolhida
+            campoNome.setText(refeicaoSelecionada.getNome());
+            campoHidratos.setText(String.valueOf(refeicaoSelecionada.getHidratosCarbono()));
+            campoCalorias.setText(String.valueOf(refeicaoSelecionada.getCalorias()));
+            campoGordura.setText(String.valueOf(refeicaoSelecionada.getGordura()));
+            campoProteinas.setText(String.valueOf(refeicaoSelecionada.getProteinas()));
+
+            String foto = refeicaoSelecionada.getUrlFoto();
+            if(foto != null){
+                Picasso.get().load(foto).into(ivRefeicoes);
+            }
+        }
+    }
+
+    public void eliminarDialog(){
+        //instanciar
+        AlertDialog.Builder dialog = new AlertDialog.Builder( this );
+
+        //titulo e mensagem
+        dialog.setTitle("Eliminar");
+        dialog.setMessage("Tem a certeza que pertende eliminar esta Refeição?");
+
+        //impedir clicar fora dos botoes
+        dialog.setCancelable(false);
+
+        //icon
+        dialog.setIcon(R.drawable.ic_delete);
+
+        //botao sim/não
+        dialog.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                refeicaoSelecionada.eliminar();
+                finish();
+            }
+
+        }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+
+        //criar e exibir
+        dialog.create();
         dialog.show();
     }
 }

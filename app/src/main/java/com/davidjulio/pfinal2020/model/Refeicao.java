@@ -5,14 +5,15 @@ import com.davidjulio.pfinal2020.helper.Base64Custom;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 
-public class Refeicao {
+import java.io.Serializable;
+
+public class Refeicao implements Serializable {
 
     private String nome;
     private Double hidratosCarbono;
     private Integer calorias;
     private Double proteinas;
     private Double gordura;
-    //private String chave;
     private String idRefeicao;
     private String urlFoto;
 
@@ -32,6 +33,17 @@ public class Refeicao {
                 .setValue(this);
     }
 
+    //remove da database
+    public void eliminar(){
+        FirebaseAuth autenticacao = ConfigFirebase.getFirebaseAutenticacao();
+        String idUtilizador = Base64Custom.codificarBase64( autenticacao.getCurrentUser().getEmail() );
+
+        DatabaseReference firebase = ConfigFirebase.getFirebaseDatabase();
+        firebase.child("refeicoes")
+                .child(idUtilizador)
+                .child( getIdRefeicao() )
+                .removeValue();
+    }
 
     public String getUrlFoto() {
         return urlFoto;
@@ -89,56 +101,5 @@ public class Refeicao {
         this.gordura = gordura;
     }
 
-    /*public String getChave() {
-        return chave;
-    }
 
-    public void setChave(String chave) {
-        this.chave = chave;
-    }
-*/
-
-    /*
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public double getHidratosCarbono() {
-        return hidratosCarbono;
-    }
-
-    public void setHidratosCarbono(double hidratosCarbono) {
-        this.hidratosCarbono = hidratosCarbono;
-    }
-
-    public int getCalorias() {
-        return calorias;
-    }
-
-    public void setCalorias(int calorias) {
-        this.calorias = calorias;
-    }
-
-    public double getProteinas() {
-        return proteinas;
-    }
-
-
-    public void setProteinas(double proteinas) {
-        this.proteinas = proteinas;
-    }
-
-    public double getGordura() {
-        return gordura;
-    }
-
-    public void setGordura(double gordura) {
-        this.gordura = gordura;
-    }
-
- */
 }
