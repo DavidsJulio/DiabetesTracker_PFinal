@@ -1,4 +1,4 @@
-package com.davidjulio.pfinal2020;
+package com.davidjulio.pfinal2020.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
-import com.davidjulio.pfinal2020.activity.MainActivity;
+import com.davidjulio.pfinal2020.R;
 
 public class LoadingActivity extends AppCompatActivity {
 

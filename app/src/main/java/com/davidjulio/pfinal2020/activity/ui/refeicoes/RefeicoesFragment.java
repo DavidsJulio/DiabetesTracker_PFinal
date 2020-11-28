@@ -1,6 +1,5 @@
 package com.davidjulio.pfinal2020.activity.ui.refeicoes;
 
-import android.app.DownloadManager;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -10,7 +9,6 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,8 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
-import android.widget.SearchView;
-import android.widget.Toast;
 
 import com.davidjulio.pfinal2020.R;
 import com.davidjulio.pfinal2020.adapter.AdapterRefeicoes;
@@ -33,17 +29,14 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.StorageReference;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class RefeicoesFragment extends Fragment {
-
 
     private FirebaseAuth autenticacao = ConfigFirebase.getFirebaseAutenticacao();
     private DatabaseReference firebaseRef = ConfigFirebase.getFirebaseDatabase();
@@ -54,12 +47,11 @@ public class RefeicoesFragment extends Fragment {
     private List<Refeicao> listaRefeicoes = new ArrayList<>();
     private DatabaseReference refeicaoRef;
 
-
     private ValueEventListener valueEventListenerRefeicoes;
 
-  /*  private DatabaseReference utilizadorRef;
-    Refeicao refeicao;
-    private StorageReference storageRef;*/
+   // private SearchView searchView;
+
+
 
     public RefeicoesFragment() {
         // Required empty public constructor
@@ -72,7 +64,6 @@ public class RefeicoesFragment extends Fragment {
         View view =  inflater.inflate(R.layout.fragment_refeicoes, container, false);
         setHasOptionsMenu(true);
 
-        //searchViewRefeicoes = view.findViewById(R.id.searchViewRefeicoes); //view.findview porque é fragment
         recyclerViewRefeicoes = view.findViewById(R.id.recyclerViewRefeicoes);
 
         //inico
@@ -80,34 +71,13 @@ public class RefeicoesFragment extends Fragment {
         refeicaoRef = ConfigFirebase.getFirebaseDatabase()
                                     .child("refeicoes");
 
-
-        FloatingActionButton fab = view.findViewById(R.id.fabAdicionarRefeicao);
+        FloatingActionButton fab = view.findViewById(R.id.fabAdicionarRefeicoes);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 adicionarRefeicao();
             }
         });
-
-        /*
-        //Configurar searchView
-        searchViewRefeicoes.setQueryHint("Pesquisar Refeições"); //quando clica na lupa, msg referente
-        searchViewRefeicoes.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                //Log.d("onQueryTextSubmit", "texto digitado: "+ query);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                //Log.d("onQueryTextChange", "texto digitado: "+ newText);
-                String textoRefeicao = newText.toUpperCase();
-
-
-                return true;
-            }
-        }); //listener para quando o utilizador começa a digitar o texto ou pesquisa */
 
         //Configurar adapter
         adapterRefeicoes = new AdapterRefeicoes(listaRefeicoes, getContext());
@@ -145,16 +115,45 @@ public class RefeicoesFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_pesquisa, menu);
         super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_pesquisa, menu);
+
+        /*
+        MenuItem item = menu.findItem(R.id.action_pesquisa);
+        SearchView searchView = new SearchView(((TelaPrincipalActivity) getActivity()).getSupportActionBar().getThemedContext());
+        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);//MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW| MenuItem.SHOW_AS_ACTION_IF_ROOM  MenuItem.SHOW_AS_ACTION_ALWAYS);
+        item.setActionView(searchView);
+        
+        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE); //mudar o teclado
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapterRefeicoes.getFilter().filter(newText);
+                return true;
+            }
+        });
+
+
+        //dapterRefeicoes.getFilter().filter(newText);
+        /*searchView.setOnClickListener(new View.OnClickListener() {
+                                          @Override
+                                          public void onClick(View v) {
+
+                                          }
+                                      }
+        );*/
+
     }
+
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.action_pesquisa:
-               //TODO: PESQUISA
-        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -202,4 +201,6 @@ public class RefeicoesFragment extends Fragment {
         super.onStop();
         refeicaoRef.removeEventListener(valueEventListenerRefeicoes);
     }
+
+
 }

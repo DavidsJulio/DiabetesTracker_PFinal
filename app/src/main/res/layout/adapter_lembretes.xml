@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/textViewTituloLembrete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="Insulina"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textViewDescLembrete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="Administrar Dose de Insulina"
+        android:textColor="@color/colorAccent"
+        android:textSize="16sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textViewDataLembrete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:layout_weight="0"
+            android:drawableLeft="@drawable/ic_calendar"
+            android:drawablePadding="8dp"
+            android:text="26/11/2020"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            app:drawableTint="#000000" />
+
+        <TextView
+            android:id="@+id/textViewHoraLembrete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_weight="0"
+            android:drawableLeft="@drawable/ic_alarm"
+            android:drawablePadding="8dp"
+            android:text="19:04"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            app:drawableTint="#000000" />
+    </LinearLayout>
+
+    <Switch
+        android:id="@+id/switchLembrete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="On/Off" />
+</LinearLayout>

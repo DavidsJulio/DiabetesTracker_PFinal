@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.davidjulio.pfinal2020">
-
-    <!-- permissões -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <!-- hardware necessário-->
-    <uses-feature
-        android:name="android.hardware.camera2"
-        android:required="true"
-     />
-
+    <!-- hardware necessário -->
     <application
         android:allowBackup="true"
         android:icon="@drawable/logoicon"
@@ -18,17 +9,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.ui.refeicoes.AdicionarRefeicaoActivity"
-            android:label="Adicionar Refeição"
-            android:screenOrientation="portrait"
-            >
-
-        </activity>
+        <activity android:name=".notification.Lixo"></activity>
+        <activity android:name=".activity.ui.lembretes.AdicionarLembreteActivity" />
         <activity
-            android:name=".LoadingActivity"
+            android:name=".activity.ui.refeicoes.AdicionarRefeicaoActivity"
+            android:label="Adicionar Refeição"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.LoadingActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -36,22 +28,18 @@
             android:name=".activity.TelaPrincipalActivity"
             android:label="@string/title_activity_tela_principal"
             android:theme="@style/AppTheme.NoActionBar" />
-        <!--
-        <activity
-            android:name=".activity.PrincipalActivity"
-            android:label="@string/title_activity_principal"
-            android:theme="@style/AppTheme.NoActionBar" />
-        -->
         <activity android:name=".activity.LoginActivity" />
         <activity android:name=".activity.RegistoActivity" />
         <activity
             android:name=".activity.MainActivity"
-            android:theme="@style/Theme.Intro"></activity>
+            android:theme="@style/Theme.Intro" />
     </application>
 
+    <uses-feature
+        android:name="android.hardware.camera2"
+        android:required="true" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+
 </manifest>
-
-
-    <!--<meta-data
-        android:name="android.support.PARENT_ACTIVITY"
-        android:value=".activity.TelaPrincipalActivity" />-->

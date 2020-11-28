@@ -12,6 +12,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -31,9 +32,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.collection.LLRBNode;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
@@ -58,14 +61,13 @@ public class AdicionarRefeicaoActivity extends AppCompatActivity {
     private static final int CAMARA_SELECIONADA = 100;
     private static final int GALERIA_SELECIONADA = 200;
     private ImageView ivRefeicoes;
-
     private StorageReference storageRef;
-
     private Bitmap imagem = null;
 
     private Refeicao refeicaoSelecionada;
-
     Bundle bundle;
+    
+    private FloatingActionButton fabSalvar;
 
     private ActionBar actionBar;
 
@@ -93,8 +95,7 @@ public class AdicionarRefeicaoActivity extends AppCompatActivity {
         ibGaleria = findViewById(R.id.ibAdicionarImagem);
         ivRefeicoes = findViewById(R.id.ivAdicionarRefeicao);
 
-
-        //carregaDados();
+        fabSalvar = findViewById(R.id.fabSalvarR);
 
         campoCalorias.setText("0");
         campoGordura.setText("0.0");
@@ -126,9 +127,37 @@ public class AdicionarRefeicaoActivity extends AppCompatActivity {
 
         //recuperar os dados da refeicao
         bundle = getIntent().getExtras();
-        if(bundle != null)
+        if(bundle != null) {
             actionBar.setTitle("Editar - Apagar Refeição");
+            fabSalvar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
+                    //TODO: ATUALIZAR FOTO!!!!!! 
+                    if(validarCamposRefeicao()){
+                        refeicaoSelecionada.setNome(campoNome.getText().toString());
+
+                        Double hidratos = Double.parseDouble(campoHidratos.getText().toString());
+                        refeicaoSelecionada.setHidratosCarbono(hidratos);
+
+                        Integer calorias = Integer.parseInt(campoCalorias.getText().toString());
+                        refeicaoSelecionada.setCalorias(calorias);
+
+                        Double gordura = Double.parseDouble(campoGordura.getText().toString());
+                        refeicaoSelecionada.setGordura(gordura);
+
+                        proteina = Double.parseDouble(campoProteinas.getText().toString());
+                        refeicaoSelecionada.setProteinas(proteina);
+
+                        refeicaoSelecionada.guardar();
+                        Toast.makeText(AdicionarRefeicaoActivity.this, "Atualizado com Sucesso", Toast.LENGTH_LONG).show();
+                        //TODO: ADICIONAR UM ALERT DIALOG? IMPOSSIBILITAR CARREGAR NO BOTAO, CASO OS DADOS, NÃO TENHAM SIDO ALTERADOS?
+                        finish();
+
+                    }
+                }
+            });
+        }
         carregaDados();
 
     }
@@ -239,6 +268,7 @@ public class AdicionarRefeicaoActivity extends AppCompatActivity {
                     ivRefeicoes.setImageBitmap( imagem );
 
                     //guardar imagem no firebase
+                    //TODO: GUARDAR A IMAGEM APENAS NO FAB
                     String urlImagem = refeicao.getIdRefeicao();
                     guardarFoto(urlImagem);
                 }
@@ -352,7 +382,7 @@ public class AdicionarRefeicaoActivity extends AppCompatActivity {
         dialog.setCancelable(false);
 
         //icon
-        dialog.setIcon(R.drawable.ic_delete);
+        dialog.setIcon(R.drawable.ic__delete_24);
 
         //botao sim/não
         dialog.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {

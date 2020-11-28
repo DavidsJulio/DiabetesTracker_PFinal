@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         applicationId "com.davidjulio.pfinal2020"
-        minSdkVersion 17 //mudar de 14 para 17 para funcionar
+        minSdkVersion 17
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -49,4 +49,5 @@ dependencies {
 
     //Credit: https://square.github.io/picasso/
     implementation 'com.squareup.picasso:picasso:2.71828'
+
 }
