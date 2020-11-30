@@ -16,6 +16,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,9 +25,11 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.davidjulio.pfinal2020.R;
+import com.davidjulio.pfinal2020.activity.ui.calculadora.CalculadoraFragment;
 import com.davidjulio.pfinal2020.config.ConfigFirebase;
 import com.davidjulio.pfinal2020.helper.Base64Custom;
 import com.davidjulio.pfinal2020.helper.Permissao;
+import com.davidjulio.pfinal2020.model.Calculadora;
 import com.davidjulio.pfinal2020.model.Refeicao;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -117,13 +120,13 @@ public class AdicionarRefeicaoActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //caminho padrao, para as fotos
                 Intent intent = new  Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
                 if (intent.resolveActivity(getPackageManager()) != null){
                     //caso seja possivel abri a galeria
                     startActivityForResult(intent, GALERIA_SELECIONADA);
                 }
             }
         });
+
 
         //recuperar os dados da refeicao
         bundle = getIntent().getExtras();
@@ -133,7 +136,7 @@ public class AdicionarRefeicaoActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
 
-                    //TODO: ATUALIZAR FOTO!!!!!! 
+                    //TODO: ATUALIZAR FOTO!!!!!!
                     if(validarCamposRefeicao()){
                         refeicaoSelecionada.setNome(campoNome.getText().toString());
 
@@ -153,12 +156,18 @@ public class AdicionarRefeicaoActivity extends AppCompatActivity {
                         Toast.makeText(AdicionarRefeicaoActivity.this, "Atualizado com Sucesso", Toast.LENGTH_LONG).show();
                         //TODO: ADICIONAR UM ALERT DIALOG? IMPOSSIBILITAR CARREGAR NO BOTAO, CASO OS DADOS, NÃO TENHAM SIDO ALTERADOS?
                         finish();
-
                     }
                 }
             });
+
         }
-        carregaDados();
+
+        //String verificacao = bundle.getString(CalculadoraFragment.HC_CALCULADORA);
+        //if(verificacao != null){
+        //   campoHidratos.setText(verificacao);
+        //}else {
+            carregaDados();
+       // }
 
     }
 
@@ -354,9 +363,11 @@ public class AdicionarRefeicaoActivity extends AppCompatActivity {
     }
 
     public void carregaDados(){
+
         if(bundle != null){
             //caso o bundle seja diferente de null conseguimos recuperar a refeicao
-            refeicaoSelecionada = (Refeicao) bundle.getSerializable("refeicao"); //refeicao recolhida
+            refeicaoSelecionada = (Refeicao) bundle.getSerializable(RefeicoesFragment.REFEICAO_SELECIONADA); //refeicao recolhida
+
             campoNome.setText(refeicaoSelecionada.getNome());
             campoHidratos.setText(String.valueOf(refeicaoSelecionada.getHidratosCarbono()));
             campoCalorias.setText(String.valueOf(refeicaoSelecionada.getCalorias()));
@@ -368,6 +379,7 @@ public class AdicionarRefeicaoActivity extends AppCompatActivity {
                 Picasso.get().load(foto).into(ivRefeicoes);
             }
         }
+
     }
 
     public void eliminarDialog(){

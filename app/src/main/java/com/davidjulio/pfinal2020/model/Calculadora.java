@@ -1,0 +1,60 @@
+package com.davidjulio.pfinal2020.model;
+
+import com.davidjulio.pfinal2020.config.ConfigFirebase;
+import com.davidjulio.pfinal2020.helper.Base64Custom;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+
+public class Calculadora {
+
+    private Double fsi;
+    private Double rHC;
+    private Double glicemiaAlvo;
+
+    public Calculadora() {
+    }
+
+    public void guardar(){
+        FirebaseAuth autenticacao = ConfigFirebase.getFirebaseAutenticacao();
+        String idUtilizador = Base64Custom.codificarBase64( autenticacao.getCurrentUser().getEmail() );
+
+        DatabaseReference firebase = ConfigFirebase.getFirebaseDatabase();
+        firebase.child( "perfil" )
+                .child( idUtilizador )
+                .setValue( this );
+    }
+
+    public Double getFsi() {
+        return fsi;
+    }
+
+    public void setFsi(Double fsi) {
+        this.fsi = fsi;
+    }
+
+    public Double getrHC() {
+        return rHC;
+    }
+
+    public void setrHC(Double rHC) {
+        this.rHC = rHC;
+    }
+
+    public Double getGlicemiaAlvo() {
+        return glicemiaAlvo;
+    }
+
+    public void setGlicemiaAlvo(Double glicemiaAlvo) {
+        this.glicemiaAlvo = glicemiaAlvo;
+    }
+
+    public int calculoInsulina(Double glicemiaRefeicao, Double hcRefeicao){
+
+        Double correcaoGlicemia = ( glicemiaRefeicao - glicemiaAlvo )/fsi;
+        Double metabolizacaoHC = hcRefeicao / rHC;
+
+        int dose = (int)(correcaoGlicemia + metabolizacaoHC);
+
+        return  dose ; //TODO: ARREDONDAMENTOS CORRETAMENTE
+    }
+}

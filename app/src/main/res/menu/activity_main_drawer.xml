@@ -8,10 +8,15 @@
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_home"
             android:title="Home" />
+
         <item
             android:id="@+id/nav_diario"
+            android:icon="@drawable/ic_perfil"
+            android:title="Perfil" />
+        <!--<item
+            android:id="@+id/nav_diario"
             android:icon="@drawable/ic_diario"
-            android:title="Diário" />
+            android:title="Diário" />-->
         <item
             android:id="@+id/nav_calculadora"
             android:icon="@drawable/ic_calculator"

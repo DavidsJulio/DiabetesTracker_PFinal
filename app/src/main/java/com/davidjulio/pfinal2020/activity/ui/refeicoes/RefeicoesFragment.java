@@ -49,9 +49,9 @@ public class RefeicoesFragment extends Fragment {
 
     private ValueEventListener valueEventListenerRefeicoes;
 
+    public static final String REFEICAO_SELECIONADA = "refeicoes";
+
    // private SearchView searchView;
-
-
 
     public RefeicoesFragment() {
         // Required empty public constructor
@@ -98,7 +98,7 @@ public class RefeicoesFragment extends Fragment {
                                 Refeicao refeicaoSelecionada = listaRefeicoes.get(position);
 
                                 Intent intent = new Intent(getActivity(), AdicionarRefeicaoActivity.class);
-                                intent.putExtra("refeicao", refeicaoSelecionada);
+                                intent.putExtra(REFEICAO_SELECIONADA, refeicaoSelecionada);
                                 startActivity(intent);
                             }
                             @Override
