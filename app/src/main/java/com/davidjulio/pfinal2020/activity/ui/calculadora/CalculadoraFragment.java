@@ -17,11 +17,13 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.davidjulio.pfinal2020.R;
 import com.davidjulio.pfinal2020.activity.ui.refeicoes.AdicionarRefeicaoActivity;
 import com.davidjulio.pfinal2020.config.ConfigFirebase;
 import com.davidjulio.pfinal2020.helper.Base64Custom;
+import com.davidjulio.pfinal2020.helper.DateUtil;
 import com.davidjulio.pfinal2020.model.Calculadora;
 import com.davidjulio.pfinal2020.model.Refeicao;
 import com.google.firebase.auth.FirebaseAuth;
@@ -38,7 +40,7 @@ public class CalculadoraFragment extends Fragment  {
 
     Spinner spinnerRefeicoesCalculadora;
     EditText valorGlicose, valorHidratos;
-    Button btnCalcular;
+    Button btnCalcular, btnAvisar;
     ImageButton ibBluetooth, ibAdicionarRefeicao;
     TextView tvResultado;
     Calculadora calculadora;
@@ -68,6 +70,7 @@ public class CalculadoraFragment extends Fragment  {
         btnCalcular = view.findViewById( R.id.bCalcularCalculadora );
         tvResultado = view.findViewById( R.id.tvResultadoCalculadora);
         ibAdicionarRefeicao = view.findViewById(R.id.ibAdicionarRefeicaoCalculadora);
+        btnAvisar = view.findViewById(R.id.bAvisarCalculadora);
 
         recuperarValoresCalculo();
 
@@ -84,6 +87,21 @@ public class CalculadoraFragment extends Fragment  {
                 adicionarRefeicao();
             }
         });
+
+        btnAvisar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String textoResultado = tvResultado.getText().toString();
+                if(textoResultado.equals("")){
+                    btnCalcular.requestFocus();
+                    Toast.makeText(getActivity(), "Antes de Enviar, precisa de Calcular!", Toast.LENGTH_LONG).show();
+                    return;
+                }else {
+                    avisarFamilar();
+                }
+            }
+        });
+
 
         return view;
     }
@@ -132,12 +150,31 @@ public class CalculadoraFragment extends Fragment  {
             }catch (NumberFormatException e){
                 valorHidratos.setError("Insira um valor para os Hidratos");
                 valorHidratos.requestFocus();
+                return;
             }
 
         }catch (NumberFormatException e){
             valorGlicose.setError("Insira um valor para a Glicemia");
             valorGlicose.requestFocus();
+            return;
         }
+    }
+
+    public void avisarFamilar(){
+        String email = "davidsjulio97@gmail.com";
+        String assunto = "Calculo da insulina";
+        String dataAtual = DateUtil.dataAtual();
+        String doses = tvResultado.getText().toString();
+
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{email});
+        intent.putExtra(Intent.EXTRA_SUBJECT, assunto);
+        intent.putExtra(Intent.EXTRA_TEXT, "Data/Hora: " + dataAtual + "\n\nDoses a administrar: "+doses);
+
+        intent.setType("text/plain");
+
+        startActivity( Intent.createChooser( intent, "Avise o seu familiar!" ) );
+
     }
 
 }
