@@ -121,9 +121,23 @@ public class CalculadoraFragment extends Fragment  {
     }
 
     public void calcular(){
-        Double glicoseHora = Double.parseDouble( valorGlicose.getText().toString() );
-        Double hidratosHora = Double.parseDouble( valorHidratos.getText().toString() );
-        int resultado = calculadora.calculoInsulina( glicoseHora, hidratosHora );
-        tvResultado.setText( resultado + " Doses" );
+
+        Double glicoseHora, hidratosHora;
+        try {
+            glicoseHora = Double.parseDouble(valorGlicose.getText().toString());
+            try {
+                hidratosHora = Double.parseDouble(valorHidratos.getText().toString());
+                int resultado = calculadora.calculoInsulina(glicoseHora, hidratosHora);
+                tvResultado.setText(resultado + " Doses");
+            }catch (NumberFormatException e){
+                valorHidratos.setError("Insira um valor para os Hidratos");
+                valorHidratos.requestFocus();
+            }
+
+        }catch (NumberFormatException e){
+            valorGlicose.setError("Insira um valor para a Glicemia");
+            valorGlicose.requestFocus();
+        }
     }
+
 }

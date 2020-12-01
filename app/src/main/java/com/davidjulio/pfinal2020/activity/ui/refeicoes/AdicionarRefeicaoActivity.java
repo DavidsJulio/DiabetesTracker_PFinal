@@ -53,7 +53,6 @@ public class AdicionarRefeicaoActivity extends AppCompatActivity {
     private DatabaseReference firebaseRef = ConfigFirebase.getFirebaseDatabase();
 
     private Refeicao refeicao;
-    private Double proteina ;
 
     private String[] permissoes = new String[]{
             Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -100,10 +99,6 @@ public class AdicionarRefeicaoActivity extends AppCompatActivity {
 
         fabSalvar = findViewById(R.id.fabSalvarR);
 
-        campoCalorias.setText("0");
-        campoGordura.setText("0.0");
-        campoProteinas.setText("0.0");
-
         ibCamara.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -143,18 +138,29 @@ public class AdicionarRefeicaoActivity extends AppCompatActivity {
                         Double hidratos = Double.parseDouble(campoHidratos.getText().toString());
                         refeicaoSelecionada.setHidratosCarbono(hidratos);
 
-                        Integer calorias = Integer.parseInt(campoCalorias.getText().toString());
-                        refeicaoSelecionada.setCalorias(calorias);
+                        try{
+                            Integer calorias = Integer.parseInt(campoCalorias.getText().toString());
+                            refeicaoSelecionada.setCalorias(calorias);
+                        }catch (NumberFormatException e){
+                            refeicaoSelecionada.setCalorias(0);
+                        }
 
-                        Double gordura = Double.parseDouble(campoGordura.getText().toString());
-                        refeicaoSelecionada.setGordura(gordura);
+                        try {
+                            Double gordura = Double.parseDouble(campoGordura.getText().toString());
+                            refeicaoSelecionada.setGordura(gordura);
+                        }catch (NumberFormatException e){
+                            refeicaoSelecionada.setGordura(0.0);
+                        }
 
-                        proteina = Double.parseDouble(campoProteinas.getText().toString());
-                        refeicaoSelecionada.setProteinas(proteina);
+                        try {
+                            Double proteina = Double.parseDouble(campoProteinas.getText().toString());
+                            refeicaoSelecionada.setProteinas(proteina);
+                        }catch (NumberFormatException e){
+                            refeicaoSelecionada.setProteinas(0.0);
+                        }
 
                         refeicaoSelecionada.guardar();
                         Toast.makeText(AdicionarRefeicaoActivity.this, "Atualizado com Sucesso", Toast.LENGTH_LONG).show();
-                        //TODO: ADICIONAR UM ALERT DIALOG? IMPOSSIBILITAR CARREGAR NO BOTAO, CASO OS DADOS, NÃO TENHAM SIDO ALTERADOS?
                         finish();
                     }
                 }
@@ -179,33 +185,35 @@ public class AdicionarRefeicaoActivity extends AppCompatActivity {
             refeicao.setHidratosCarbono(hidratos);
 
             String textoCalorias = campoCalorias.getText().toString();
-            Integer calorias = Integer.parseInt(campoCalorias.getText().toString());
 
-            //TODO: Corrigir quando vai empty.....
-            if(textoCalorias.length()>0) {
+            try {
+                Integer calorias = Integer.parseInt(textoCalorias);
                 refeicao.setCalorias(calorias);
-            }else{
-                refeicao.setCalorias(0);
+            }catch (NumberFormatException e){
+                Integer calorias = 0;
+                refeicao.setCalorias(calorias);
             }
 
-            Double gordura = Double.parseDouble(campoGordura.getText().toString());
-            String textoGordura = campoHidratos.getText().toString();
-            if(!textoGordura.isEmpty()) {
-                refeicao.setGordura(gordura);
-            }else{
-                refeicao.setGordura(0.0);
-            }
+           String textoGordura = campoGordura.getText().toString();
+           try {
+               Double gordura = Double.parseDouble(textoGordura);
+               refeicao.setGordura(gordura);
+           }catch (NumberFormatException e){
+               Double gordura = 0.0;
+               refeicao.setGordura(gordura);
+           }
 
-            proteina = Double.parseDouble(campoProteinas.getText().toString());
-            String textoProteina = campoHidratos.getText().toString();
-            if(!textoProteina.isEmpty()) {
-                refeicao.setProteinas(proteina);
-            }else if(proteina == null){
-                refeicao.setProteinas(0.0);
-            }
+           String textoProteina = campoProteinas.getText().toString();
+           try {
+               Double proteina = Double.parseDouble(textoProteina);
+               refeicao.setProteinas(proteina);
+           }catch (NumberFormatException e){
+               Double proteina = 0.0;
+               refeicao.setProteinas(proteina);
+           }
 
-            refeicao.guardar();
-            finish();
+           refeicao.guardar();
+           finish();
        }
     }
 
@@ -213,7 +221,6 @@ public class AdicionarRefeicaoActivity extends AppCompatActivity {
 
         String textoNome = campoNome.getText().toString();
         String textoHidratos = campoHidratos.getText().toString();
-
 
         if (!textoNome.isEmpty()) {
             if (!textoHidratos.isEmpty()) {
