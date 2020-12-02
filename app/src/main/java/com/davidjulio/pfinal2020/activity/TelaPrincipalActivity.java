@@ -71,7 +71,7 @@ public class TelaPrincipalActivity extends AppCompatActivity {
         // Define as configurações do Nav.Drawer
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_calculadora, R.id.nav_refeicoes, R.id.nav_lembretes,
-                R.id.nav_info, R.id.nav_config)
+                R.id.nav_info, R.id.nav_config, R.id.nav_diario)
                 .setOpenableLayout(drawer) //versão atual
                 .build(); //constroi
 

@@ -118,36 +118,6 @@ public class RefeicoesFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_pesquisa, menu);
 
-        /*
-        MenuItem item = menu.findItem(R.id.action_pesquisa);
-        SearchView searchView = new SearchView(((TelaPrincipalActivity) getActivity()).getSupportActionBar().getThemedContext());
-        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);//MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW| MenuItem.SHOW_AS_ACTION_IF_ROOM  MenuItem.SHOW_AS_ACTION_ALWAYS);
-        item.setActionView(searchView);
-        
-        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE); //mudar o teclado
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                adapterRefeicoes.getFilter().filter(newText);
-                return true;
-            }
-        });
-
-
-        //dapterRefeicoes.getFilter().filter(newText);
-        /*searchView.setOnClickListener(new View.OnClickListener() {
-                                          @Override
-                                          public void onClick(View v) {
-
-                                          }
-                                      }
-        );*/
-
     }
 
 

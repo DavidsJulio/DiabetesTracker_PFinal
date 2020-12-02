@@ -7,9 +7,10 @@ import com.google.firebase.database.DatabaseReference;
 
 public class Calculadora {
 
-    private Double fsi;
+    private Integer fsi;
     private Double rHC;
-    private Double glicemiaAlvo;
+    private Integer glicemiaAlvo;
+    private String emailFamilar;
 
     public Calculadora() {
     }
@@ -24,13 +25,14 @@ public class Calculadora {
                 .setValue( this );
     }
 
-    public Double getFsi() {
-        return fsi;
+    public String getEmailFamilar() {
+        return emailFamilar;
     }
 
-    public void setFsi(Double fsi) {
-        this.fsi = fsi;
+    public void setEmailFamilar(String emailFamilar) {
+        this.emailFamilar = emailFamilar;
     }
+
 
     public Double getrHC() {
         return rHC;
@@ -40,11 +42,19 @@ public class Calculadora {
         this.rHC = rHC;
     }
 
-    public Double getGlicemiaAlvo() {
+    public Integer getFsi() {
+        return fsi;
+    }
+
+    public void setFsi(Integer fsi) {
+        this.fsi = fsi;
+    }
+
+    public Integer getGlicemiaAlvo() {
         return glicemiaAlvo;
     }
 
-    public void setGlicemiaAlvo(Double glicemiaAlvo) {
+    public void setGlicemiaAlvo(Integer glicemiaAlvo) {
         this.glicemiaAlvo = glicemiaAlvo;
     }
 

@@ -15,6 +15,7 @@ import com.davidjulio.pfinal2020.config.ConfigFirebase;
 import com.davidjulio.pfinal2020.helper.Base64Custom;
 import com.davidjulio.pfinal2020.model.Calculadora;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,6 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 public class DiarioFragment extends Fragment {
 
     private EditText etFsiPerfil, etRhcPerfil, etGliAlvoPerfil;
+    private TextInputEditText etEmailPerfil;
     private FloatingActionButton fabGuardarPerfil;
     private Calculadora calculadora;
 
@@ -47,6 +49,7 @@ public class DiarioFragment extends Fragment {
         etFsiPerfil = view.findViewById(R.id.etFsiPerfil);
         etRhcPerfil = view.findViewById(R.id.etRhcPerfil);
         etGliAlvoPerfil = view.findViewById(R.id.etGliAlvoPerfil);
+        etEmailPerfil = view.findViewById(R.id.tEmailPerfil);
         calculadora = new Calculadora();
         fabGuardarPerfil = view.findViewById(R.id.fabGuardarPerfil);
 
@@ -64,14 +67,36 @@ public class DiarioFragment extends Fragment {
     }
 
     public void guardarDados(){
-        Double textoFSI = Double.parseDouble(etFsiPerfil.getText().toString());
-        Double textoRHC= Double.parseDouble(etRhcPerfil.getText().toString());
-        Double textoGlicemiaAlvo = Double.parseDouble(etGliAlvoPerfil.getText().toString());
+        String textoEmail = etEmailPerfil.getText().toString();
 
-        calculadora.setFsi(textoFSI);
-        calculadora.setrHC(textoRHC);
-        calculadora.setGlicemiaAlvo(textoGlicemiaAlvo);
+        try{
+            Integer textoFSI = Integer.parseInt(etFsiPerfil.getText().toString());
+            calculadora.setFsi(textoFSI);
+        } catch (NumberFormatException e){
+            etFsiPerfil.setError("Insira o seu Fator de Sensibidade à Insulina!");
+            etFsiPerfil.requestFocus();
+            return;
+        }
 
+        try{
+            Double textoRHC= Double.parseDouble(etRhcPerfil.getText().toString());
+            calculadora.setrHC(textoRHC);
+        } catch (NumberFormatException e){
+            etRhcPerfil.setError("Insira o seu Rácio para Hidratos de Carbono!");
+            etRhcPerfil.requestFocus();
+            return;
+        }
+
+        try {
+            Integer textoGlicemiaAlvo = Integer.parseInt(etGliAlvoPerfil.getText().toString());
+            calculadora.setGlicemiaAlvo(textoGlicemiaAlvo);
+        }catch (NumberFormatException e){
+            etGliAlvoPerfil.setError("Insira a sua Glicemia Alvo!");
+            etGliAlvoPerfil.requestFocus();
+            return;
+        }
+
+        calculadora.setEmailFamilar(textoEmail);
         calculadora.guardar();
     }
 
@@ -82,6 +107,40 @@ public class DiarioFragment extends Fragment {
         perfilRef = firebaseRef.child("perfil")
                                .child( idUtilizador );
 
+        valueEventListenerPerfil = perfilRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    calculadora = (Calculadora) dataSnapshot.getValue(Calculadora.class);
 
+                    String fsi = String.valueOf( calculadora.getFsi());
+                    etFsiPerfil.setText( fsi );
+
+                    String rHC = String.valueOf( calculadora.getrHC());
+                    etRhcPerfil.setText( rHC );
+
+                    String glimeciaAlvo = String.valueOf( calculadora.getGlicemiaAlvo());
+                    etGliAlvoPerfil.setText( glimeciaAlvo );
+
+                    etEmailPerfil.setText( calculadora.getEmailFamilar() );
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        recuperarDados();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        perfilRef.removeEventListener(valueEventListenerPerfil);
     }
 }

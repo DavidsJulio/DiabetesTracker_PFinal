@@ -7,7 +7,8 @@
     android:orientation="vertical"
     android:padding="16dp"
     android:visibility="visible"
-    tools:context=".activity.ui.calculadora.CalculadoraFragment">
+    tools:context=".activity.ui.calculadora.CalculadoraFragment"
+    android:id="@+id/calculadoraFragmentId">
 
     <LinearLayout
         android:id="@+id/linearLayout4"

@@ -74,9 +74,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if( task.isSuccessful() ){
-
                     abrirActivityPrincipal();
-
                 }else {
                     String exception = "";
                     try {
@@ -98,7 +96,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void abrirActivityPrincipal(){
         startActivity( new Intent( this, TelaPrincipalActivity.class));
-        finish(); //fecha a activiti de login
+        finish(); //fecha a activity de login
     }
 
     public void btnLRegistar (View view){

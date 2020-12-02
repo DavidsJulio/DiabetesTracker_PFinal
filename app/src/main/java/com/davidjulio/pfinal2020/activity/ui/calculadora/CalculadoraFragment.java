@@ -1,9 +1,13 @@
 package com.davidjulio.pfinal2020.activity.ui.calculadora;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -20,6 +24,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.davidjulio.pfinal2020.R;
+import com.davidjulio.pfinal2020.activity.TelaPrincipalActivity;
+import com.davidjulio.pfinal2020.activity.ui.diario.DiarioFragment;
+import com.davidjulio.pfinal2020.activity.ui.lembretes.AdicionarLembreteActivity;
 import com.davidjulio.pfinal2020.activity.ui.refeicoes.AdicionarRefeicaoActivity;
 import com.davidjulio.pfinal2020.config.ConfigFirebase;
 import com.davidjulio.pfinal2020.helper.Base64Custom;
@@ -46,13 +53,19 @@ public class CalculadoraFragment extends Fragment  {
     Calculadora calculadora;
 
     public static final String HC_CALCULADORA = "hcCalculadora";
-    Bundle bundle;
 
     private FirebaseAuth autenticacao = ConfigFirebase.getFirebaseAutenticacao();
     private DatabaseReference firebaseRef = ConfigFirebase.getFirebaseDatabase();
-    private DatabaseReference calculadoraRef;
 
-    private List<Refeicao> listaRefeicoes = new ArrayList<>();
+
+    private List<String> listaRefeicoes = new ArrayList<>();
+
+    private DatabaseReference calculadoraRef;
+    private DatabaseReference refeicaoRef;
+    private ValueEventListener valueEventListenerRefeicoes;
+    private ValueEventListener valueEventListenerCalculadora;
+
+    private String email;
 
     public CalculadoraFragment() {
         // Required empty public constructor
@@ -71,8 +84,7 @@ public class CalculadoraFragment extends Fragment  {
         tvResultado = view.findViewById( R.id.tvResultadoCalculadora);
         ibAdicionarRefeicao = view.findViewById(R.id.ibAdicionarRefeicaoCalculadora);
         btnAvisar = view.findViewById(R.id.bAvisarCalculadora);
-
-        recuperarValoresCalculo();
+        spinnerRefeicoesCalculadora = view.findViewById(R.id.spinnerRefeicoesCalculadora);
 
         btnCalcular.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,20 +134,27 @@ public class CalculadoraFragment extends Fragment  {
         String idUtilizador = Base64Custom.codificarBase64( emailUtilizador );
 
         calculadoraRef = firebaseRef.child( "perfil" )
-                .child( idUtilizador );
+                                    .child( idUtilizador );
 
-        calculadoraRef.addValueEventListener(new ValueEventListener() {
+        valueEventListenerCalculadora = calculadoraRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                calculadora = dataSnapshot.getValue( Calculadora.class );
-                calculadora.setFsi( calculadora.getFsi() );
-                calculadora.setrHC( calculadora.getrHC() );
-                calculadora.setGlicemiaAlvo( calculadora.getGlicemiaAlvo() );
+                if (dataSnapshot.exists()) {
+                    calculadora = dataSnapshot.getValue(Calculadora.class);
+                    calculadora.setFsi(calculadora.getFsi());
+                    calculadora.setrHC(calculadora.getrHC());
+                    calculadora.setGlicemiaAlvo(calculadora.getGlicemiaAlvo());
+                    email = calculadora.getEmailFamilar();
+                }else{
+                    alert();
+                }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
+
     }
 
     public void calcular(){
@@ -161,20 +180,100 @@ public class CalculadoraFragment extends Fragment  {
     }
 
     public void avisarFamilar(){
-        String email = "davidsjulio97@gmail.com";
+
         String assunto = "Calculo da insulina";
         String dataAtual = DateUtil.dataAtual();
         String doses = tvResultado.getText().toString();
+        String glicoseAtual = valorGlicose.getText().toString();
+        String hidratosAtual = valorHidratos.getText().toString();
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("Data/Hora: " + dataAtual);
+        sb.append("\n\nGlicose Atual: "+glicoseAtual+ " mg/dL");
+        sb.append("\nHidratos de Carbono: "+ hidratosAtual+" g");
+        sb.append("\n\nDoses a administrar: "+doses);
+
 
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.putExtra(Intent.EXTRA_EMAIL, new String[]{email});
         intent.putExtra(Intent.EXTRA_SUBJECT, assunto);
-        intent.putExtra(Intent.EXTRA_TEXT, "Data/Hora: " + dataAtual + "\n\nDoses a administrar: "+doses);
+        intent.putExtra(Intent.EXTRA_TEXT, sb.toString());
 
         intent.setType("text/plain");
 
         startActivity( Intent.createChooser( intent, "Avise o seu familiar!" ) );
-
     }
 
+    public void alert(){
+        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+
+        dialog.setTitle("Dados em falta");
+        dialog.setMessage("Insira os dados no seu perfil!");
+        dialog.setCancelable(false);
+        dialog.setIcon(R.drawable.ic_baseline_person_24);
+
+        dialog.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(getActivity(), TelaPrincipalActivity.class);
+                getActivity().startActivity(intent);
+            }
+        });
+
+        dialog.create();
+        dialog.show();
+    }
+
+    public void dadosSpinner(){
+        String emailUtilizador = autenticacao.getCurrentUser().getEmail();
+        String idUtilizador = Base64Custom.codificarBase64( emailUtilizador );
+
+        refeicaoRef = firebaseRef.child("refeicoes")
+                .child( idUtilizador );
+
+        valueEventListenerRefeicoes = refeicaoRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                listaRefeicoes.clear();
+
+                for(DataSnapshot dadosRefeicoes: dataSnapshot.getChildren()){
+                    Refeicao refeicao = dadosRefeicoes.getValue(Refeicao.class);
+
+                    listaRefeicoes.add( refeicao.getNome() );
+                    Log.d("Debug", "Refeicao: "+refeicao.getNome());
+                }
+
+            /*    ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_result);
+                arrayAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                spinnerRefeicoesCalculadora.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        String ref = spinnerRefeicoesCalculadora.getSelectedItem().toString();
+                        Toast.makeText(getActivity(), "Refeicao: "+ref, Toast.LENGTH_SHORT).show();
+                    }
+                });*/
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        recuperarValoresCalculo();
+        dadosSpinner();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        calculadoraRef.removeEventListener(valueEventListenerCalculadora);
+       // refeicaoRef.removeEventListener(valueEventListenerRefeicoes);
+
+    }
 }
