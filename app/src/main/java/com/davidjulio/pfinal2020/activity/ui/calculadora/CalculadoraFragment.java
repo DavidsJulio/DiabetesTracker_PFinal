@@ -240,12 +240,14 @@ public class CalculadoraFragment extends Fragment  {
                     Refeicao refeicao = dadosRefeicoes.getValue(Refeicao.class);
 
                     listaRefeicoes.add( refeicao.getNome() );
-                    Log.d("Debug", "Refeicao: "+refeicao.getNome());
+                 
                 }
 
-            /*    ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_result);
+                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_result, listaRefeicoes);
                 arrayAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-                spinnerRefeicoesCalculadora.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                spinnerRefeicoesCalculadora.setAdapter(arrayAdapter);
+
+             /*   spinnerRefeicoesCalculadora.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         String ref = spinnerRefeicoesCalculadora.getSelectedItem().toString();
