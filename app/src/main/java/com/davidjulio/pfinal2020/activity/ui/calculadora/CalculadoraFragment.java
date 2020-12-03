@@ -228,8 +228,10 @@ public class CalculadoraFragment extends Fragment  {
         String emailUtilizador = autenticacao.getCurrentUser().getEmail();
         String idUtilizador = Base64Custom.codificarBase64( emailUtilizador );
 
+
         refeicaoRef = firebaseRef.child("refeicoes")
                 .child( idUtilizador );
+
 
         valueEventListenerRefeicoes = refeicaoRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -238,30 +240,33 @@ public class CalculadoraFragment extends Fragment  {
 
                 for(DataSnapshot dadosRefeicoes: dataSnapshot.getChildren()){
                     Refeicao refeicao = dadosRefeicoes.getValue(Refeicao.class);
-
+                    //valorHidratos.setText(refeicao.getHidratosCarbono().toString());
                     listaRefeicoes.add( refeicao.getNome() );
-                 
+
                 }
 
                 ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_result, listaRefeicoes);
                 arrayAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
                 spinnerRefeicoesCalculadora.setAdapter(arrayAdapter);
 
-             /*   spinnerRefeicoesCalculadora.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                spinnerRefeicoesCalculadora.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        String ref = spinnerRefeicoesCalculadora.getSelectedItem().toString();
-                        Toast.makeText(getActivity(), "Refeicao: "+ref, Toast.LENGTH_SHORT).show();
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        Log.d("Spinner", "Spinner: "+ spinnerRefeicoesCalculadora.getSelectedItem().toString());
+                        String refeicaoSelecionada = spinnerRefeicoesCalculadora.getSelectedItem().toString();
+
                     }
-                });*/
 
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                    }
+                });
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
+
     }
 
     @Override
@@ -275,7 +280,7 @@ public class CalculadoraFragment extends Fragment  {
     public void onStop() {
         super.onStop();
         calculadoraRef.removeEventListener(valueEventListenerCalculadora);
-       // refeicaoRef.removeEventListener(valueEventListenerRefeicoes);
+        refeicaoRef.removeEventListener(valueEventListenerRefeicoes);
 
     }
 }

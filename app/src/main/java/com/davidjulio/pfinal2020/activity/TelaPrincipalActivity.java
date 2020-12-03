@@ -125,9 +125,9 @@ public class TelaPrincipalActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Utilizador utilizador = snapshot.getValue( Utilizador.class );
 
-                Log.d("Info", "utilizador: "+utilizador);
+             /*   Log.d("Info", "utilizador: "+utilizador);
                 Log.d("infoUsername", "username: "+utilizador.getNome());
-                Log.d("infoUsername", "email: "+utilizador.getEmail());
+                Log.d("infoUsername", "email: "+utilizador.getEmail());*/
 
                 textoUsername.setText( utilizador.getNome() );
                 //Log.d("infoUsername", "email: "+utilizador.getEmail());

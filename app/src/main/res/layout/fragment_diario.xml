@@ -32,7 +32,8 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:text="Fator de Sensibilidade\n à Insulina (FSI) :"
+                android:text="Fator de Sensibilidade\nà Insulina (FSI) :"
+                android:textAlignment="viewStart"
                 android:textSize="20sp" />
 
             <EditText
@@ -164,6 +165,8 @@
             android:id="@+id/tEmailPerfil"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_email"
+            android:drawablePadding=" 8dp"
             android:hint="@string/email"
             android:inputType="textEmailAddress"
             android:textSize="20sp" />
