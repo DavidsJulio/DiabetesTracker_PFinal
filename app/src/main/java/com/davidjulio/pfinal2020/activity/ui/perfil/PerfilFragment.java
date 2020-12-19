@@ -1,4 +1,4 @@
-package com.davidjulio.pfinal2020.activity.ui.diario;
+package com.davidjulio.pfinal2020.activity.ui.perfil;
 
 import android.os.Bundle;
 
@@ -22,7 +22,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
-public class DiarioFragment extends Fragment {
+public class PerfilFragment extends Fragment {
 
     private EditText etFsiPerfil, etRhcPerfil, etGliAlvoPerfil;
     private TextInputEditText etEmailPerfil;
@@ -35,7 +35,7 @@ public class DiarioFragment extends Fragment {
 
     private ValueEventListener valueEventListenerPerfil;
 
-    public DiarioFragment() {
+    public PerfilFragment() {
         // Required empty public constructor
     }
 
@@ -44,7 +44,7 @@ public class DiarioFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_diario, container, false);
+        View view = inflater.inflate(R.layout.fragment_perfil, container, false);
 
         etFsiPerfil = view.findViewById(R.id.etFsiPerfil);
         etRhcPerfil = view.findViewById(R.id.etRhcPerfil);
@@ -110,19 +110,20 @@ public class DiarioFragment extends Fragment {
         valueEventListenerPerfil = perfilRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()) {
                     calculadora = (Calculadora) dataSnapshot.getValue(Calculadora.class);
 
-                    String fsi = String.valueOf( calculadora.getFsi());
-                    etFsiPerfil.setText( fsi );
+                    String fsi = String.valueOf(calculadora.getFsi());
+                    etFsiPerfil.setText(fsi);
 
-                    String rHC = String.valueOf( calculadora.getrHC());
-                    etRhcPerfil.setText( rHC );
+                    String rHC = String.valueOf(calculadora.getrHC());
+                    etRhcPerfil.setText(rHC);
 
-                    String glimeciaAlvo = String.valueOf( calculadora.getGlicemiaAlvo());
-                    etGliAlvoPerfil.setText( glimeciaAlvo );
+                    String glimeciaAlvo = String.valueOf(calculadora.getGlicemiaAlvo());
+                    etGliAlvoPerfil.setText(glimeciaAlvo);
 
-                    etEmailPerfil.setText( calculadora.getEmailFamilar() );
-
+                    etEmailPerfil.setText(calculadora.getEmailFamilar());
+                }
             }
 
             @Override

@@ -24,10 +24,10 @@
         tools:layout="@layout/fragment_configuration" />
 
     <fragment
-        android:id="@+id/nav_diario"
-        android:name="com.davidjulio.pfinal2020.activity.ui.diario.DiarioFragment"
-        android:label="Diário"
-        tools:layout="@layout/fragment_diario" />
+        android:id="@+id/nav_perfil"
+        android:name="com.davidjulio.pfinal2020.activity.ui.perfil.PerfilFragment"
+        android:label="Perfil"
+        tools:layout="@layout/fragment_perfil" />
 
     <fragment
         android:id="@+id/nav_refeicoes"

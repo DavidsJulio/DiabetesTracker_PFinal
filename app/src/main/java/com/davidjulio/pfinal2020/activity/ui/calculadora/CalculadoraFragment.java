@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -25,8 +23,6 @@ import android.widget.Toast;
 
 import com.davidjulio.pfinal2020.R;
 import com.davidjulio.pfinal2020.activity.TelaPrincipalActivity;
-import com.davidjulio.pfinal2020.activity.ui.diario.DiarioFragment;
-import com.davidjulio.pfinal2020.activity.ui.lembretes.AdicionarLembreteActivity;
 import com.davidjulio.pfinal2020.activity.ui.refeicoes.AdicionarRefeicaoActivity;
 import com.davidjulio.pfinal2020.config.ConfigFirebase;
 import com.davidjulio.pfinal2020.helper.Base64Custom;
@@ -40,7 +36,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class CalculadoraFragment extends Fragment  {
@@ -59,6 +54,7 @@ public class CalculadoraFragment extends Fragment  {
 
 
     private List<String> listaRefeicoes = new ArrayList<>();
+
 
     private DatabaseReference calculadoraRef;
     private DatabaseReference refeicaoRef;
@@ -125,7 +121,6 @@ public class CalculadoraFragment extends Fragment  {
         /*String hcCalculadora = valorHidratos.getText().toString();
         intent.putExtra(HC_CALCULADORA, hcCalculadora);
 */
-
         getActivity().startActivity(intent);
     }
 
@@ -208,7 +203,10 @@ public class CalculadoraFragment extends Fragment  {
         AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
 
         dialog.setTitle("Dados em falta");
-        dialog.setMessage("Insira os dados no seu perfil!");
+        dialog.setMessage("Insira os dados no seu perfil: \n" +
+                          "\n- Fator de Sensibilidade à Insulina;\n" +
+                          "- Rácio Insulina:Hidratos de Carbono;" +
+                          "\n- Glicemia - Alvo;");
         dialog.setCancelable(false);
         dialog.setIcon(R.drawable.ic_baseline_person_24);
 
@@ -220,8 +218,20 @@ public class CalculadoraFragment extends Fragment  {
             }
         });
 
-        dialog.create();
-        dialog.show();
+        final AlertDialog alertDialog = dialog.create();
+        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialog) {
+                TextView message = alertDialog.findViewById(android.R.id.message);
+                if(message != null){
+                    message.setTextSize(20);
+                }
+
+            }
+        });
+        alertDialog.show();
+  /*      dialog.create();
+        dialog.show();*/
     }
 
     public void dadosSpinner(){
@@ -237,7 +247,7 @@ public class CalculadoraFragment extends Fragment  {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 listaRefeicoes.clear();
-
+                listaRefeicoes.add("-- Selecione uma Refeição --");
                 for(DataSnapshot dadosRefeicoes: dataSnapshot.getChildren()){
                     Refeicao refeicao = dadosRefeicoes.getValue(Refeicao.class);
                     //valorHidratos.setText(refeicao.getHidratosCarbono().toString());

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.ui.diario.DiarioFragment">
+    tools:context=".activity.ui.perfil.PerfilFragment">
 
     <LinearLayout
         android:id="@+id/linearLayout6"
@@ -60,7 +60,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:text="Rácio Hidratos de Carbono:"
+                android:text="Rácio Insulina:Hidratos de Carbono (I:HC):"
                 android:textSize="20sp" />
 
             <EditText

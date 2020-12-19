@@ -142,7 +142,8 @@
             android:layout_weight="0"
             android:gravity="center_vertical"
             android:text="Doses de Insulina:"
-            android:textSize="20sp" />
+            android:textColor="@android:color/black"
+            android:textSize="22sp" />
 
         <TextView
             android:id="@+id/tvResultadoCalculadora"
@@ -150,7 +151,8 @@
             android:layout_height="match_parent"
             android:layout_weight="0"
             android:textAlignment="center"
-            android:textSize="20sp" />
+            android:textColor="@android:color/black"
+            android:textSize="22sp" />
 
     </LinearLayout>
 
