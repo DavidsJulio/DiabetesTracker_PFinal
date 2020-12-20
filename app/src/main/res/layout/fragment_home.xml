@@ -10,21 +10,16 @@
         android:id="@+id/linearLayout8"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:background="@drawable/background_border"
         android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/textViewMedicoesHome"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/textView15"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Dados Perfil:"
-            android:textSize="22sp"
-            android:textStyle="bold" />
+        app:layout_constraintTop_toBottomOf="@+id/textView15">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -40,6 +35,7 @@
                 android:layout_weight="1"
                 android:drawableLeft="@drawable/ic_seta"
                 android:text="Fator de Sensibilidade à Insulina:"
+                android:textColor="@android:color/black"
                 android:textSize="20sp" />
 
             <TextView
@@ -50,7 +46,7 @@
                 android:gravity="center_vertical"
                 android:text="---"
                 android:textAlignment="textEnd"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@android:color/black"
                 android:textSize="20sp" />
         </LinearLayout>
 
@@ -68,6 +64,7 @@
                 android:layout_weight="1"
                 android:drawableLeft="@drawable/ic_seta"
                 android:text="Rácio Insulina:Hidratos de Carbono:"
+                android:textColor="@android:color/black"
                 android:textSize="20sp" />
 
             <TextView
@@ -77,13 +74,15 @@
                 android:layout_weight="0"
                 android:text="---"
                 android:textAlignment="textEnd"
-                android:textColor="@color/colorPrimaryDark"
+                android:textAllCaps="false"
+                android:textColor="@android:color/black"
                 android:textSize="20sp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
@@ -95,6 +94,7 @@
                 android:layout_weight="1"
                 android:drawableLeft="@drawable/ic_seta"
                 android:text="Glicemia-Alvo:"
+                android:textColor="@android:color/black"
                 android:textSize="20sp" />
 
             <TextView
@@ -105,7 +105,7 @@
                 android:gravity="center_vertical"
                 android:text="---"
                 android:textAlignment="textEnd"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@android:color/black"
                 android:textSize="20sp" />
         </LinearLayout>
 
@@ -114,26 +114,63 @@
     <LinearLayout
         android:id="@+id/linearLayout7"
         android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/background_border"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewMedicoesHome">
+
+        <TextView
+            android:id="@+id/textViewHomeInfoRv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sem Medições!"
+            android:textSize="18sp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvHomeMedicoes"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textViewMedicoesHome"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:orientation="vertical"
+        android:text="Acompanhe as ultimas medições:"
+        android:textColor="@android:color/black"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout7"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout8">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout8" />
 
-        <TextView
-            android:id="@+id/textViewMedicoesHome"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Acompanhe as ultimas medições:"
-            android:textSize="22sp"
-            android:textStyle="bold" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </LinearLayout>
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Dados Perfil:"
+        android:textColor="@android:color/black"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_chainStyle="packed" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

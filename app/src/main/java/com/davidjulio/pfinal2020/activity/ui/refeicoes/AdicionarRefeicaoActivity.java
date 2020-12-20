@@ -296,9 +296,9 @@ public class AdicionarRefeicaoActivity extends AppCompatActivity {
 
     private void guardarFoto(String urlImagem){//String urlString
 
-        String emailUtilizador = autenticacao.getCurrentUser().getEmail();
-        String idUtilizador = Base64Custom.codificarBase64( emailUtilizador );
-
+     /*   String emailUtilizador = autenticacao.getCurrentUser().getEmail();
+        String idUtilizador = Base64Custom.codificarBase64( emailUtilizador );*/
+        String idUtilizador = ConfigFirebase.getCurrentUser();
         ivRefeicoes.setDrawingCacheEnabled(true);
         ivRefeicoes.buildDrawingCache();
 

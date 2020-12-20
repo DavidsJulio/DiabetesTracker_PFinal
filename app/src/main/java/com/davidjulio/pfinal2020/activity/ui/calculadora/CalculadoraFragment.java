@@ -28,6 +28,7 @@ import com.davidjulio.pfinal2020.config.ConfigFirebase;
 import com.davidjulio.pfinal2020.helper.Base64Custom;
 import com.davidjulio.pfinal2020.helper.DateUtil;
 import com.davidjulio.pfinal2020.model.Calculadora;
+import com.davidjulio.pfinal2020.model.Medicao;
 import com.davidjulio.pfinal2020.model.Refeicao;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -157,6 +158,7 @@ public class CalculadoraFragment extends Fragment  {
         Double glicoseHora, hidratosHora;
         try {
             glicoseHora = Double.parseDouble(valorGlicose.getText().toString());
+
             try {
                 hidratosHora = Double.parseDouble(valorHidratos.getText().toString());
                 int resultado = calculadora.calculoInsulina(glicoseHora, hidratosHora);
@@ -168,10 +170,11 @@ public class CalculadoraFragment extends Fragment  {
             }
 
         }catch (NumberFormatException e){
-            valorGlicose.setError("Insira um valor para a Glicemia");
+            valorGlicose.setError("Insira um valor para a Glicose");
             valorGlicose.requestFocus();
             return;
         }
+        guardarValoresGlicose(glicoseHora);
     }
 
     public void avisarFamilar(){
@@ -235,12 +238,12 @@ public class CalculadoraFragment extends Fragment  {
     }
 
     public void dadosSpinner(){
-        String emailUtilizador = autenticacao.getCurrentUser().getEmail();
-        String idUtilizador = Base64Custom.codificarBase64( emailUtilizador );
+/*        String emailUtilizador = autenticacao.getCurrentUser().getEmail();
+        String idUtilizador = Base64Custom.codificarBase64( emailUtilizador );*/
 
-
+        String idUtilizador = ConfigFirebase.getCurrentUser();
         refeicaoRef = firebaseRef.child("refeicoes")
-                .child( idUtilizador );
+                                .child( idUtilizador );
 
 
         valueEventListenerRefeicoes = refeicaoRef.addValueEventListener(new ValueEventListener() {
@@ -279,6 +282,16 @@ public class CalculadoraFragment extends Fragment  {
 
     }
 
+    public void guardarValoresGlicose(Double glicoseHora){
+        Medicao medicao = new Medicao();
+        medicao.setMedicaoGlicose(glicoseHora);
+        String dataAtual = DateUtil.dataAtual();
+        String dataAnoFirst = DateUtil.dataAtualAno();
+        medicao.setDataHoraAux(dataAnoFirst);
+        medicao.setDataHora(dataAtual);
+        medicao.guardar();
+
+    }
     @Override
     public void onStart() {
         super.onStart();

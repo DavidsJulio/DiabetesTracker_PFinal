@@ -37,5 +37,10 @@ public class ConfigFirebase {
         return storage;
     }
 
+    public static String getCurrentUser(){
+        String emailUtilizador = autenticacao.getCurrentUser().getEmail();
+        String idUtilizador = Base64Custom.codificarBase64(emailUtilizador);
+        return idUtilizador;
+    }
 
 }
