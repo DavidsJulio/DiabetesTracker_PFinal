@@ -9,10 +9,15 @@ import java.util.Comparator;
 
 public class Medicao{
 
-    private Double medicaoGlicose;
-    private String dataHora;
     private String idMedicao;
+    private Double medicaoGlicose;
+    private Double medicaoHC;
+    private Double medicaoInsulina;
+
+    private String dataHora;
     private String dataHoraAux;
+    private String nota;
+    private String editavel;
 
     public Medicao() {
         DatabaseReference reference = ConfigFirebase.getFirebaseDatabase().child("medicoesGlicose");
@@ -28,6 +33,38 @@ public class Medicao{
                 .child(idUtilizador)
                 .child(idMedicao)
                 .setValue(this);
+    }
+
+    public String getEditavel() {
+        return editavel;
+    }
+
+    public void setEditavel(String editavel) {
+        this.editavel = editavel;
+    }
+
+    public String getNota() {
+        return nota;
+    }
+
+    public void setNota(String nota) {
+        this.nota = nota;
+    }
+
+    public Double getMedicaoHC() {
+        return medicaoHC;
+    }
+
+    public void setMedicaoHC(Double medicaoHC) {
+        this.medicaoHC = medicaoHC;
+    }
+
+    public Double getMedicaoInsulina() {
+        return medicaoInsulina;
+    }
+
+    public void setMedicaoInsulina(Double medicaoInsulina) {
+        this.medicaoInsulina = medicaoInsulina;
     }
 
     public String getDataHoraAux() {

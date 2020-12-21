@@ -62,12 +62,13 @@
                     android:textStyle="bold" />
 
                 <Button
-                    android:id="@+id/btnMadicaoData"
+                    android:id="@+id/btnMedicaoData"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
                     android:layout_weight="1"
                     android:drawableLeft="@drawable/ic_calendar"
+                    android:onClick="escolherData"
                     android:text="22/11/2020"
                     android:textColor="@color/colorWhite"
                     android:textSize="18sp"
@@ -98,6 +99,7 @@
                     android:layout_marginLeft="16dp"
                     android:layout_weight="1"
                     android:drawableLeft="@drawable/ic_alarm"
+                    android:onClick="escolherHora"
                     android:text="16:40"
                     android:textColor="@color/colorWhite"
                     android:textSize="18sp"
@@ -162,6 +164,7 @@
                     android:layout_height="wrap_content"
                     android:ems="5"
                     android:inputType="number"
+                    android:maxLength="4"
                     android:textAlignment="center"
                     android:textSize="20sp" />
 
@@ -198,7 +201,8 @@
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:ems="5"
-                    android:inputType="number"
+                    android:inputType="numberDecimal"
+                    android:maxLength="5"
                     android:textAlignment="center"
                     android:textSize="20sp" />
 
@@ -233,7 +237,9 @@
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:ems="5"
-                    android:inputType="number" />
+                    android:inputType="numberDecimal"
+                    android:maxLength="4"
+                    android:textAlignment="center" />
 
                 <TextView
                     android:id="@+id/tvRegistoU"
@@ -268,10 +274,12 @@
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
+            android:background="@drawable/background_border"
             android:ems="10"
             android:gravity="start|top"
             android:hint="Opcional"
             android:inputType="textMultiLine"
+            android:maxLength="250"
             android:textSize="20sp"
             app:layout_constraintBottom_toTopOf="@+id/fabRegistoGuardar"
             app:layout_constraintEnd_toEndOf="parent"
@@ -284,7 +292,7 @@
             android:layout_height="56dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="32dp"
             android:clickable="true"
             app:backgroundTint="@color/colorPrimary"
             app:layout_constraintBottom_toBottomOf="parent"

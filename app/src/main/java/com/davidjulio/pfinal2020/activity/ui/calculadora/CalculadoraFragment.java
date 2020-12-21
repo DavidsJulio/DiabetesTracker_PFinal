@@ -156,12 +156,13 @@ public class CalculadoraFragment extends Fragment  {
     public void calcular(){
 
         Double glicoseHora, hidratosHora;
+        int resultado;
         try {
             glicoseHora = Double.parseDouble(valorGlicose.getText().toString());
 
             try {
                 hidratosHora = Double.parseDouble(valorHidratos.getText().toString());
-                int resultado = calculadora.calculoInsulina(glicoseHora, hidratosHora);
+                resultado = calculadora.calculoInsulina(glicoseHora, hidratosHora);
                 tvResultado.setText(resultado + " Doses");
             }catch (NumberFormatException e){
                 valorHidratos.setError("Insira um valor para os Hidratos");
@@ -174,7 +175,7 @@ public class CalculadoraFragment extends Fragment  {
             valorGlicose.requestFocus();
             return;
         }
-        guardarValoresGlicose(glicoseHora);
+        guardarValoresGlicose(glicoseHora, hidratosHora, resultado);
     }
 
     public void avisarFamilar(){
@@ -282,16 +283,23 @@ public class CalculadoraFragment extends Fragment  {
 
     }
 
-    public void guardarValoresGlicose(Double glicoseHora){
+    public void guardarValoresGlicose(Double glicoseHora, Double hc, Integer insulina){
         Medicao medicao = new Medicao();
-        medicao.setMedicaoGlicose(glicoseHora);
+
         String dataAtual = DateUtil.dataAtual();
         String dataAnoFirst = DateUtil.dataAtualAno();
+        Double insulinaDouble = (double)insulina;
+
+        medicao.setMedicaoInsulina(insulinaDouble);
+        medicao.setMedicaoGlicose(glicoseHora);
+        medicao.setMedicaoHC(hc);
+
         medicao.setDataHoraAux(dataAnoFirst);
         medicao.setDataHora(dataAtual);
+        medicao.setEditavel("N");
         medicao.guardar();
-
     }
+
     @Override
     public void onStart() {
         super.onStart();
