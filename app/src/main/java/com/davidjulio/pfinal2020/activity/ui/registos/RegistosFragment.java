@@ -3,21 +3,42 @@ package com.davidjulio.pfinal2020.activity.ui.registos;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.davidjulio.pfinal2020.R;
+import com.davidjulio.pfinal2020.adapter.AdapterRegistos;
+import com.davidjulio.pfinal2020.config.ConfigFirebase;
+import com.davidjulio.pfinal2020.model.Medicao;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class RegistosFragment extends Fragment {
 
     private RecyclerView rvRegistosListagem;
     private FloatingActionButton fabAdicionarRegisto;
+
+    private List<Medicao> listaMedicoes;
+    private DatabaseReference registoRef;
+    private AdapterRegistos adapterRegistos;
+    private DatabaseReference firebaseRef = ConfigFirebase.getFirebaseDatabase();
+    private ValueEventListener valueEventListenerRegisto;
 
     public RegistosFragment() {
         // Required empty public constructor
@@ -36,6 +57,18 @@ public class RegistosFragment extends Fragment {
 
         rvRegistosListagem = view.findViewById(R.id.rvRegistosListagem);
         fabAdicionarRegisto = view.findViewById(R.id.fabAdicionarRegisto);
+
+        listaMedicoes = new ArrayList<>();
+        registoRef = ConfigFirebase.getFirebaseDatabase().child("medicoesGlicose");
+
+        adapterRegistos = new AdapterRegistos(listaMedicoes, getContext());
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+        rvRegistosListagem.setLayoutManager(layoutManager);
+        rvRegistosListagem.setHasFixedSize(true);
+        rvRegistosListagem.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayout.VERTICAL));
+        rvRegistosListagem.setAdapter(adapterRegistos);
+
+
         fabAdicionarRegisto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,5 +84,44 @@ public class RegistosFragment extends Fragment {
         Intent intent = new Intent();
         intent.setClass(getActivity(), AdicionarRegistosActivity.class);
         getActivity().startActivity(intent);
+    }
+
+    public void recuperarRegistos(){
+        String idUtilizador = ConfigFirebase.getCurrentUser();
+
+        registoRef = firebaseRef.child("medicoesGlicose").child(idUtilizador);
+
+        valueEventListenerRegisto = registoRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    listaMedicoes.clear();
+
+                    for(DataSnapshot dadosRegisto: dataSnapshot.getChildren()){
+                        Medicao medicao = dadosRegisto.getValue(Medicao.class);
+                        medicao.setIdMedicao( dadosRegisto.getKey() );
+                        listaMedicoes.add( medicao );
+                    }
+                    adapterRegistos.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        recuperarRegistos();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        registoRef.removeEventListener(valueEventListenerRegisto);
     }
 }
