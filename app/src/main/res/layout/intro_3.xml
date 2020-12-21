@@ -28,13 +28,13 @@
         android:textColor="@color/colorPrimary"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/textView2"
+        app:layout_constraintBottom_toTopOf="@+id/tvMedicaoData"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/tvMedicaoData"
         android:layout_width="347dp"
         android:layout_height="wrap_content"
         android:text="@string/tvIntro_3_2"

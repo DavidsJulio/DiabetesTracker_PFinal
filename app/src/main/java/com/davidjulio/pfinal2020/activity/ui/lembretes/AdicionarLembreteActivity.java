@@ -4,10 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
-import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.View;
@@ -21,10 +19,8 @@ import com.davidjulio.pfinal2020.model.Lembrete;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 public class AdicionarLembreteActivity extends AppCompatActivity {
 
@@ -46,9 +42,9 @@ public class AdicionarLembreteActivity extends AppCompatActivity {
 
         editTitulo = findViewById(R.id.editTitulo);
         editDescricao = findViewById(R.id.editDescricao);
-        btn_data = findViewById(R.id.btn_data);
-        btn_hora = findViewById(R.id.btn_hora);
-        fab_add = findViewById(R.id.fab_add);
+        btn_data = findViewById(R.id.btnLembreteData);
+        btn_hora = findViewById(R.id.btnLembreteHora);
+        fab_add = findViewById(R.id.fab_addLembrete);
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         String date = sdf.format(calendar.getTime());

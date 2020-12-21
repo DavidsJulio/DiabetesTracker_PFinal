@@ -48,16 +48,6 @@ public class TelaPrincipalActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
-        /*
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
-
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
 
         //Cria referencia para a area de navegação
@@ -69,7 +59,7 @@ public class TelaPrincipalActivity extends AppCompatActivity {
 
         // Define as configurações do Nav.Drawer
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_calculadora, R.id.nav_refeicoes, R.id.nav_lembretes,
+                R.id.nav_home, R.id.nav_calculadora, R.id.nav_refeicoes, R.id.nav_registos, R.id.nav_lembretes,
                 R.id.nav_info, R.id.nav_config, R.id.nav_perfil)
                 .setOpenableLayout(drawer) //versão atual
                 .build(); //constroi

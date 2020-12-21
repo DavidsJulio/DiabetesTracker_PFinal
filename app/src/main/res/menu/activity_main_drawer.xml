@@ -25,6 +25,12 @@
             android:id="@+id/nav_refeicoes"
             android:icon="@drawable/ic_refeicoes"
             android:title="Refeições" />
+
+        <item
+            android:id="@+id/nav_registos"
+            android:icon="@drawable/ic_registos"
+            android:title="Medições" />
+
         <item
             android:id="@+id/nav_lembretes"
             android:icon="@drawable/ic_lembretes"

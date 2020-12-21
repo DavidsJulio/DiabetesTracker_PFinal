@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.davidjulio.pfinal2020">
-    <!-- hardware necessário -->
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/logoicon"
@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <!--<activity android:name=".notification.Lixo"></activity>-->
+        <activity android:name=".activity.ui.registos.AdicionarRegistosActivity" android:label="Adicionar Medição"></activity>
+        <!-- <activity android:name=".notification.Lixo"></activity> -->
         <activity android:name=".activity.ui.lembretes.AdicionarLembreteActivity" />
         <activity
             android:name=".activity.ui.refeicoes.AdicionarRefeicaoActivity"
