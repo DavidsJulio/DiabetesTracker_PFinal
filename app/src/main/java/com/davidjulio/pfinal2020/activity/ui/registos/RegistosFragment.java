@@ -12,7 +12,7 @@ import com.davidjulio.pfinal2020.R;
 
 
 public class RegistosFragment extends Fragment {
-    
+
     public RegistosFragment() {
         // Required empty public constructor
     }
