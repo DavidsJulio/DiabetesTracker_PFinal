@@ -155,10 +155,11 @@ public class CalculadoraFragment extends Fragment  {
 
     public void calcular(){
 
-        Double glicoseHora, hidratosHora;
-        int resultado;
+        Double hidratosHora;
+        int glicoseHora, resultado;
+
         try {
-            glicoseHora = Double.parseDouble(valorGlicose.getText().toString());
+            glicoseHora = Integer.parseInt(valorGlicose.getText().toString());
 
             try {
                 hidratosHora = Double.parseDouble(valorHidratos.getText().toString());
@@ -283,12 +284,12 @@ public class CalculadoraFragment extends Fragment  {
 
     }
 
-    public void guardarValoresGlicose(Double glicoseHora, Double hc, Integer insulina){
+    public void guardarValoresGlicose(Integer glicoseHora, Double hc, Integer insulina){
         Medicao medicao = new Medicao();
 
         String dataAtual = DateUtil.dataAtual();
         String dataAnoFirst = DateUtil.dataAtualAno();
-        Double insulinaDouble = (double)insulina;
+        Integer insulinaDouble = insulina;
 
         medicao.setMedicaoInsulina(insulinaDouble);
         medicao.setMedicaoGlicose(glicoseHora);

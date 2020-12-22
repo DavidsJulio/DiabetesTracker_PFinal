@@ -58,13 +58,15 @@ public class Calculadora {
         this.glicemiaAlvo = glicemiaAlvo;
     }
 
-    public int calculoInsulina(Double glicemiaRefeicao, Double hcRefeicao){
+    public int calculoInsulina(Integer glicemiaRefeicao, Double hcRefeicao){
 
-        Double correcaoGlicemia = ( glicemiaRefeicao - glicemiaAlvo )/fsi;
+        Double correcaoGlicemia = (double)( glicemiaRefeicao - glicemiaAlvo )/fsi;
         Double metabolizacaoHC = hcRefeicao / rHC;
 
+
+        //TODO: ARREDONDAMENTOS CORRETAMENTE
         int dose = (int)(correcaoGlicemia + metabolizacaoHC);
 
-        return  dose ; //TODO: ARREDONDAMENTOS CORRETAMENTE
+        return  dose;
     }
 }

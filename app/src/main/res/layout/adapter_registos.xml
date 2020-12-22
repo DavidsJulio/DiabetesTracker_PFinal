@@ -39,7 +39,8 @@
                 android:textAlignment="center"
                 android:textColor="@color/colorWhite"
                 android:textSize="22sp"
-                tools:text="Info: Calculadora" />
+                tools:text="Info: Calculadora"
+                tools:ignore="RtlCompat" />
         </LinearLayout>
 
         <LinearLayout

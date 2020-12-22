@@ -2,6 +2,7 @@ package com.davidjulio.pfinal2020.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,19 +37,19 @@ public class AdapterRegistos extends RecyclerView.Adapter<AdapterRegistos.MyView
     }
 
 
-    @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull MyViewRegistos holder, int position) {
         Medicao medicao = medicoes.get(position);
         String editavel = medicao.getEditavel();
+
         if(editavel.equals("S")){
             holder.ivAR.setImageResource(R.drawable.ic_registos);
             holder.tvInfo.setText("Info: Manual");
         }else{
-            holder.linearLayoutInfo.setBackgroundColor(R.color.colorAccent);
             holder.ivAR.setImageResource(R.drawable.ic_calculator);
             holder.tvInfo.setText("Info: Calculada");
         }
+
 
         holder.tvGlicose.setText("Glicose: " + medicao.getMedicaoGlicose().toString());
         holder.tvDataHora.setText(medicao.getDataHora());
@@ -64,7 +65,7 @@ public class AdapterRegistos extends RecyclerView.Adapter<AdapterRegistos.MyView
 
         TextView tvInfo, tvGlicose, tvDataHora;
         ImageView ivAR;
-        private LinearLayout linearLayoutInfo;
+        LinearLayout linearLayoutInfo;
 
         public MyViewRegistos(@NonNull View itemView) {
             super(itemView);
@@ -76,6 +77,7 @@ public class AdapterRegistos extends RecyclerView.Adapter<AdapterRegistos.MyView
             tvDataHora = itemView.findViewById(R.id.tvARDataHora);
 
             linearLayoutInfo = itemView.findViewById(R.id.linearLayoutARInfo);
+
         }
     }
 }

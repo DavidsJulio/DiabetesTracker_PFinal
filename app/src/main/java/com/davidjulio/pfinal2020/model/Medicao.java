@@ -11,9 +11,9 @@ import java.util.Comparator;
 public class Medicao implements Serializable {
 
     private String idMedicao;
-    private Double medicaoGlicose;
+    private Integer medicaoGlicose;
     private Double medicaoHC;
-    private Double medicaoInsulina;
+    private Integer medicaoInsulina;
 
     private String dataHora;
     private String dataHoraAux;
@@ -70,11 +70,11 @@ public class Medicao implements Serializable {
         this.medicaoHC = medicaoHC;
     }
 
-    public Double getMedicaoInsulina() {
+    public Integer getMedicaoInsulina() {
         return medicaoInsulina;
     }
 
-    public void setMedicaoInsulina(Double medicaoInsulina) {
+    public void setMedicaoInsulina(Integer medicaoInsulina) {
         this.medicaoInsulina = medicaoInsulina;
     }
 
@@ -86,11 +86,11 @@ public class Medicao implements Serializable {
         this.dataHoraAux = dataHoraAux;
     }
 
-    public Double getMedicaoGlicose() {
+    public Integer getMedicaoGlicose() {
         return medicaoGlicose;
     }
 
-    public void setMedicaoGlicose(Double medicaoGlicose) {
+    public void setMedicaoGlicose(Integer medicaoGlicose) {
         this.medicaoGlicose = medicaoGlicose;
     }
 

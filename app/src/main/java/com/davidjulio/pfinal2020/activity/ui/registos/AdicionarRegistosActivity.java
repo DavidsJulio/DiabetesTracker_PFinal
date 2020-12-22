@@ -126,7 +126,7 @@ public class AdicionarRegistosActivity extends AppCompatActivity {
                 etHC.setText(String.valueOf(medicaoSelecionada.getMedicaoHC()));
             }
 
-            Double valorInsulina = medicaoSelecionada.getMedicaoInsulina();
+            Integer valorInsulina = medicaoSelecionada.getMedicaoInsulina();
             if (valorInsulina == 0.0){
                 etInsulina.setText("");
             }else{
@@ -165,11 +165,10 @@ public class AdicionarRegistosActivity extends AppCompatActivity {
         medicaoAux.setDataHoraAux(dataAuxiliar);
 
         try {
-            Double valorGlicose = Double.parseDouble(glicose);
+            Integer valorGlicose = Integer.parseInt(glicose);
             medicaoAux.setMedicaoGlicose(valorGlicose);
         }catch (NumberFormatException e){
-            Double valorGlicose = 0.0;
-            medicaoAux.setMedicaoGlicose(valorGlicose);
+            medicaoAux.setMedicaoGlicose(0);
         }
 
         try {
@@ -180,10 +179,10 @@ public class AdicionarRegistosActivity extends AppCompatActivity {
         }
 
         try {
-            Double valorInsulina = Double.parseDouble(insulina);
+            Integer valorInsulina = Integer.parseInt(insulina);
             medicaoAux.setMedicaoInsulina(valorInsulina);
         }catch (NumberFormatException e){
-            medicaoAux.setMedicaoInsulina(0.0);
+            medicaoAux.setMedicaoInsulina(0);
         }
         medicaoAux.setEditavel("S");
         medicaoAux.setNota(nota);

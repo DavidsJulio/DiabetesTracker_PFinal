@@ -12,11 +12,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,11 +23,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.davidjulio.pfinal2020.R;
-import com.davidjulio.pfinal2020.activity.ui.calculadora.CalculadoraFragment;
 import com.davidjulio.pfinal2020.config.ConfigFirebase;
-import com.davidjulio.pfinal2020.helper.Base64Custom;
 import com.davidjulio.pfinal2020.helper.Permissao;
-import com.davidjulio.pfinal2020.model.Calculadora;
 import com.davidjulio.pfinal2020.model.Refeicao;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -39,7 +34,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.collection.LLRBNode;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
@@ -67,10 +61,9 @@ public class AdicionarRefeicaoActivity extends AppCompatActivity {
     private Bitmap imagem = null;
 
     private Refeicao refeicaoSelecionada;
-    Bundle bundle;
+    Bundle bundleRefeicao;
     
     private FloatingActionButton fabSalvar;
-
     private ActionBar actionBar;
 
     @Override
@@ -122,99 +115,106 @@ public class AdicionarRefeicaoActivity extends AppCompatActivity {
             }
         });
 
+        refeicaoSelecionada();
+        carregaDados();
 
-        //recuperar os dados da refeicao
-        bundle = getIntent().getExtras();
-        if(bundle != null) {
+    }
+
+    public void refeicaoSelecionada(){
+        bundleRefeicao = getIntent().getExtras();
+        if(bundleRefeicao != null) {
             actionBar.setTitle("Editar - Apagar Refeição");
             fabSalvar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    //TODO: ATUALIZAR FOTO!!!!!!
-                    if(validarCamposRefeicao()){
-                        refeicaoSelecionada.setNome(campoNome.getText().toString());
-
-                        Double hidratos = Double.parseDouble(campoHidratos.getText().toString());
-                        refeicaoSelecionada.setHidratosCarbono(hidratos);
-
-                        try{
-                            Integer calorias = Integer.parseInt(campoCalorias.getText().toString());
-                            refeicaoSelecionada.setCalorias(calorias);
-                        }catch (NumberFormatException e){
-                            refeicaoSelecionada.setCalorias(0);
-                        }
-
-                        try {
-                            Double gordura = Double.parseDouble(campoGordura.getText().toString());
-                            refeicaoSelecionada.setGordura(gordura);
-                        }catch (NumberFormatException e){
-                            refeicaoSelecionada.setGordura(0.0);
-                        }
-
-                        try {
-                            Double proteina = Double.parseDouble(campoProteinas.getText().toString());
-                            refeicaoSelecionada.setProteinas(proteina);
-                        }catch (NumberFormatException e){
-                            refeicaoSelecionada.setProteinas(0.0);
-                        }
-
-                        refeicaoSelecionada.guardar();
-                        Toast.makeText(AdicionarRefeicaoActivity.this, "Atualizado com Sucesso", Toast.LENGTH_LONG).show();
-                        finish();
-                    }
+                    Toast.makeText(AdicionarRefeicaoActivity.this, "Atualizado com Sucesso", Toast.LENGTH_LONG).show();
+                    String urlImagem = refeicaoSelecionada.getIdRefeicao();
+                    guardarFotoRefeicao(urlImagem, refeicaoSelecionada);
+                    //recuperarRefeicaoDigitada(refeicaoSelecionada);
                 }
             });
-
         }
+    }
 
-        //String verificacao = bundle.getString(CalculadoraFragment.HC_CALCULADORA);
-        //if(verificacao != null){
-        //   campoHidratos.setText(verificacao);
-        //}else {
-            carregaDados();
-       // }
+    public void carregaDados(){
+        if(bundleRefeicao != null){
+            //caso o bundle seja diferente de null conseguimos recuperar a refeicao
+            refeicaoSelecionada = (Refeicao) bundleRefeicao.getSerializable(RefeicoesFragment.REFEICAO_SELECIONADA); //refeicao recolhida
 
+            campoNome.setText(refeicaoSelecionada.getNome());
+            campoHidratos.setText(String.valueOf(refeicaoSelecionada.getHidratosCarbono()));
+
+            Integer valorCalorias = refeicaoSelecionada.getCalorias();
+            if(valorCalorias == 0) {
+                campoCalorias.setText("");
+            }else{
+                campoCalorias.setText(String.valueOf(valorCalorias));
+            }
+
+            Double valorGordura = refeicaoSelecionada.getGordura();
+            if(valorGordura == 0.0){
+                campoGordura.setText("");
+            }else{
+                campoGordura.setText(String.valueOf(valorGordura));
+            }
+
+            Double valorProteinas = refeicaoSelecionada.getProteinas();
+            if(valorProteinas == 0.0){
+                campoProteinas.setText("");
+            }else {
+                campoProteinas.setText(String.valueOf(valorProteinas));
+            }
+
+            String foto = refeicaoSelecionada.getUrlFoto();
+            if(foto != null){
+                Picasso.get().load(foto).into(ivRefeicoes);
+            }
+        }
     }
 
     public void guardarRefeicao(View view){
-       if ( validarCamposRefeicao() ){
-            refeicao.setNome(campoNome.getText().toString());
+        if ( validarCamposRefeicao() ){
+            String urlImagem = refeicao.getIdRefeicao();
+            guardarFotoRefeicao(urlImagem, refeicao);
+            finish();
+        }
 
-            Double hidratos = Double.parseDouble(campoHidratos.getText().toString());
-            refeicao.setHidratosCarbono(hidratos);
+    }
 
-            String textoCalorias = campoCalorias.getText().toString();
+    public void recuperarRefeicaoDigitada(Refeicao refeicaoAux){
+        refeicaoAux.setNome(campoNome.getText().toString());
 
-            try {
-                Integer calorias = Integer.parseInt(textoCalorias);
-                refeicao.setCalorias(calorias);
-            }catch (NumberFormatException e){
-                Integer calorias = 0;
-                refeicao.setCalorias(calorias);
-            }
+        Double hidratos = Double.parseDouble(campoHidratos.getText().toString());
+        refeicaoAux.setHidratosCarbono(hidratos);
 
-           String textoGordura = campoGordura.getText().toString();
-           try {
-               Double gordura = Double.parseDouble(textoGordura);
-               refeicao.setGordura(gordura);
-           }catch (NumberFormatException e){
-               Double gordura = 0.0;
-               refeicao.setGordura(gordura);
-           }
+        String textoCalorias = campoCalorias.getText().toString();
 
-           String textoProteina = campoProteinas.getText().toString();
-           try {
-               Double proteina = Double.parseDouble(textoProteina);
-               refeicao.setProteinas(proteina);
-           }catch (NumberFormatException e){
-               Double proteina = 0.0;
-               refeicao.setProteinas(proteina);
-           }
+        try {
+            Integer calorias = Integer.parseInt(textoCalorias);
+            refeicaoAux.setCalorias(calorias);
+        }catch (NumberFormatException e){
+            Integer calorias = 0;
+            refeicaoAux.setCalorias(calorias);
+        }
 
-           refeicao.guardar();
-           finish();
-       }
+        String textoGordura = campoGordura.getText().toString();
+        try {
+            Double gordura = Double.parseDouble(textoGordura);
+            refeicaoAux.setGordura(gordura);
+        }catch (NumberFormatException e){
+            Double gordura = 0.0;
+            refeicaoAux.setGordura(gordura);
+        }
+
+        String textoProteina = campoProteinas.getText().toString();
+        try {
+            Double proteina = Double.parseDouble(textoProteina);
+            refeicaoAux.setProteinas(proteina);
+        }catch (NumberFormatException e){
+            Double proteina = 0.0;
+            refeicaoAux.setProteinas(proteina);
+        }
+        refeicaoAux.guardar();
     }
 
     public boolean validarCamposRefeicao() {
@@ -238,9 +238,53 @@ public class AdicionarRefeicaoActivity extends AppCompatActivity {
 
     }
 
+    private void guardarFotoRefeicao(String urlImagem, final Refeicao aux){//String urlString
+        String idUtilizador = ConfigFirebase.getCurrentUser();
+        ivRefeicoes.setDrawingCacheEnabled(true);
+        ivRefeicoes.buildDrawingCache();
+
+        Bitmap bitmap = ivRefeicoes.getDrawingCache();
+
+        //comperssao bitmap -> png/jpeg
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 50, baos);
+
+        byte[] dados = baos.toByteArray(); //permite enviar para o Firebase
+
+        final StorageReference imagemRef = storageRef.child("imagens")
+                                                     .child(idUtilizador)
+                                                     .child("refeicoes")
+                                                     .child(urlImagem);
+
+        UploadTask uploadTask = imagemRef.putBytes(dados);
+
+        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                imagemRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Uri> task) {
+                        Uri url = task.getResult();
+                        String urlConvertida = url.toString();
+
+                        if (urlConvertida != null){
+                            aux.setUrlFoto( urlConvertida );
+                        }
+                        recuperarRefeicaoDigitada(aux);
+                    }
+                });
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(AdicionarRefeicaoActivity.this, "Falha ao fazer upload", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (bundle != null)
+        if (bundleRefeicao != null)
             getMenuInflater().inflate(R.menu.menu_eliminar, menu);
 
         return super.onCreateOptionsMenu(menu);
@@ -259,7 +303,6 @@ public class AdicionarRefeicaoActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -269,76 +312,27 @@ public class AdicionarRefeicaoActivity extends AppCompatActivity {
             //Bitmap imagem = null; // null porque recuperamos imagem de dois sitios
 
             try { // imagem configurada para a camara e galeria
-                switch (requestCode ){
+                switch (requestCode){
                     case CAMARA_SELECIONADA:
                         imagem = (Bitmap) data.getExtras().get("data");
                         break;
                     case GALERIA_SELECIONADA:
-                        Uri localDaImagem = data.getData();
-                        imagem = MediaStore.Images.Media.getBitmap(getContentResolver(), localDaImagem);
+                        Uri imagemSelecionada = data.getData();
+                        //localDaImagem = imagemSelecionada.toString();
+                        ivRefeicoes.setImageURI(imagemSelecionada);
+                        imagem = MediaStore.Images.Media.getBitmap(getContentResolver(), imagemSelecionada);
                         break;
                 }
 
-                //garantir que é diferente de nula
                 if (imagem != null){
                     ivRefeicoes.setImageBitmap( imagem );
-
-                    //guardar imagem no firebase
-                    //TODO: GUARDAR A IMAGEM APENAS NO FAB
-                    String urlImagem = refeicao.getIdRefeicao();
-                    guardarFoto(urlImagem);
+                    /*String urlImagem = refeicao.getIdRefeicao();
+                    guardarFoto(urlImagem);*/
                 }
             }catch (Exception e){
                 e.printStackTrace();
             }
         }
-    }
-
-    private void guardarFoto(String urlImagem){//String urlString
-
-     /*   String emailUtilizador = autenticacao.getCurrentUser().getEmail();
-        String idUtilizador = Base64Custom.codificarBase64( emailUtilizador );*/
-        String idUtilizador = ConfigFirebase.getCurrentUser();
-        ivRefeicoes.setDrawingCacheEnabled(true);
-        ivRefeicoes.buildDrawingCache();
-
-        Bitmap bitmap = ivRefeicoes.getDrawingCache();
-
-        //comperssao bitmap -> png/jpeg
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 50, baos);
-
-        byte[] dados = baos.toByteArray(); //permite enviar para o Firebase
-
-        //criar o nó
-        //atenção ao final
-        final StorageReference imagemRef = storageRef.child("imagens")
-                                                     .child(idUtilizador)
-                                                     .child("refeicoes")
-                                                     .child(urlImagem);
-
-        //upload da imagem
-        UploadTask uploadTask = imagemRef.putBytes(dados);
-        
-        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                imagemRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Uri> task) {
-                        Uri url = task.getResult();
-                        String urlConvertida = url.toString();
-
-                        refeicao.setUrlFoto( urlConvertida ); //guardar o link url do firebase
-                    }
-                });
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(AdicionarRefeicaoActivity.this, "Falha ao fazer upload", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     @Override
@@ -367,26 +361,6 @@ public class AdicionarRefeicaoActivity extends AppCompatActivity {
 
         AlertDialog dialog = builder.create();
         dialog.show();
-    }
-
-    public void carregaDados(){
-
-        if(bundle != null){
-            //caso o bundle seja diferente de null conseguimos recuperar a refeicao
-            refeicaoSelecionada = (Refeicao) bundle.getSerializable(RefeicoesFragment.REFEICAO_SELECIONADA); //refeicao recolhida
-
-            campoNome.setText(refeicaoSelecionada.getNome());
-            campoHidratos.setText(String.valueOf(refeicaoSelecionada.getHidratosCarbono()));
-            campoCalorias.setText(String.valueOf(refeicaoSelecionada.getCalorias()));
-            campoGordura.setText(String.valueOf(refeicaoSelecionada.getGordura()));
-            campoProteinas.setText(String.valueOf(refeicaoSelecionada.getProteinas()));
-
-            String foto = refeicaoSelecionada.getUrlFoto();
-            if(foto != null){
-                Picasso.get().load(foto).into(ivRefeicoes);
-            }
-        }
-
     }
 
     public void eliminarDialog(){
