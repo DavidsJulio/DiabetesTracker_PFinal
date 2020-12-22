@@ -4,18 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
     android:orientation="vertical"
-    app:cardElevation="5dp">
+    app:cardElevation="2dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
         android:orientation="vertical"
-        android:padding="8dp">
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark"
             android:orientation="horizontal">
 
             <ImageView
@@ -23,14 +28,15 @@
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 app:srcCompat="@drawable/ic_calculator"
-                app:tint="@color/colorCINZA" />
+                app:tint="@color/colorWhite" />
 
             <TextView
                 android:id="@+id/tvARinfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:textAlignment="viewStart"
+                android:textAlignment="center"
+                android:textColor="@color/colorWhite"
                 android:textSize="22sp"
                 tools:text="Info: Calculadora" />
         </LinearLayout>

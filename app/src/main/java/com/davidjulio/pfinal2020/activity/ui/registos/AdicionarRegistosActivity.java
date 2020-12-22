@@ -35,6 +35,10 @@ public class AdicionarRegistosActivity extends AppCompatActivity {
     private Calendar calendar = Calendar.getInstance();
     String timeToNotify;
 
+    private Bundle bundleRegisto;
+    private Medicao medicaoSelecionada;
+    private boolean editavel = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,10 +72,59 @@ public class AdicionarRegistosActivity extends AppCompatActivity {
             }
         });
 
+        medicaoSelecionada();
+        carregarRegistos();
+    }
+
+    public void medicaoSelecionada(){
+        bundleRegisto = getIntent().getExtras();
+        if(bundleRegisto != null){
+
+            fabGuardar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (editavel) {
+                        recuperarDadosDigitados(medicaoSelecionada);
+                        //medicaoSelecionada.guardar();
+                        Toast.makeText(AdicionarRegistosActivity.this, "Atualizado com Sucesso!", Toast.LENGTH_LONG).show();
+                        finish();
+                    }else{
+                        Toast.makeText(AdicionarRegistosActivity.this, "Este registo não pode ser Editado!", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+        }
+    }
+
+    public void carregarRegistos(){
+        if(bundleRegisto != null){
+            medicaoSelecionada = (Medicao) bundleRegisto.getSerializable(RegistosFragment.MEDICAO_SELECIONADA);
+
+            if (medicaoSelecionada.getEditavel().equals("S")) {
+                actionBar.setTitle("Medição Editável");
+                editavel = true;
+            }else{
+                actionBar.setTitle("Medição Não Editável");
+                editavel = false;
+            }
+
+            String dataHora = medicaoSelecionada.getDataHora();
+            String dataAux[] = dataHora.split(" ");
+            String data = dataAux[0];
+            String hora = dataAux[1];
+
+            btnData.setText(data);
+            btnHora.setText(hora);
+            etGlicose.setText(String.valueOf(medicaoSelecionada.getMedicaoGlicose()));
+            etHC.setText(String.valueOf(medicaoSelecionada.getMedicaoHC()));
+            etInsulina.setText(String.valueOf(medicaoSelecionada.getMedicaoInsulina()));
+            etNota.setText(medicaoSelecionada.getNota());
+        }
     }
 
     public void guardarMedicao(){
         if(validarCamposMedicao()){
+            /*
                 String data = btnData.getText().toString();
                 String hora = btnHora.getText().toString();
                 String glicose = etGlicose.getText().toString().trim();
@@ -86,7 +139,7 @@ public class AdicionarRegistosActivity extends AppCompatActivity {
                 String ano = dataAux[2];
 
                 String dataAuxiliar = ano + "/" + mes + "/" + dia + " " + hora;
-                Medicao medicao = new Medicao();
+               // Medicao medicao = new Medicao();
 
                 medicao.setDataHora(dataHora);
                 medicao.setDataHoraAux(dataAuxiliar);
@@ -114,11 +167,59 @@ public class AdicionarRegistosActivity extends AppCompatActivity {
             }
             medicao.setEditavel("S");
             medicao.setNota(nota);
-            medicao.guardar();
+            medicao.guardar();*/
+
+            Medicao medicao = new Medicao();
+            recuperarDadosDigitados(medicao);
             finish();
         }
     }
 
+    public void recuperarDadosDigitados(Medicao medicaoAux){
+        String data = btnData.getText().toString();
+        String hora = btnHora.getText().toString();
+        String glicose = etGlicose.getText().toString().trim();
+        String hc = etHC.getText().toString().trim();
+        String insulina = etInsulina.getText().toString().trim();
+        String nota = etNota.getText().toString().trim();
+
+        String dataHora = data + " " + hora;
+        String dataAux[] = data.split("/");
+        String dia = dataAux[0];
+        String mes = dataAux[1];
+        String ano = dataAux[2];
+
+        String dataAuxiliar = ano + "/" + mes + "/" + dia + " " + hora;
+
+
+        medicaoAux.setDataHora(dataHora);
+        medicaoAux.setDataHoraAux(dataAuxiliar);
+
+        try {
+            Double valorGlicose = Double.parseDouble(glicose);
+            medicaoAux.setMedicaoGlicose(valorGlicose);
+        }catch (NumberFormatException e){
+            Double valorGlicose = 0.0;
+            medicaoAux.setMedicaoGlicose(valorGlicose);
+        }
+
+        try {
+            Double valorHc = Double.parseDouble(hc);
+            medicaoAux.setMedicaoHC(valorHc);
+        }catch (NumberFormatException e){
+            medicaoAux.setMedicaoHC(0.0);
+        }
+
+        try {
+            Double valorInsulina = Double.parseDouble(insulina);
+            medicaoAux.setMedicaoInsulina(valorInsulina);
+        }catch (NumberFormatException e){
+            medicaoAux.setMedicaoInsulina(0.0);
+        }
+        medicaoAux.setEditavel("S");
+        medicaoAux.setNota(nota);
+        medicaoAux.guardar();
+    }
 
     public boolean validarCamposMedicao(){
         String hora = btnHora.getText().toString();
@@ -167,7 +268,6 @@ public class AdicionarRegistosActivity extends AppCompatActivity {
                 String mes;
                 month += 1;
                 if(month < 10){
-
                     mes = "0" + month;
                 }else{
                     mes = "" + month;
@@ -187,17 +287,25 @@ public class AdicionarRegistosActivity extends AppCompatActivity {
         TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute1) {
-                if(minute1 <10){
-                    timeToNotify = hourOfDay + ":" + "0"+ minute1;
-                }else {
-                    timeToNotify = hourOfDay + ":" + minute1;
+                String hour;
+                if(hourOfDay < 10){
+                    hour = "0" + hourOfDay;
+                }else{
+                    hour = "" + hourOfDay;
                 }
+
+                String minutos;
+                if(minute1 < 10){
+                    minutos = "0" + minute1;
+                }else {
+                    minutos = "" + minute1;
+                }
+
+                timeToNotify = hour + ":" + minutos;
                 btnHora.setText(timeToNotify);
-                //btn_hora.setText(formatTime(hourOfDay, minute1));
             }
         },hour,minute,format);
         timePickerDialog.show();
-        //TODO: PRECISO ACERTAR A HORA
     }
 
     @Override

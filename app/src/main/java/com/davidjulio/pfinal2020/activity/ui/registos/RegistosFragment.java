@@ -10,13 +10,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 
 import com.davidjulio.pfinal2020.R;
 import com.davidjulio.pfinal2020.adapter.AdapterRegistos;
 import com.davidjulio.pfinal2020.config.ConfigFirebase;
+import com.davidjulio.pfinal2020.helper.RecyclerItemClickListener;
 import com.davidjulio.pfinal2020.model.Medicao;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
@@ -26,6 +29,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -39,6 +43,7 @@ public class RegistosFragment extends Fragment {
     private AdapterRegistos adapterRegistos;
     private DatabaseReference firebaseRef = ConfigFirebase.getFirebaseDatabase();
     private ValueEventListener valueEventListenerRegisto;
+    public static final String MEDICAO_SELECIONADA = "medicao";
 
     public RegistosFragment() {
         // Required empty public constructor
@@ -67,6 +72,28 @@ public class RegistosFragment extends Fragment {
         rvRegistosListagem.setHasFixedSize(true);
         rvRegistosListagem.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayout.VERTICAL));
         rvRegistosListagem.setAdapter(adapterRegistos);
+
+
+        rvRegistosListagem.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), rvRegistosListagem,
+                                                  new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        Medicao medicaoSelecionada = listaMedicoes.get(position);
+                        Intent iRegistos = new Intent(getActivity(), AdicionarRegistosActivity.class);
+                        iRegistos.putExtra(MEDICAO_SELECIONADA, medicaoSelecionada);
+                        startActivity(iRegistos);
+                    }
+
+                    @Override
+                    public void onLongItemClick(View view, int position) {
+
+                    }
+
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                    }
+                }));
 
 
         fabAdicionarRegisto.setOnClickListener(new View.OnClickListener() {
@@ -102,6 +129,7 @@ public class RegistosFragment extends Fragment {
                         medicao.setIdMedicao( dadosRegisto.getKey() );
                         listaMedicoes.add( medicao );
                     }
+                    Collections.sort(listaMedicoes, Medicao.BY_DATE_DESCENDING);
                     adapterRegistos.notifyDataSetChanged();
                 }
             }

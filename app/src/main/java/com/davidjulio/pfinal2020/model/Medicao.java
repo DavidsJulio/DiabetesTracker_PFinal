@@ -5,9 +5,10 @@ import com.davidjulio.pfinal2020.helper.Base64Custom;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
-public class Medicao{
+public class Medicao implements Serializable {
 
     private String idMedicao;
     private Double medicaoGlicose;
