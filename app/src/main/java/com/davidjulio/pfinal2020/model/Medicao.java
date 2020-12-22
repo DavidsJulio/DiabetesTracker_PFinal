@@ -36,6 +36,16 @@ public class Medicao implements Serializable {
                 .setValue(this);
     }
 
+    public void eliminar(){
+        String idUtilizador = ConfigFirebase.getCurrentUser();
+
+        DatabaseReference firebase = ConfigFirebase.getFirebaseDatabase();
+        firebase.child("medicoesGlicose")
+                .child(idUtilizador)
+                .child( getIdMedicao() )
+                .removeValue();
+    }
+
     public String getEditavel() {
         return editavel;
     }

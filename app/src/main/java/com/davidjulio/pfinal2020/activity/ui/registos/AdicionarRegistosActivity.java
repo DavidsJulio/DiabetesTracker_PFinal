@@ -4,8 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -116,59 +118,26 @@ public class AdicionarRegistosActivity extends AppCompatActivity {
             btnData.setText(data);
             btnHora.setText(hora);
             etGlicose.setText(String.valueOf(medicaoSelecionada.getMedicaoGlicose()));
-            etHC.setText(String.valueOf(medicaoSelecionada.getMedicaoHC()));
-            etInsulina.setText(String.valueOf(medicaoSelecionada.getMedicaoInsulina()));
+
+            Double valorHC = medicaoSelecionada.getMedicaoHC();
+            if(valorHC == 0.0){
+                etHC.setText("");
+            }else {
+                etHC.setText(String.valueOf(medicaoSelecionada.getMedicaoHC()));
+            }
+
+            Double valorInsulina = medicaoSelecionada.getMedicaoInsulina();
+            if (valorInsulina == 0.0){
+                etInsulina.setText("");
+            }else{
+                etInsulina.setText(String.valueOf(medicaoSelecionada.getMedicaoInsulina()));
+            }
             etNota.setText(medicaoSelecionada.getNota());
         }
     }
 
     public void guardarMedicao(){
         if(validarCamposMedicao()){
-            /*
-                String data = btnData.getText().toString();
-                String hora = btnHora.getText().toString();
-                String glicose = etGlicose.getText().toString().trim();
-                String hc = etHC.getText().toString().trim();
-                String insulina = etInsulina.getText().toString().trim();
-                String nota = etNota.getText().toString().trim();
-
-                String dataHora = data + " " + hora;
-                String dataAux[] = data.split("/");
-                String dia = dataAux[0];
-                String mes = dataAux[1];
-                String ano = dataAux[2];
-
-                String dataAuxiliar = ano + "/" + mes + "/" + dia + " " + hora;
-               // Medicao medicao = new Medicao();
-
-                medicao.setDataHora(dataHora);
-                medicao.setDataHoraAux(dataAuxiliar);
-
-            try {
-                Double valorGlicose = Double.parseDouble(glicose);
-                medicao.setMedicaoGlicose(valorGlicose);
-            }catch (NumberFormatException e){
-                Double valorGlicose = 0.0;
-                medicao.setMedicaoGlicose(valorGlicose);
-            }
-
-            try {
-                Double valorHc = Double.parseDouble(hc);
-                medicao.setMedicaoHC(valorHc);
-            }catch (NumberFormatException e){
-                medicao.setMedicaoHC(0.0);
-            }
-
-            try {
-                Double valorInsulina = Double.parseDouble(insulina);
-                medicao.setMedicaoInsulina(valorInsulina);
-            }catch (NumberFormatException e){
-                medicao.setMedicaoInsulina(0.0);
-            }
-            medicao.setEditavel("S");
-            medicao.setNota(nota);
-            medicao.guardar();*/
-
             Medicao medicao = new Medicao();
             recuperarDadosDigitados(medicao);
             finish();
@@ -310,6 +279,9 @@ public class AdicionarRegistosActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        if (bundleRegisto != null){
+            getMenuInflater().inflate(R.menu.menu_eliminar, menu);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -319,18 +291,40 @@ public class AdicionarRegistosActivity extends AppCompatActivity {
             case android.R.id.home:
                 finish();
                 break;
+            case R.id.action_delete:
+                eliminarMedicao();
+                break;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
+    public void eliminarMedicao(){
+        AlertDialog.Builder dialog = new AlertDialog.Builder( this );
+        dialog.setTitle("Eliminar");
+        if(medicaoSelecionada.getEditavel().equals("S")) {
+            dialog.setMessage("Tem a certeza que pertende eliminar esta Medição?");
+        }else{
+            dialog.setMessage("Não é aconselhavel eliminar esta Medição!\n\nTem a certeza que pertende eliminar esta Medição?");
+        }
+        dialog.setCancelable(false);
+
+        dialog.setIcon(R.drawable.ic__delete_24);
+        dialog.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                medicaoSelecionada.eliminar();
+                finish();
+            }
+        }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        dialog.create();
+        dialog.show();
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
 }

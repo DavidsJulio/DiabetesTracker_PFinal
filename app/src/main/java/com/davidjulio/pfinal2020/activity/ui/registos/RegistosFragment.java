@@ -37,6 +37,7 @@ public class RegistosFragment extends Fragment {
 
     private RecyclerView rvRegistosListagem;
     private FloatingActionButton fabAdicionarRegisto;
+    private LinearLayout linearLayoutInfo;
 
     private List<Medicao> listaMedicoes;
     private DatabaseReference registoRef;
@@ -62,6 +63,7 @@ public class RegistosFragment extends Fragment {
 
         rvRegistosListagem = view.findViewById(R.id.rvRegistosListagem);
         fabAdicionarRegisto = view.findViewById(R.id.fabAdicionarRegisto);
+
 
         listaMedicoes = new ArrayList<>();
         registoRef = ConfigFirebase.getFirebaseDatabase().child("medicoesGlicose");
