@@ -48,7 +48,8 @@ public class TelaPrincipalActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+       DrawerLayout drawer = findViewById(R.id.drawer_layout);
+
 
         //Cria referencia para a area de navegação
         NavigationView navigationView = findViewById(R.id.nav_view);
