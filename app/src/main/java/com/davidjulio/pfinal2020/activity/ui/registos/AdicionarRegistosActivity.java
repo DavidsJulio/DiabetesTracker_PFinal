@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -322,8 +323,19 @@ public class AdicionarRegistosActivity extends AppCompatActivity {
             }
         });
 
-        dialog.create();
-        dialog.show();
+        final AlertDialog alertDialog = dialog.create();
+        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialog) {
+                TextView message = alertDialog.findViewById(android.R.id.message);
+                if(message != null){
+                    message.setTextSize(20);
+                }
+
+            }
+        });
+        alertDialog.show();
+
     }
 
 }

@@ -235,13 +235,10 @@ public class CalculadoraFragment extends Fragment  {
             }
         });
         alertDialog.show();
-  /*      dialog.create();
-        dialog.show();*/
+
     }
 
     public void dadosSpinner(){
-/*        String emailUtilizador = autenticacao.getCurrentUser().getEmail();
-        String idUtilizador = Base64Custom.codificarBase64( emailUtilizador );*/
 
         String idUtilizador = ConfigFirebase.getCurrentUser();
         refeicaoRef = firebaseRef.child("refeicoes")
@@ -255,8 +252,8 @@ public class CalculadoraFragment extends Fragment  {
                 listaRefeicoes.add("-- Selecione uma Refeição --");
                 for(DataSnapshot dadosRefeicoes: dataSnapshot.getChildren()){
                     Refeicao refeicao = dadosRefeicoes.getValue(Refeicao.class);
-                    //valorHidratos.setText(refeicao.getHidratosCarbono().toString());
-                    listaRefeicoes.add( refeicao.getNome() );
+
+                    listaRefeicoes.add( refeicao.getNome() + ", HC: " + refeicao.getHidratosCarbono());
 
                 }
 
@@ -267,8 +264,16 @@ public class CalculadoraFragment extends Fragment  {
                 spinnerRefeicoesCalculadora.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        Log.d("Spinner", "Spinner: "+ spinnerRefeicoesCalculadora.getSelectedItem().toString());
+                       // Log.d("Spinner", "Spinner: "+ spinnerRefeicoesCalculadora.getSelectedItem().toString());
                         String refeicaoSelecionada = spinnerRefeicoesCalculadora.getSelectedItem().toString();
+
+                        if(refeicaoSelecionada.equals("-- Selecione uma Refeição --")){
+                            valorHidratos.setText("");
+                        }else{
+                            String hcSplit[] = refeicaoSelecionada.split(", HC: ");
+                            String hc = hcSplit[1];
+                            valorHidratos.setText(hc);
+                        }
 
                     }
 
@@ -313,6 +318,5 @@ public class CalculadoraFragment extends Fragment  {
         super.onStop();
         calculadoraRef.removeEventListener(valueEventListenerCalculadora);
         refeicaoRef.removeEventListener(valueEventListenerRefeicoes);
-
     }
 }

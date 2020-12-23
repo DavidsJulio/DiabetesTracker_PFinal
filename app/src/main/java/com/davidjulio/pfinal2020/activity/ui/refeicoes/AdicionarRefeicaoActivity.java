@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.davidjulio.pfinal2020.R;
@@ -391,8 +392,18 @@ public class AdicionarRefeicaoActivity extends AppCompatActivity {
             }
         });
 
-        //criar e exibir
-        dialog.create();
-        dialog.show();
+        final AlertDialog alertDialog = dialog.create();
+        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialog) {
+                TextView message = alertDialog.findViewById(android.R.id.message);
+                if(message != null){
+                    message.setTextSize(20);
+                }
+
+            }
+        });
+        alertDialog.show();
+
     }
 }
