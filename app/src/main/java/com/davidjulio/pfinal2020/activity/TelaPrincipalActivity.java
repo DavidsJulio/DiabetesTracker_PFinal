@@ -1,17 +1,20 @@
 package com.davidjulio.pfinal2020.activity;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.davidjulio.pfinal2020.R;
 import com.davidjulio.pfinal2020.config.ConfigFirebase;
 import com.davidjulio.pfinal2020.helper.Base64Custom;
 import com.davidjulio.pfinal2020.model.Utilizador;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,6 +28,7 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class TelaPrincipalActivity extends AppCompatActivity {
 
@@ -34,6 +38,7 @@ public class TelaPrincipalActivity extends AppCompatActivity {
 
     private DatabaseReference firebaseRef = ConfigFirebase.getFirebaseDatabase();
     private DatabaseReference utilizadorRef;
+    private CircleImageView cImageNav;
 
     private TextView textoUsername, textoEmailUtilizador;
     View hView;
@@ -57,6 +62,7 @@ public class TelaPrincipalActivity extends AppCompatActivity {
         hView = navigationView.getHeaderView(0);
         textoUsername = hView.findViewById(R.id.textUsernameNavHeader);
         textoEmailUtilizador = hView.findViewById(R.id.textEmailNavHeader);
+        cImageNav = hView.findViewById(R.id.cImageNav);
 
         // Define as configurações do Nav.Drawer
         mAppBarConfiguration = new AppBarConfiguration.Builder(
@@ -73,6 +79,8 @@ public class TelaPrincipalActivity extends AppCompatActivity {
 
         //Configura a navegação para o navView = carrega os itens de menu (diario, calculadora, etc)
         NavigationUI.setupWithNavController(navigationView, navController);
+
+
     }
 
     @Override
@@ -128,6 +136,18 @@ public class TelaPrincipalActivity extends AppCompatActivity {
 
             }
         });
+
+        FirebaseUser utilizador = Utilizador.getUtilizador();
+        Uri url = utilizador.getPhotoUrl();
+
+        if(url != null){
+            //Bib firebase
+            Glide.with(this)
+                    .load(url)
+                    .into(cImageNav);
+        }else{
+            cImageNav.setImageResource(R.drawable.padrao);
+        }
 
     }
 

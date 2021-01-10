@@ -67,9 +67,9 @@ public class RefeicoesFragment extends Fragment {
         recyclerViewRefeicoes = view.findViewById(R.id.recyclerViewRefeicoes);
 
         //inico
-        listaRefeicoes = new ArrayList<>();//lista
-        refeicaoRef = ConfigFirebase.getFirebaseDatabase()
-                                    .child("refeicoes");
+ /*       listaRefeicoes = new ArrayList<>();//lista
+       *//* refeicaoRef = ConfigFirebase.getFirebaseDatabase()
+                                    .child("refeicoes");*/
 
         FloatingActionButton fab = view.findViewById(R.id.fabAdicionarRefeicoes);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -134,8 +134,7 @@ public class RefeicoesFragment extends Fragment {
     }
 
     public void recuperarRefeicoes(){
-        String emailUtilizador = autenticacao.getCurrentUser().getEmail();
-        String idUtilizador = Base64Custom.codificarBase64( emailUtilizador );
+        String idUtilizador = ConfigFirebase.getCurrentUser();
 
         refeicaoRef = firebaseRef.child("refeicoes")
                                  .child( idUtilizador );
@@ -171,6 +170,4 @@ public class RefeicoesFragment extends Fragment {
         super.onStop();
         refeicaoRef.removeEventListener(valueEventListenerRefeicoes);
     }
-
-
 }

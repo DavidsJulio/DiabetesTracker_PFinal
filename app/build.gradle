@@ -44,6 +44,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:18.0.0'
     implementation 'com.google.firebase:firebase-auth:18.0.0'
     implementation 'com.google.firebase:firebase-storage:18.0.0'
+    implementation 'com.firebaseui:firebase-ui-storage:6.4.0'
 
     //Credit: https://github.com/heinrichreimer/material-intro
     implementation 'com.heinrichreimersoftware:material-intro:2.0.0'
@@ -51,4 +52,6 @@ dependencies {
     //Credit: https://square.github.io/picasso/
     implementation 'com.squareup.picasso:picasso:2.71828'
 
+    //Credit: https://github.com/hdodenhof/CircleImageView
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
 }

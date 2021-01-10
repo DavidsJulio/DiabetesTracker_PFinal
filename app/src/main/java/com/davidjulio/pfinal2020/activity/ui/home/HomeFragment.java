@@ -76,8 +76,6 @@ public class HomeFragment extends Fragment {
     }
 
     public void recuperarDadosPerfil(){
-/*        String emailUtilizador = autenticacao.getCurrentUser().getEmail();
-        String idUtilizador = Base64Custom.codificarBase64( emailUtilizador );*/
         String idUtilizador = ConfigFirebase.getCurrentUser();
         perfilRef = firebaseRef.child("perfil")
                 .child( idUtilizador );

@@ -37,7 +37,6 @@ public class RegistosFragment extends Fragment {
 
     private RecyclerView rvRegistosListagem;
     private FloatingActionButton fabAdicionarRegisto;
-    private LinearLayout linearLayoutInfo;
 
     private List<Medicao> listaMedicoes;
     private DatabaseReference registoRef;
