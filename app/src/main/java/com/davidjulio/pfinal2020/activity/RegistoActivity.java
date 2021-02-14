@@ -29,9 +29,8 @@ public class RegistoActivity extends AppCompatActivity {
     private Button btnRegistar;
 
     private FirebaseAuth autenticacao;
-
-
     private Utilizador utilizador;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +44,6 @@ public class RegistoActivity extends AppCompatActivity {
         btnRegistar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //funcao validar campos, nesta funcao é chamada a registar utilizador
                 validarCampos();
             }
         });
@@ -62,6 +60,7 @@ public class RegistoActivity extends AppCompatActivity {
                     utilizador = new Utilizador();
                     utilizador.setNome(textoNome);
                     utilizador.setEmail(textoEmail);
+
                     utilizador.setPass(textoPass);
                     registarUtilizador();
                 }else{
@@ -88,10 +87,11 @@ public class RegistoActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if ( task.isSuccessful() ){
-
                     String idUtilizador = Base64Custom.codificarBase64(utilizador.getEmail()); //email codificar para base64 e ficamos com o id
                     utilizador.setIdUtilizador(idUtilizador); //guardamos o email
                     utilizador.guardarUtilizador();
+                    //TODO: ter em atenção ao erro de criar conta
+            /*        utilizador.guardar();*/
                     finish(); //fecha e envia para activity principal
 
                 }else{
@@ -108,9 +108,7 @@ public class RegistoActivity extends AppCompatActivity {
                         exception = "Erro ao registar utilizador: " + e.getMessage();
                         e.printStackTrace();
                     }
-
                     Toast.makeText(RegistoActivity.this, exception, Toast.LENGTH_SHORT).show();
-
                 }
             }
         });

@@ -62,7 +62,6 @@ public class MainActivity extends IntroActivity { //mudar de AppCompatActivity p
 
     public void verificarUtilizadorLoggado(){
         autenticacao = ConfigFirebase.getFirebaseAutenticacao();
-        //autenticacao.signOut();
         if( autenticacao.getCurrentUser() != null){
             abrirActivityPrincipal();
             finish();
@@ -70,7 +69,6 @@ public class MainActivity extends IntroActivity { //mudar de AppCompatActivity p
     }
 
     public void abrirActivityPrincipal(){
-
        startActivity( new Intent( this, TelaPrincipalActivity.class));
     }
 }

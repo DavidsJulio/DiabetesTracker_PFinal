@@ -17,10 +17,8 @@ import android.widget.TextView;
 import com.davidjulio.pfinal2020.R;
 import com.davidjulio.pfinal2020.adapter.AdapterMedicoesGli;
 import com.davidjulio.pfinal2020.config.ConfigFirebase;
-import com.davidjulio.pfinal2020.helper.Base64Custom;
-import com.davidjulio.pfinal2020.model.Calculadora;
 import com.davidjulio.pfinal2020.model.Medicao;
-import com.google.firebase.auth.FirebaseAuth;
+import com.davidjulio.pfinal2020.model.Utilizador;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,13 +31,12 @@ import java.util.List;
 
 public class HomeFragment extends Fragment {
 
-    private TextView tvHomeFSI, tvHomeIHC, tvHomeGAlvo, tv13;
+    private TextView tvHomeFSI, tvHomeIHC, tvHomeGAlvo, tvInfoNrMedicoes;
 
-    private FirebaseAuth autenticacao = ConfigFirebase.getFirebaseAutenticacao();
     private DatabaseReference firebaseRef = ConfigFirebase.getFirebaseDatabase();
-    private DatabaseReference perfilRef = ConfigFirebase.getFirebaseDatabase().child("perfil");
-    private Calculadora calculadora;
-    private ValueEventListener valueEventListenerPerfil;
+    private DatabaseReference utilizadorRef;
+    private Utilizador utilizador;
+    private ValueEventListener valueEventListenerUtilizador;
 
     private RecyclerView rvMedicoes;
     private AdapterMedicoesGli adapterMedicoes;
@@ -48,7 +45,6 @@ public class HomeFragment extends Fragment {
     private ValueEventListener valueEventListenerMedicoes;
 
     public HomeFragment() {
-        // Required empty public constructor
     }
 
 
@@ -62,8 +58,7 @@ public class HomeFragment extends Fragment {
         tvHomeIHC = view.findViewById(R.id.textViewHomeIHC);
         tvHomeGAlvo = view.findViewById(R.id.textViewHomeGAlvo);
         rvMedicoes = view.findViewById(R.id.rvHomeMedicoes);
-        tv13 = view.findViewById(R.id.textViewHomeInfoRv);
-
+        tvInfoNrMedicoes = view.findViewById(R.id.textViewHomeInfoRv);
 
         adapterMedicoes = new AdapterMedicoesGli(listaMedicoes, getContext());
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -75,35 +70,43 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
-    public void recuperarDadosPerfil(){
+    public void recuperarDadosUtilizador(){
         String idUtilizador = ConfigFirebase.getCurrentUser();
-        perfilRef = firebaseRef.child("perfil")
-                .child( idUtilizador );
+        utilizadorRef = firebaseRef.child("utilizadores")
+                                    .child( idUtilizador );
 
-        valueEventListenerPerfil = perfilRef.addValueEventListener(new ValueEventListener() {
+        valueEventListenerUtilizador = utilizadorRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()) {
-                    calculadora = (Calculadora) dataSnapshot.getValue(Calculadora.class);
-                    String fsi = String.valueOf(calculadora.getFsi());
-                    tvHomeFSI.setText(fsi);
-                    String rHC = String.valueOf(calculadora.getrHC());
-                    tvHomeIHC.setText(rHC);
-                    String glimeciaAlvo = String.valueOf(calculadora.getGlicemiaAlvo());
-                    tvHomeGAlvo.setText(glimeciaAlvo);
+                    utilizador = (Utilizador) dataSnapshot.getValue(Utilizador.class);
+                    String fsi = String.valueOf(utilizador.getFsi());
+                    if (fsi.equals("null")){
+                        tvHomeFSI.setText("");
+                    }else{
+                        tvHomeFSI.setText(fsi);
+                    }
+                    String rHC = String.valueOf(utilizador.getrHC());
+                    if (rHC.equals("null")){
+                        tvHomeIHC.setText("");
+                    }else{
+                        tvHomeIHC.setText(rHC);
+                    }
+                    String glimeciaAlvo = String.valueOf(utilizador.getGlicemiaAlvo());
+                    if(glimeciaAlvo.equals("null")){
+                        tvHomeGAlvo.setText("");
+                    }else {
+                        tvHomeGAlvo.setText(glimeciaAlvo);
+                    }
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
     }
 
     public void recuperarMedicoes(){
-       /* String emailUtilizador = autenticacao.getCurrentUser().getEmail();
-        String idUtilizador = Base64Custom.codificarBase64( emailUtilizador );*/
 
         String idUtilizador = ConfigFirebase.getCurrentUser();
         medicoesRef = firebaseRef.child("medicoesGlicose")
@@ -113,7 +116,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()) {
-                    tv13.setText("Ultimas Medições:");
+                    tvInfoNrMedicoes.setText("Ultimas Medições:");
                     listaMedicoes.clear();
 
                     for (DataSnapshot dadosMedicoes : dataSnapshot.getChildren()) {
@@ -125,27 +128,23 @@ public class HomeFragment extends Fragment {
                     adapterMedicoes.notifyDataSetChanged();
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
     }
 
-
     @Override
     public void onStart() {
         super.onStart();
-        //recuperarPerfil
-        recuperarDadosPerfil();
+        recuperarDadosUtilizador();
         recuperarMedicoes();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        perfilRef.removeEventListener(valueEventListenerPerfil);
+        utilizadorRef.removeEventListener(valueEventListenerUtilizador);
         medicoesRef.removeEventListener(valueEventListenerMedicoes);
     }
 }

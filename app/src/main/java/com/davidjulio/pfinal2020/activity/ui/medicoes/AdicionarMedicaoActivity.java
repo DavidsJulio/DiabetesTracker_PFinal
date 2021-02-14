@@ -1,4 +1,4 @@
-package com.davidjulio.pfinal2020.activity.ui.registos;
+package com.davidjulio.pfinal2020.activity.ui.medicoes;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -10,7 +10,6 @@ import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,14 +21,13 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.davidjulio.pfinal2020.R;
-import com.davidjulio.pfinal2020.helper.DateUtil;
 import com.davidjulio.pfinal2020.model.Medicao;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class AdicionarRegistosActivity extends AppCompatActivity {
+public class AdicionarMedicaoActivity extends AppCompatActivity {
     private ActionBar actionBar;
     private Button btnData, btnHora;
     private EditText etGlicose, etHC, etInsulina, etNota;
@@ -89,10 +87,10 @@ public class AdicionarRegistosActivity extends AppCompatActivity {
                     if (editavel) {
                         recuperarDadosDigitados(medicaoSelecionada);
                         //medicaoSelecionada.guardar();
-                        Toast.makeText(AdicionarRegistosActivity.this, "Atualizado com Sucesso!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(AdicionarMedicaoActivity.this, "Atualizado com Sucesso!", Toast.LENGTH_LONG).show();
                         finish();
                     }else{
-                        Toast.makeText(AdicionarRegistosActivity.this, "Este registo não pode ser Editado!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(AdicionarMedicaoActivity.this, "Este registo não pode ser Editado!", Toast.LENGTH_LONG).show();
                     }
                 }
             });
@@ -101,7 +99,7 @@ public class AdicionarRegistosActivity extends AppCompatActivity {
 
     public void carregarRegistos(){
         if(bundleRegisto != null){
-            medicaoSelecionada = (Medicao) bundleRegisto.getSerializable(RegistosFragment.MEDICAO_SELECIONADA);
+            medicaoSelecionada = (Medicao) bundleRegisto.getSerializable(MedicoesFragment.MEDICAO_SELECIONADA);
 
             if (medicaoSelecionada.getEditavel().equals("S")) {
                 actionBar.setTitle("Medição Editável");

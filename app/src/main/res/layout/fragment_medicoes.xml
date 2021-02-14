@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.ui.registos.RegistosFragment">
+    tools:context=".activity.ui.medicoes.MedicoesFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvRegistosListagem"

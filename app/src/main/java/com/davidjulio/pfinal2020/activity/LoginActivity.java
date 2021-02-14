@@ -26,9 +26,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private TextInputEditText campoEmail, campoPass;
     private Button btnLoginEntrar;
-
     private Utilizador utilizador;
-
     private FirebaseAuth autenticacao;
 
     @Override
@@ -80,14 +78,13 @@ public class LoginActivity extends AppCompatActivity {
                     try {
                         throw task.getException();
                     }catch (FirebaseAuthInvalidUserException e) {
-                        exception = "Utilizador não está registado!";
+                        exception = getString(R.string.emailNotFound);
                     }catch (FirebaseAuthInvalidCredentialsException e){
-                        exception = "Email e password não correspondem!";
+                        exception = getString(R.string.notMatch);
                     }catch (Exception e){
-                        exception = "Erro ao registar utilizador: " + e.getMessage();
+                        exception = getString(R.string.errorLogin) + e.getMessage();
                         e.printStackTrace();
                     }
-
                     Toast.makeText(LoginActivity.this, exception, Toast.LENGTH_SHORT).show();
                 }
             }
@@ -96,7 +93,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void abrirActivityPrincipal(){
         startActivity( new Intent( this, TelaPrincipalActivity.class));
-        finish(); //fecha a activity de login
+        finish();
     }
 
     public void btnLRegistar (View view){

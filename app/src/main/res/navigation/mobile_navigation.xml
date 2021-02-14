@@ -19,9 +19,9 @@
 
     <fragment
         android:id="@+id/nav_config"
-        android:name="com.davidjulio.pfinal2020.activity.ui.configuration.ConfigurationFragment"
+        android:name="com.davidjulio.pfinal2020.activity.ui.configuracoes.ConfiguracaoFragment"
         android:label="Configurações"
-        tools:layout="@layout/fragment_configuration" />
+        tools:layout="@layout/fragment_configuracao" />
 
     <fragment
         android:id="@+id/nav_perfil"
@@ -37,9 +37,9 @@
 
     <fragment
         android:id="@+id/nav_registos"
-        android:name="com.davidjulio.pfinal2020.activity.ui.registos.RegistosFragment"
+        android:name="com.davidjulio.pfinal2020.activity.ui.medicoes.MedicoesFragment"
         android:label="Registos"
-        tools:layout="@layout/fragment_registos" />
+        tools:layout="@layout/fragment_medicoes" />
 
     <fragment
         android:id="@+id/nav_lembretes"

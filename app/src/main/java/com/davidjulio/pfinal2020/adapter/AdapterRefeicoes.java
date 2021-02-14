@@ -28,11 +28,9 @@ public class AdapterRefeicoes extends RecyclerView.Adapter<AdapterRefeicoes.MyVi
     Context context;
 
     public AdapterRefeicoes(List<Refeicao> refeicoes, Context context){
-
         this.refeicoes = refeicoes;
         this.context = context;
         //refeicoesFilter = new ArrayList<>(refeicoes); //copy para usar de maneira independente
-
     }
 
     @NonNull
@@ -55,7 +53,7 @@ public class AdapterRefeicoes extends RecyclerView.Adapter<AdapterRefeicoes.MyVi
             holder.numeroCalorias.setText("Calorias: " + String.valueOf(refeicao.getCalorias()) + " kcal");
         }
 
-        //Image view usando a bibliotecaPicasso
+        //Image view utilizando a biblioteca Picasso
         String urlFoto = refeicao.getUrlFoto();
         Picasso.get().load(urlFoto).into(holder.foto);
 

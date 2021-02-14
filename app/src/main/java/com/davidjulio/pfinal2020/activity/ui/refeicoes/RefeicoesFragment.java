@@ -51,10 +51,7 @@ public class RefeicoesFragment extends Fragment {
 
     public static final String REFEICAO_SELECIONADA = "refeicoes";
 
-   // private SearchView searchView;
-
     public RefeicoesFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -151,7 +148,6 @@ public class RefeicoesFragment extends Fragment {
                 }
                 adapterRefeicoes.notifyDataSetChanged();
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 

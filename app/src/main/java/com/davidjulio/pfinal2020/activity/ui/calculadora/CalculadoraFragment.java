@@ -27,9 +27,9 @@ import com.davidjulio.pfinal2020.activity.ui.refeicoes.AdicionarRefeicaoActivity
 import com.davidjulio.pfinal2020.config.ConfigFirebase;
 import com.davidjulio.pfinal2020.helper.Base64Custom;
 import com.davidjulio.pfinal2020.helper.DateUtil;
-import com.davidjulio.pfinal2020.model.Calculadora;
 import com.davidjulio.pfinal2020.model.Medicao;
 import com.davidjulio.pfinal2020.model.Refeicao;
+import com.davidjulio.pfinal2020.model.Utilizador;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -46,33 +46,27 @@ public class CalculadoraFragment extends Fragment  {
     Button btnCalcular, btnAvisar;
     ImageButton ibBluetooth, ibAdicionarRefeicao;
     TextView tvResultado;
-    Calculadora calculadora;
-
-    public static final String HC_CALCULADORA = "hcCalculadora";
+    Utilizador utilizador;
 
     private FirebaseAuth autenticacao = ConfigFirebase.getFirebaseAutenticacao();
     private DatabaseReference firebaseRef = ConfigFirebase.getFirebaseDatabase();
 
-
     private List<String> listaRefeicoes = new ArrayList<>();
 
-
-    private DatabaseReference calculadoraRef;
+    private DatabaseReference utilizadorRef;
     private DatabaseReference refeicaoRef;
     private ValueEventListener valueEventListenerRefeicoes;
-    private ValueEventListener valueEventListenerCalculadora;
+    private ValueEventListener valueEventListenerUtilizador;
 
     private String email;
 
     public CalculadoraFragment() {
-        // Required empty public constructor
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_calculadora, container, false);
 
         valorGlicose = view.findViewById( R.id.edValorGlicoseCalculadora );
@@ -110,8 +104,6 @@ public class CalculadoraFragment extends Fragment  {
                 }
             }
         });
-
-
         return view;
     }
 
@@ -126,23 +118,25 @@ public class CalculadoraFragment extends Fragment  {
     }
 
     public void recuperarValoresCalculo(){
-        String emailUtilizador = autenticacao.getCurrentUser().getEmail();
-        String idUtilizador = Base64Custom.codificarBase64( emailUtilizador );
+     /*   String emailUtilizador = autenticacao.getCurrentUser().getEmail();
+        String idUtilizador = Base64Custom.codificarBase64( emailUtilizador );*/
+        String idUtilizador = ConfigFirebase.getCurrentUser();
 
-        calculadoraRef = firebaseRef.child( "perfil" )
+        utilizadorRef = firebaseRef.child( "utilizadores" )
                                     .child( idUtilizador );
 
-        valueEventListenerCalculadora = calculadoraRef.addValueEventListener(new ValueEventListener() {
+        valueEventListenerUtilizador = utilizadorRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    calculadora = dataSnapshot.getValue(Calculadora.class);
-                    calculadora.setFsi(calculadora.getFsi());
-                    calculadora.setrHC(calculadora.getrHC());
-                    calculadora.setGlicemiaAlvo(calculadora.getGlicemiaAlvo());
-                    email = calculadora.getEmailFamilar();
-                }else{
-                    alert();
+                    utilizador = dataSnapshot.getValue(Utilizador.class);
+                    utilizador.setFsi(utilizador.getFsi());
+                    utilizador.setrHC(utilizador.getrHC());
+                    utilizador.setGlicemiaAlvo(utilizador.getGlicemiaAlvo());
+                    email = utilizador.getEmailFamilar();
+                    if(utilizador.getFsi() == null || utilizador.getrHC() == null || utilizador.getGlicemiaAlvo() == null){
+                        alert();
+                    }
                 }
             }
 
@@ -154,16 +148,14 @@ public class CalculadoraFragment extends Fragment  {
     }
 
     public void calcular(){
-
         Double hidratosHora;
         int glicoseHora, resultado;
-
         try {
             glicoseHora = Integer.parseInt(valorGlicose.getText().toString());
 
             try {
                 hidratosHora = Double.parseDouble(valorHidratos.getText().toString());
-                resultado = calculadora.calculoInsulina(glicoseHora, hidratosHora);
+                resultado = utilizador.calculoInsulina(glicoseHora, hidratosHora);
                 tvResultado.setText(resultado + " Doses");
             }catch (NumberFormatException e){
                 valorHidratos.setError("Insira um valor para os Hidratos");
@@ -244,7 +236,6 @@ public class CalculadoraFragment extends Fragment  {
         refeicaoRef = firebaseRef.child("refeicoes")
                                 .child( idUtilizador );
 
-
         valueEventListenerRefeicoes = refeicaoRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -252,9 +243,7 @@ public class CalculadoraFragment extends Fragment  {
                 listaRefeicoes.add("-- Selecione uma Refeição --");
                 for(DataSnapshot dadosRefeicoes: dataSnapshot.getChildren()){
                     Refeicao refeicao = dadosRefeicoes.getValue(Refeicao.class);
-
                     listaRefeicoes.add( refeicao.getNome() + ", HC: " + refeicao.getHidratosCarbono());
-
                 }
 
                 ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_result, listaRefeicoes);
@@ -264,7 +253,7 @@ public class CalculadoraFragment extends Fragment  {
                 spinnerRefeicoesCalculadora.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                       // Log.d("Spinner", "Spinner: "+ spinnerRefeicoesCalculadora.getSelectedItem().toString());
+
                         String refeicaoSelecionada = spinnerRefeicoesCalculadora.getSelectedItem().toString();
 
                         if(refeicaoSelecionada.equals("-- Selecione uma Refeição --")){
@@ -274,9 +263,7 @@ public class CalculadoraFragment extends Fragment  {
                             String hc = hcSplit[1];
                             valorHidratos.setText(hc);
                         }
-
                     }
-
                     @Override
                     public void onNothingSelected(AdapterView<?> parent) {
                     }
@@ -316,7 +303,7 @@ public class CalculadoraFragment extends Fragment  {
     @Override
     public void onStop() {
         super.onStop();
-        calculadoraRef.removeEventListener(valueEventListenerCalculadora);
+        utilizadorRef.removeEventListener(valueEventListenerUtilizador);
         refeicaoRef.removeEventListener(valueEventListenerRefeicoes);
     }
 }

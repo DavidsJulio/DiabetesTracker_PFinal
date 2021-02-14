@@ -2,6 +2,7 @@ package com.davidjulio.pfinal2020.activity;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
@@ -10,7 +11,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.davidjulio.pfinal2020.R;
 import com.davidjulio.pfinal2020.config.ConfigFirebase;
-import com.davidjulio.pfinal2020.helper.Base64Custom;
+import com.davidjulio.pfinal2020.helper.UtilizadorHelper;
 import com.davidjulio.pfinal2020.model.Utilizador;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,6 +30,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.internal.Util;
 
 public class TelaPrincipalActivity extends AppCompatActivity {
 
@@ -52,10 +54,10 @@ public class TelaPrincipalActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        Log.d("Error", "Utilizador : "+ ConfigFirebase.getCurrentUser());
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
 
-       DrawerLayout drawer = findViewById(R.id.drawer_layout);
-
-
+       /* autenticacao.signOut();*/
         //Cria referencia para a area de navegação
         NavigationView navigationView = findViewById(R.id.nav_view);
         //config para passar os dados
@@ -79,8 +81,6 @@ public class TelaPrincipalActivity extends AppCompatActivity {
 
         //Configura a navegação para o navView = carrega os itens de menu (diario, calculadora, etc)
         NavigationUI.setupWithNavController(navigationView, navController);
-
-
     }
 
     @Override
@@ -92,7 +92,6 @@ public class TelaPrincipalActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        //autenticacao = ConfigFirebase.getFirebaseAutenticacao();
         int id = item.getItemId();
 
         if(id == R.id.action_exit){
@@ -111,33 +110,28 @@ public class TelaPrincipalActivity extends AppCompatActivity {
     }
 
 
-    public void recuperarPerfil(){
-        String emailUtilizador = autenticacao.getCurrentUser().getEmail();
-        String idUtilizador = Base64Custom.codificarBase64( emailUtilizador );
-        utilizadorRef = firebaseRef.child("utilizadores")
-                                    .child( idUtilizador );
+    public void recuperarUtilizador(){
+        String idUtilizador = ConfigFirebase.getCurrentUser();
 
-        //valueEventListenerUsuario, objeto para o value
+        utilizadorRef = firebaseRef.child("utilizadores").child(idUtilizador);
+        Log.d("Info", "utilizadorRef: "+utilizadorRef);
         valueEventListenerUtilizador = utilizadorRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Utilizador utilizador = snapshot.getValue( Utilizador.class );
-
-             /*   Log.d("Info", "utilizador: "+utilizador);
-                Log.d("infoUsername", "username: "+utilizador.getNome());
-                Log.d("infoUsername", "email: "+utilizador.getEmail());*/
-
-                textoUsername.setText( utilizador.getNome() );
-                //Log.d("infoUsername", "email: "+utilizador.getEmail());
-                textoEmailUtilizador.setText( utilizador.getEmail() );
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    Utilizador utilizador = dataSnapshot.getValue(Utilizador.class);
+                    textoUsername.setText(utilizador.getNome());
+                    textoEmailUtilizador.setText(utilizador.getEmail());
+                }
             }
+
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
 
-        FirebaseUser utilizador = Utilizador.getUtilizador();
+        FirebaseUser utilizador = UtilizadorHelper.getUtilizador();
         Uri url = utilizador.getPhotoUrl();
 
         if(url != null){
@@ -154,7 +148,7 @@ public class TelaPrincipalActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        recuperarPerfil();
+        recuperarUtilizador();
     }
 
     @Override

@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.ui.registos.AdicionarRegistosActivity" android:label="Adicionar Medição"></activity>
+        <activity android:name=".activity.ui.medicoes.AdicionarMedicaoActivity" android:label="Adicionar Medição"></activity>
         <!-- <activity android:name=".notification.Lixo"></activity> -->
         <activity android:name=".activity.ui.lembretes.AdicionarLembreteActivity" />
         <activity

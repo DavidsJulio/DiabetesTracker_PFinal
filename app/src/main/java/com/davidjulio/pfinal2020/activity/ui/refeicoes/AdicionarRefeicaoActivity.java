@@ -116,13 +116,14 @@ public class AdicionarRefeicaoActivity extends AppCompatActivity {
             }
         });
 
+        bundleRefeicao = getIntent().getExtras();
+
         refeicaoSelecionada();
         carregaDados();
 
     }
 
     public void refeicaoSelecionada(){
-        bundleRefeicao = getIntent().getExtras();
         if(bundleRefeicao != null) {
             actionBar.setTitle("Editar - Apagar Refeição");
             fabSalvar.setOnClickListener(new View.OnClickListener() {
@@ -140,8 +141,7 @@ public class AdicionarRefeicaoActivity extends AppCompatActivity {
     public void carregaDados(){
         if(bundleRefeicao != null){
             //caso o bundle seja diferente de null conseguimos recuperar a refeicao
-            refeicaoSelecionada = (Refeicao) bundleRefeicao.getSerializable(RefeicoesFragment.REFEICAO_SELECIONADA); //refeicao recolhida
-
+            refeicaoSelecionada = (Refeicao) bundleRefeicao.getSerializable(RefeicoesFragment.REFEICAO_SELECIONADA);
             campoNome.setText(refeicaoSelecionada.getNome());
             campoHidratos.setText(String.valueOf(refeicaoSelecionada.getHidratosCarbono()));
 
@@ -151,21 +151,18 @@ public class AdicionarRefeicaoActivity extends AppCompatActivity {
             }else{
                 campoCalorias.setText(String.valueOf(valorCalorias));
             }
-
             Double valorGordura = refeicaoSelecionada.getGordura();
             if(valorGordura == 0.0){
                 campoGordura.setText("");
             }else{
                 campoGordura.setText(String.valueOf(valorGordura));
             }
-
             Double valorProteinas = refeicaoSelecionada.getProteinas();
             if(valorProteinas == 0.0){
                 campoProteinas.setText("");
             }else {
                 campoProteinas.setText(String.valueOf(valorProteinas));
             }
-
             String foto = refeicaoSelecionada.getUrlFoto();
             if(foto != null){
                 Picasso.get().load(foto).into(ivRefeicoes);

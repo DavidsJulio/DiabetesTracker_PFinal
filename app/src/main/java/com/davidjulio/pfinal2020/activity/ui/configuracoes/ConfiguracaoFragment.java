@@ -1,11 +1,10 @@
-package com.davidjulio.pfinal2020.activity.ui.configuration;
+package com.davidjulio.pfinal2020.activity.ui.configuracoes;
 
 import android.Manifest;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -26,7 +25,6 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -34,9 +32,9 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.davidjulio.pfinal2020.R;
-import com.davidjulio.pfinal2020.activity.TelaPrincipalActivity;
 import com.davidjulio.pfinal2020.config.ConfigFirebase;
 import com.davidjulio.pfinal2020.helper.Permissao;
+import com.davidjulio.pfinal2020.helper.UtilizadorHelper;
 import com.davidjulio.pfinal2020.model.Utilizador;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -55,13 +53,13 @@ import java.io.ByteArrayOutputStream;
 import java.util.Calendar;
 
 
-public class ConfigurationFragment extends Fragment {
+public class ConfiguracaoFragment extends Fragment {
 
     private CircleImageView cvConfigImgPerfil;
     private TextInputEditText etConfigNome, etConfigEmail, etConfigPass;
     private Button btnConfigData;
     private RadioGroup radioGroupSexo;
-    private RadioButton rbMasculino, rbFeminino, radioButton;
+    private RadioButton rbMasculino, rbFeminino;
     private EditText etConfigAltura, etConfigPeso;
     private ImageButton ibConfigCamara, ibConfigGaleria;
 
@@ -79,16 +77,19 @@ public class ConfigurationFragment extends Fragment {
     private Bitmap imagem = null;
     private StorageReference storageReference;
 
-    public ConfigurationFragment() {
-        // Required empty public constructor
+    //aux
+    Integer fsi, glicemiaAlvo;
+    Double rHC;
+    String emailFamiliar;
+
+    public ConfiguracaoFragment() {
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        final View view = inflater.inflate(R.layout.fragment_configuration, container, false);
+        final View view = inflater.inflate(R.layout.fragment_configuracao, container, false);
 
         storageReference = ConfigFirebase.getFirebaseStorage();
         Permissao.validarPermissoes(permissoes, getActivity(), 1);
@@ -104,7 +105,7 @@ public class ConfigurationFragment extends Fragment {
         ibConfigCamara = view.findViewById(R.id.ibConfigCamara);
         ibConfigGaleria = view.findViewById(R.id.ibConfigGaleria);
 
-        FirebaseUser utilizador = Utilizador.getUtilizador();
+        FirebaseUser utilizador = UtilizadorHelper.getUtilizador();
         Uri url = utilizador.getPhotoUrl();
 
         if(url != null){
@@ -112,8 +113,6 @@ public class ConfigurationFragment extends Fragment {
             Glide.with(getActivity())
                     .load(url)
                     .into(cvConfigImgPerfil);
-
-
         }else{
             cvConfigImgPerfil.setImageResource(R.drawable.padrao);
         }
@@ -166,9 +165,6 @@ public class ConfigurationFragment extends Fragment {
         return view;
     }
 
-
-
-
     public void dataNascimento(){
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
@@ -210,18 +206,15 @@ public class ConfigurationFragment extends Fragment {
 
         String altura = etConfigAltura.getText().toString();
         String peso = etConfigPeso.getText().toString();
-
-
-
         utilizadorAux.setNome(nome);
         utilizadorAux.setEmail(email);
         utilizadorAux.setDataNascimento(dataNascimento);
-
 
         if(sexo != ""){
             utilizadorAux.setSexo(sexo);
         }
 
+        //TODO: Bug na altura e peso
         Integer valorAltura = Integer.parseInt(altura);
         try {
             utilizadorAux.setAltura(valorAltura);
@@ -236,7 +229,19 @@ public class ConfigurationFragment extends Fragment {
             utilizadorAux.setPeso(0.0);
         }
 
+        utilizadorAux.setFsi(fsi);
+        utilizadorAux.setrHC(rHC);
+        utilizadorAux.setGlicemiaAlvo(glicemiaAlvo);
+        utilizadorAux.setEmailFamilar(emailFamiliar);
+        utilizadorAux.setImc(calcularIMC(valorPeso, valorAltura));
+
         utilizadorAux.guardar();
+    }
+
+    public Double calcularIMC(Double peso, Integer altura){
+        Double alturaAux = altura /100.0;
+        Double imc = (peso / (alturaAux * alturaAux));
+        return imc;
     }
 
     public void recuperarUtilizador(){
@@ -251,7 +256,12 @@ public class ConfigurationFragment extends Fragment {
                     Utilizador util = dataSnapshot.getValue(Utilizador.class);
                     etConfigNome.setText(util.getNome());
                     etConfigEmail.setText(util.getEmail());
-                    
+                    fsi = util.getFsi();
+                    rHC = util.getrHC();
+                    glicemiaAlvo = util.getGlicemiaAlvo();
+                    emailFamiliar = util.getEmailFamilar();
+
+
                     btnConfigData.setText(util.getDataNascimento());
 
                     if (util.getSexo() != null) {
@@ -276,18 +286,10 @@ public class ConfigurationFragment extends Fragment {
                     }else{
                         etConfigPeso.setText(peso);
                     }
-
-
-/*                    double nrAltura = util.getAltura() / 100.0;
-                    double nrPeso = util.getPeso();
-                    Double imc = (nrPeso / (nrAltura * nrAltura ));
-                    Log.d("IMC", "IMC: " + imc);*/
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         });
     }
@@ -350,7 +352,7 @@ public class ConfigurationFragment extends Fragment {
         }
     }
     public void atualizarFoto(Uri url){
-        Utilizador.atualizarFoto(url);
+        UtilizadorHelper.atualizarFoto(url);
     }
 
     public void alertaParaPermissao(){

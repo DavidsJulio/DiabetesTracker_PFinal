@@ -37,6 +37,7 @@ public class AdapterRegistos extends RecyclerView.Adapter<AdapterRegistos.MyView
     }
 
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull MyViewRegistos holder, int position) {
         Medicao medicao = medicoes.get(position);
@@ -44,16 +45,14 @@ public class AdapterRegistos extends RecyclerView.Adapter<AdapterRegistos.MyView
 
         if(editavel.equals("S")){
             holder.ivAR.setImageResource(R.drawable.ic_registos);
-            holder.tvInfo.setText("Info: Manual");
+            holder.tvInfo.setText("Manual");
+            holder.linearLayoutInfo.setBackgroundColor(R.color.colorAccent);
         }else{
             holder.ivAR.setImageResource(R.drawable.ic_calculator);
-            holder.tvInfo.setText("Info: Calculada");
+            holder.tvInfo.setText("Calculada");
         }
-
-
         holder.tvGlicose.setText("Glicose: " + medicao.getMedicaoGlicose().toString());
         holder.tvDataHora.setText(medicao.getDataHora());
-
     }
 
     @Override

@@ -29,6 +29,10 @@
     <!-- Login Activity -->
     <string name="acesse_sua_conta">Access to your account</string>
     <string name="entrar">Sign In</string>
+    <string name="emailNotFound">User not Found: Email dont exist!</string>
+    <string name="notMatch">Email and Password not match!</string>
+    <string name="errorLogin">\"Error: \"</string>
+
     <string name="title_activity_principal">PrincipalActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -43,4 +47,7 @@
     <string name="title_activity_tela_principal">TelaPrincipalActivity</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+
 </resources>

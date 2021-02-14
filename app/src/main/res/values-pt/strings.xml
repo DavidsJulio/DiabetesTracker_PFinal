@@ -30,4 +30,7 @@
     <!-- Login Activity -->
     <string name="acesse_sua_conta">Acesse à sua Conta</string>
     <string name="entrar">Entrar</string>
+    <string name="emailNotFound">Utilizador não está registado!</string>
+    <string name="notMatch">Email e password não correspondem!</string>
+    <string name="errorLogin">\"Erro: \"</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.davidjulio.pfinal2020.activity.ui.registos;
+package com.davidjulio.pfinal2020.activity.ui.medicoes;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -25,7 +24,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -33,7 +31,7 @@ import java.util.Collections;
 import java.util.List;
 
 
-public class RegistosFragment extends Fragment {
+public class MedicoesFragment extends Fragment {
 
     private RecyclerView rvRegistosListagem;
     private FloatingActionButton fabAdicionarRegisto;
@@ -45,7 +43,7 @@ public class RegistosFragment extends Fragment {
     private ValueEventListener valueEventListenerRegisto;
     public static final String MEDICAO_SELECIONADA = "medicao";
 
-    public RegistosFragment() {
+    public MedicoesFragment() {
         // Required empty public constructor
     }
 
@@ -58,7 +56,7 @@ public class RegistosFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_registos, container, false);
+        View view = inflater.inflate(R.layout.fragment_medicoes, container, false);
 
         rvRegistosListagem = view.findViewById(R.id.rvRegistosListagem);
         fabAdicionarRegisto = view.findViewById(R.id.fabAdicionarRegisto);
@@ -80,7 +78,7 @@ public class RegistosFragment extends Fragment {
                     @Override
                     public void onItemClick(View view, int position) {
                         Medicao medicaoSelecionada = listaMedicoes.get(position);
-                        Intent iRegistos = new Intent(getActivity(), AdicionarRegistosActivity.class);
+                        Intent iRegistos = new Intent(getActivity(), AdicionarMedicaoActivity.class);
                         iRegistos.putExtra(MEDICAO_SELECIONADA, medicaoSelecionada);
                         startActivity(iRegistos);
                     }
@@ -110,7 +108,7 @@ public class RegistosFragment extends Fragment {
 
     public void adicionarRegistos(){
         Intent intent = new Intent();
-        intent.setClass(getActivity(), AdicionarRegistosActivity.class);
+        intent.setClass(getActivity(), AdicionarMedicaoActivity.class);
         getActivity().startActivity(intent);
     }
 
@@ -146,6 +144,7 @@ public class RegistosFragment extends Fragment {
     public void onStart() {
         super.onStart();
         recuperarRegistos();
+        adapterRegistos.notifyDataSetChanged();
     }
 
     @Override
