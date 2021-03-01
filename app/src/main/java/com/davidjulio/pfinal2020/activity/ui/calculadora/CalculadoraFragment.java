@@ -118,8 +118,6 @@ public class CalculadoraFragment extends Fragment  {
     }
 
     public void recuperarValoresCalculo(){
-     /*   String emailUtilizador = autenticacao.getCurrentUser().getEmail();
-        String idUtilizador = Base64Custom.codificarBase64( emailUtilizador );*/
         String idUtilizador = ConfigFirebase.getCurrentUser();
 
         utilizadorRef = firebaseRef.child( "utilizadores" )
@@ -144,7 +142,6 @@ public class CalculadoraFragment extends Fragment  {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
-
     }
 
     public void calcular(){
@@ -172,19 +169,17 @@ public class CalculadoraFragment extends Fragment  {
     }
 
     public void avisarFamilar(){
-
-        String assunto = "Calculo da insulina";
+        String assunto = getString(R.string.calculoInsulina);
         String dataAtual = DateUtil.dataAtual();
         String doses = tvResultado.getText().toString();
         String glicoseAtual = valorGlicose.getText().toString();
         String hidratosAtual = valorHidratos.getText().toString();
 
         StringBuilder sb = new StringBuilder();
-        sb.append("Data/Hora: " + dataAtual);
-        sb.append("\n\nGlicose Atual: "+glicoseAtual+ " mg/dL");
-        sb.append("\nHidratos de Carbono: "+ hidratosAtual+" g");
-        sb.append("\n\nDoses a administrar: "+doses);
-
+        sb.append(getString(R.string.data_hora) + dataAtual);
+        sb.append(getString(R.string.glicoseAtual)+glicoseAtual+ " mg/dL");
+        sb.append(getString(R.string.hidratosCarbono)+ hidratosAtual+" g");
+        sb.append(getString(R.string.resultado)+doses);
 
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.putExtra(Intent.EXTRA_EMAIL, new String[]{email});
@@ -231,7 +226,6 @@ public class CalculadoraFragment extends Fragment  {
     }
 
     public void dadosSpinner(){
-
         String idUtilizador = ConfigFirebase.getCurrentUser();
         refeicaoRef = firebaseRef.child("refeicoes")
                                 .child( idUtilizador );
@@ -253,7 +247,6 @@ public class CalculadoraFragment extends Fragment  {
                 spinnerRefeicoesCalculadora.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
                         String refeicaoSelecionada = spinnerRefeicoesCalculadora.getSelectedItem().toString();
 
                         if(refeicaoSelecionada.equals("-- Selecione uma Refeição --")){
@@ -273,7 +266,6 @@ public class CalculadoraFragment extends Fragment  {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
-
     }
 
     public void guardarValoresGlicose(Integer glicoseHora, Double hc, Integer insulina){

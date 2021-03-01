@@ -33,4 +33,11 @@
     <string name="emailNotFound">Utilizador não está registado!</string>
     <string name="notMatch">Email e password não correspondem!</string>
     <string name="errorLogin">\"Erro: \"</string>
+
+    <!-- CalculadoraFragment -->
+    <string name="calculoInsulina">Calculo da Insulina</string>
+    <string name="data_hora">\"Data/Hora: \"</string>
+    <string name="glicoseAtual">\"\n\nGlicose Atual: \"</string>
+    <string name="hidratosCarbono">\"\nHidratos de Carbono: \"</string>
+    <string name="resultado">\"\n\nDoses a administrar: \"</string>
 </resources>
