@@ -28,7 +28,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center_horizontal|center_vertical"
-            android:text="Glicose (mg/dL) :"
+            android:text="@string/glicose_mg_dl"
             android:textSize="20sp" />
 
         <EditText
@@ -71,7 +71,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center_horizontal|center_vertical"
-            android:text="Hidratos de Carbono (g):"
+            android:text="@string/hidratos_de_carbono_g1"
             android:textSize="20sp" />
 
         <EditText
@@ -116,7 +116,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:background="@drawable/background_botao_verde"
-        android:text="Calcular"
+        android:text="@string/calcular"
         android:textColor="@color/colorWhite"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout5"
         app:layout_constraintEnd_toEndOf="parent"
@@ -143,7 +143,7 @@
             android:layout_marginRight="16dp"
             android:layout_weight="0"
             android:gravity="center_vertical"
-            android:text="Doses de Insulina:"
+            android:text="@string/doses_de_insulina"
             android:textColor="@android:color/black"
             android:textSize="22sp" />
 
@@ -167,7 +167,7 @@
         android:background="@drawable/background_botao_verde"
         android:drawableLeft="@drawable/ic_avise"
         android:drawablePadding="8dp"
-        android:text="Avise o seu Familiar"
+        android:text="@string/avise_o_seu_familiar"
         android:textColor="@color/colorWhite"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"

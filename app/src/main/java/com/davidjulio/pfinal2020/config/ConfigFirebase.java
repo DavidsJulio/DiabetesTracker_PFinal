@@ -9,29 +9,27 @@ import com.google.firebase.storage.StorageReference;
 
 public class ConfigFirebase {
 
-    private static FirebaseAuth autenticacao; //vai ser o mesmo independente do numero
+    private static FirebaseAuth autenticacao;
     private static DatabaseReference firebase;
     private static StorageReference storage;
 
-
-    //devolve a instancia
     public static FirebaseAuth getFirebaseAutenticacao(){
-        if(autenticacao == null) { //caso ainda não tenha
-            autenticacao = FirebaseAuth.getInstance(); //recupera a instancia;
+        if(autenticacao == null) {
+            autenticacao = FirebaseAuth.getInstance();
         }
         return autenticacao;
     }
 
     public static DatabaseReference getFirebaseDatabase(){
         if(firebase == null){
+            FirebaseDatabase.getInstance().setPersistenceEnabled(true);
             firebase = FirebaseDatabase.getInstance().getReference();
         }
-        return firebase; //metodo que retorna automaticamente a instancia do firebase que nos permite guardar os dados na bd
+        return firebase;
     }
 
-    //TODO: FIREBASE STORAGE
     public static StorageReference getFirebaseStorage(){
-        if(storage == null) { //caso ainda não tenha
+        if(storage == null) {
             storage = FirebaseStorage.getInstance().getReference();
         }
         return storage;
@@ -44,3 +42,5 @@ public class ConfigFirebase {
     }
 
 }
+
+

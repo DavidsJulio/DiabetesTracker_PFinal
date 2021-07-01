@@ -125,7 +125,7 @@ public class AdicionarRefeicaoActivity extends AppCompatActivity {
 
     public void refeicaoSelecionada(){
         if(bundleRefeicao != null) {
-            actionBar.setTitle("Editar - Apagar Refeição");
+            actionBar.setTitle(R.string.edit_delete_meal);
             fabSalvar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

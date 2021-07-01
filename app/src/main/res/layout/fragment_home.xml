@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:drawableLeft="@drawable/ic_seta"
-                android:text="Fator de Sensibilidade à Insulina:"
+                android:text="@string/fator_de_sensibilidade_insulina"
                 android:textColor="@android:color/black"
                 android:textSize="20sp" />
 
@@ -63,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:drawableLeft="@drawable/ic_seta"
-                android:text="Rácio Insulina:Hidratos de Carbono:"
+                android:text="@string/r_cio_insulina_hidratos_de_carbono"
                 android:textColor="@android:color/black"
                 android:textSize="20sp" />
 
@@ -93,7 +93,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:drawableLeft="@drawable/ic_seta"
-                android:text="Glicemia-Alvo:"
+                android:text="@string/glicemia_alvo1"
                 android:textColor="@android:color/black"
                 android:textSize="20sp" />
 
@@ -130,7 +130,7 @@
             android:id="@+id/textViewHomeInfoRv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sem Medições!"
+            android:text="@string/sem_medi_es"
             android:textSize="18sp" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -146,7 +146,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:text="Acompanhe as ultimas medições:"
+        android:text="@string/acompanhe_as_ultimas_medi_es"
         android:textColor="@android:color/black"
         android:textSize="22sp"
         android:textStyle="bold"
@@ -162,7 +162,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Dados Perfil:"
+        android:text="@string/dados_perfil"
         android:textColor="@android:color/black"
         android:textSize="22sp"
         android:textStyle="bold"

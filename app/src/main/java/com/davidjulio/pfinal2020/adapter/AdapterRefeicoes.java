@@ -1,6 +1,7 @@
 package com.davidjulio.pfinal2020.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,22 +16,25 @@ import com.davidjulio.pfinal2020.R;
 import com.davidjulio.pfinal2020.model.Refeicao;
 import com.squareup.picasso.Picasso;
 
+import java.sql.Ref;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class AdapterRefeicoes extends RecyclerView.Adapter<AdapterRefeicoes.MyViewRefeicoes> { //implements Filterable
+public class AdapterRefeicoes extends RecyclerView.Adapter<AdapterRefeicoes.MyViewRefeicoes>{ // implements Filterable
 
     List<Refeicao> refeicoes;
-    //List<Refeicao> refeicoesFilter;
     Context context;
+ /*   List<Refeicao> refeicoesListFiltered;*/
+
 
     public AdapterRefeicoes(List<Refeicao> refeicoes, Context context){
         this.refeicoes = refeicoes;
         this.context = context;
-        //refeicoesFilter = new ArrayList<>(refeicoes); //copy para usar de maneira independente
+       /* this.refeicoesListFiltered = refeicoes;*/
     }
 
     @NonNull
@@ -45,12 +49,12 @@ public class AdapterRefeicoes extends RecyclerView.Adapter<AdapterRefeicoes.MyVi
         Refeicao refeicao = refeicoes.get(position);
 
         holder.nomeRefeicao.setText(refeicao.getNome());
-        holder.numeroHidratos.setText("Hidratos de Carbono: "+String.valueOf(refeicao.getHidratosCarbono()) + " g");
+        holder.numeroHidratos.setText("Carbohydrates: "+String.valueOf(refeicao.getHidratosCarbono()) + " g");
 
         if(refeicao.getCalorias() == 0) {
-            holder.numeroCalorias.setText("Calorias: " + "-- kcal");
+            holder.numeroCalorias.setText("Calories: " + "-- kcal");
         }else{
-            holder.numeroCalorias.setText("Calorias: " + String.valueOf(refeicao.getCalorias()) + " kcal");
+            holder.numeroCalorias.setText("Calories: " + String.valueOf(refeicao.getCalorias()) + " kcal");
         }
 
         //Image view utilizando a biblioteca Picasso
@@ -65,42 +69,38 @@ public class AdapterRefeicoes extends RecyclerView.Adapter<AdapterRefeicoes.MyVi
         return refeicoes.size();
     }
 
-    /*
-    @Override
+
+   /* @Override
     public Filter getFilter() {
-        return filter;
-    }
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String charString = charSequence.toString();
+                if(charString.isEmpty()){
+                    refeicoesListFiltered = refeicoes;
+                }else{
+                    List<Refeicao> filteredList = new ArrayList<>();
+                    for(Refeicao row : refeicoes){
+                        if(row.getNome().toLowerCase().contains(charString.toLowerCase())){
+                            filteredList.add(row);
+                        }
 
-
-    public Filter filter = new Filter() {
-        @Override
-        protected FilterResults performFiltering(CharSequence constraint) {
-           //retornar o resultado
-            List<Refeicao> filteredList = new ArrayList<>();
-            if(constraint == null || constraint.length() == 0){
-                filteredList.add((Refeicao) refeicoesFilter);
-            }else{
-                String filtro = constraint.toString().toLowerCase().trim();
-
-                for(Refeicao item: refeicoesFilter){
-                    if(item.getNome().toLowerCase().contains(filtro)){
-                        filteredList.add(item);
                     }
+                    refeicoesListFiltered = filteredList;
                 }
 
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = refeicoesListFiltered;
+                return filterResults;
             }
-            FilterResults results = new FilterResults();
-            results.values = filteredList;
-            return results;
-        }
 
-        @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
-            refeicoes.clear();
-            refeicoes.addAll((List)results.values);
-            notifyDataSetChanged();
-        }
-    };*/
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                refeicoesListFiltered = (ArrayList<Refeicao>) results.values;
+                notifyDataSetChanged();
+            }
+        };
+    }*/
 
 
     public class MyViewRefeicoes extends RecyclerView.ViewHolder{

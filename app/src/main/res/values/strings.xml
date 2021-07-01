@@ -41,19 +41,76 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-    <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
-    <string name="title_activity_tela_principal">TelaPrincipalActivity</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
     <!-- CalculadoraFragment -->
     <string name="calculoInsulina">Insulin Result</string>
     <string name="data_hora">\"Date/Time: \"</string>
     <string name="glicoseAtual">\"\n\nCurrent Glucose: \"</string>
     <string name="hidratosCarbono">\"\nCarbohydrates: \"</string>
     <string name="resultado">\"\n\nResult: \"</string>
+    <string name="msg_error_send_calculo">Before sending you need to calculate!</string>
+    <string name="insert_hc">Insert Carbs</string>
+    <string name="insert_g">Insert Glucose</string>
+    <string name="warn_family">Warn a family member!</string>
+    <string name="miss_data">Missing data!</string>
+    <string name="insert_profile_data">Data is missing in Profile: \n</string>
+    <string name="fsi">\n- Insulin Sensitivity Factor;\n</string>
+    <string name="insulin_carbs">- Insulin:Carbohydrates Ratio;</string>
+    <string name="target_glucose">\n- Blood Glucose Target;</string>
+    <string name="continue_string">Continue</string>
+    <string name="select_meal">-- Select a Meal --</string>
 
+
+
+  <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="title_activity_tela_principal">TelaPrincipalActivity</string>
+    <!-- TODO: Remove or change this placeholder text -->
+   <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="perfil">Profile</string>
+    <string name="calculadora">Calculator</string>
+    <string name="refei_es">Meals</string>
+    <string name="medi_es">Measurements</string>
+    <string name="lembretes">Reminder</string>
+    <string name="informa_es">Info</string>
+    <string name="configura_es">Settings</string>
+    <string name="nome_para_refei_o">Meal Name</string>
+    <string name="hidratos_de_carbono_g">Carbohydrates (g)</string>
+    <string name="calorias_kcal">Calories (kcal)</string>
+    <string name="proteina_g">Protein (g)</string>
+    <string name="gordura_g">Fat (g)</string>
+    <string name="opcional">Optional</string>
+    <string name="obrigatorio">Mandatory</string>
+    <string name="add_meal">Add Meal</string>
+    <string name="add_Me">Add Measurement</string>
+    <string name="insira_aqui_os_dados_para_utilizar_a_calculadora">Enter the data here to use the Calculator:</string>
+    <string name="fator_de_sensibilidade_n_insulina_fsi">Insulin Sensitivity Factor (ISF):</string>
+    <string name="r_cio_insulina_hidratos_de_carbono_i_hc">Insulin:Carbohydrate Ratio (ICR):</string>
+    <string name="glicemia_alvo">Blood Glucose - Target:</string>
+    <string name="ndice_de_massa_corporal">Body Mass Index:</string>
+    <string name="para_consultar_insira_a_altura_e_peso_nas_configura_es">To consult, enter height and weight in Settings</string>
+    <string name="insira_o_email_do_seu_familiar_navise_o_sempre_que_fa_a_um_c_lculo">Enter your family member Email: Let them know whenever you do a Calculation!</string>
+    <string name="glicose_mg_dl">Glucose (mg/dL):</string>
+    <string name="hidratos_de_carbono_g1">Carbohydrates (g):</string>
+    <string name="calcular">Calculate</string>
+    <string name="doses_de_insulina">Insulin Doses:</string>
+    <string name="avise_o_seu_familiar">Notify your Family</string>
+    <string name="edit_delete_meal">Edit - Delete Meal</string>
+    <string name="divideCarbs">, Carbs: </string>
+    <string name="glicose">Glucose:</string>
+    <string name="fator_de_sensibilidade_insulina">Insulin Sensitivity Factor:</string>
+    <string name="r_cio_insulina_hidratos_de_carbono">Insulin:Carbohydrate Ratio:</string>
+    <string name="glicemia_alvo1">Blood glucose Target:</string>
+    <string name="dados_perfil">Profile Data:</string>
+    <string name="acompanhe_as_ultimas_medi_es">Follow the latest measurements:</string>
+    <string name="sem_medi_es">No Measurements!</string>
+    <string name="last_M">Latest Measurements:</string>
+    <string name="profile1">Profile</string>
+    <string name="meals1">Meals</string>
+    <string name="measur1">Measurements</string>
+    <string name="remeinder1">Reminders</string>
+    <string name="info1">Info</string>
+    <string name="calc1">Calculator</string>
+    <string name="sett1">Settings</string>
 
 </resources>

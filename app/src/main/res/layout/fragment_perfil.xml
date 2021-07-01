@@ -32,7 +32,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:text="Fator de Sensibilidade\nà Insulina (FSI) :"
+                android:text="@string/fator_de_sensibilidade_n_insulina_fsi"
                 android:textSize="20sp" />
 
             <EditText
@@ -60,7 +60,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:text="Rácio Insulina:Hidratos de Carbono (I:HC):"
+                android:text="@string/r_cio_insulina_hidratos_de_carbono_i_hc"
                 android:textSize="20sp" />
 
             <EditText
@@ -89,7 +89,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:text="Glicemia - Alvo:"
+                android:text="@string/glicemia_alvo"
                 android:textSize="20sp" />
 
             <EditText
@@ -113,7 +113,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
-            android:text="Índice de Massa Corporal:"
+            android:text="@string/ndice_de_massa_corporal"
             android:textAlignment="center"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -128,7 +128,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text='Para consultar, insira a altura e peso nas "Configurações"'
+            android:text="@string/para_consultar_insira_a_altura_e_peso_nas_configura_es"
             android:textAlignment="center"
             android:textSize="20sp" />
     </LinearLayout>
@@ -139,7 +139,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:text="Insira aqui os dados para utilizar a Calculadora:"
+        android:text="@string/insira_aqui_os_dados_para_utilizar_a_calculadora"
         android:textAlignment="center"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -153,7 +153,7 @@
         android:id="@+id/textView12"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Insira o Email do seu familiar:\nAvise-o sempre que faça um Cálculo!"
+        android:text="@string/insira_o_email_do_seu_familiar_navise_o_sempre_que_fa_a_um_c_lculo"
         android:textAlignment="center"
         android:textSize="20sp"
         android:textStyle="bold"

@@ -81,13 +81,13 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:layout_weight="1"
-                    android:text="Obrigatorio" />
+                    android:text="@string/obrigatorio" />
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editNomeR"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Nome para Refeição"
+                    android:hint="@string/nome_para_refei_o"
                     android:maxLength="50"
                     android:textAlignment="viewStart"
                     android:textSize="20sp" />
@@ -104,13 +104,13 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:layout_weight="1"
-                    android:text="Obrigatorio" />
+                    android:text="@string/obrigatorio" />
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editHidratosR"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Hidratos de Carbono (g)"
+                    android:hint="@string/hidratos_de_carbono_g"
                     android:inputType="number|numberDecimal"
                     android:maxLength="6"
                     android:textSize="20sp" />
@@ -127,13 +127,13 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:layout_weight="1"
-                    android:text="Opcional" />
+                    android:text="@string/opcional" />
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editCaloriasR"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Calorias (kcal)"
+                    android:hint="@string/calorias_kcal"
                     android:inputType="number"
                     android:maxLength="4"
                     android:textSize="20sp" />
@@ -150,14 +150,14 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:layout_weight="1"
-                    android:text="Opcional" />
+                    android:text="@string/opcional" />
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editProteinaR"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:freezesText="false"
-                    android:hint="Proteina (g)"
+                    android:hint="@string/proteina_g"
                     android:inputType="number|numberDecimal"
                     android:maxLength="6"
                     android:textSize="20sp" />
@@ -174,13 +174,13 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:layout_weight="1"
-                    android:text="Opcional" />
+                    android:text="@string/opcional" />
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/editGorduraR"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Gordura (g)"
+                    android:hint="@string/gordura_g"
                     android:inputType="number|numberDecimal"
                     android:maxLength="6"
                     android:textSize="20sp" />

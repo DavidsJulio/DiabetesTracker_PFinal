@@ -97,7 +97,7 @@ public class CalculadoraFragment extends Fragment  {
                 String textoResultado = tvResultado.getText().toString();
                 if(textoResultado.equals("")){
                     btnCalcular.requestFocus();
-                    Toast.makeText(getActivity(), "Antes de Enviar, precisa de Calcular!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), R.string.msg_error_send_calculo, Toast.LENGTH_LONG).show();
                     return;
                 }else {
                     avisarFamilar();
@@ -155,13 +155,13 @@ public class CalculadoraFragment extends Fragment  {
                 resultado = utilizador.calculoInsulina(glicoseHora, hidratosHora);
                 tvResultado.setText(resultado + " Doses");
             }catch (NumberFormatException e){
-                valorHidratos.setError("Insira um valor para os Hidratos");
+                valorHidratos.setError(getString(R.string.insert_hc));
                 valorHidratos.requestFocus();
                 return;
             }
 
         }catch (NumberFormatException e){
-            valorGlicose.setError("Insira um valor para a Glicose");
+            valorGlicose.setError(getString(R.string.insert_g));
             valorGlicose.requestFocus();
             return;
         }
@@ -188,21 +188,21 @@ public class CalculadoraFragment extends Fragment  {
 
         intent.setType("text/plain");
 
-        startActivity( Intent.createChooser( intent, "Avise o seu familiar!" ) );
+        startActivity( Intent.createChooser( intent, getString(R.string.warn_family) ) );
     }
 
     public void alert(){
         AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
 
-        dialog.setTitle("Dados em falta");
-        dialog.setMessage("Insira os dados no seu perfil: \n" +
-                          "\n- Fator de Sensibilidade à Insulina;\n" +
-                          "- Rácio Insulina:Hidratos de Carbono;" +
-                          "\n- Glicemia - Alvo;");
+        dialog.setTitle(R.string.miss_data);
+        dialog.setMessage(getString(R.string.insert_profile_data) +
+                          getString(R.string.fsi) +
+                          getString(R.string.insulin_carbs) +
+                          getString(R.string.target_glucose));
         dialog.setCancelable(false);
         dialog.setIcon(R.drawable.ic_baseline_person_24);
 
-        dialog.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
+        dialog.setPositiveButton(R.string.continue_string, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(getActivity(), TelaPrincipalActivity.class);
@@ -234,10 +234,10 @@ public class CalculadoraFragment extends Fragment  {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 listaRefeicoes.clear();
-                listaRefeicoes.add("-- Selecione uma Refeição --");
+                listaRefeicoes.add(getString(R.string.select_meal));
                 for(DataSnapshot dadosRefeicoes: dataSnapshot.getChildren()){
                     Refeicao refeicao = dadosRefeicoes.getValue(Refeicao.class);
-                    listaRefeicoes.add( refeicao.getNome() + ", HC: " + refeicao.getHidratosCarbono());
+                    listaRefeicoes.add( refeicao.getNome() + getString(R.string.divideCarbs) + refeicao.getHidratosCarbono());
                 }
 
                 ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), R.layout.spinner_result, listaRefeicoes);
@@ -249,10 +249,10 @@ public class CalculadoraFragment extends Fragment  {
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         String refeicaoSelecionada = spinnerRefeicoesCalculadora.getSelectedItem().toString();
 
-                        if(refeicaoSelecionada.equals("-- Selecione uma Refeição --")){
+                        if(refeicaoSelecionada.equals(getString(R.string.select_meal))){
                             valorHidratos.setText("");
                         }else{
-                            String hcSplit[] = refeicaoSelecionada.split(", HC: ");
+                            String hcSplit[] = refeicaoSelecionada.split(getString(R.string.divideCarbs));
                             String hc = hcSplit[1];
                             valorHidratos.setText(hc);
                         }

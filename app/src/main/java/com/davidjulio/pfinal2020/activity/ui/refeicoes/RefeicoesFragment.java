@@ -1,6 +1,9 @@
 package com.davidjulio.pfinal2020.activity.ui.refeicoes;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,6 +12,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,11 +21,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.davidjulio.pfinal2020.R;
 import com.davidjulio.pfinal2020.adapter.AdapterRefeicoes;
 import com.davidjulio.pfinal2020.config.ConfigFirebase;
-import com.davidjulio.pfinal2020.helper.Base64Custom;
 import com.davidjulio.pfinal2020.helper.RecyclerItemClickListener;
 import com.davidjulio.pfinal2020.model.Refeicao;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -29,17 +33,21 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.content.ContentValues.TAG;
+
 
 public class RefeicoesFragment extends Fragment {
 
     private FirebaseAuth autenticacao = ConfigFirebase.getFirebaseAutenticacao();
     private DatabaseReference firebaseRef = ConfigFirebase.getFirebaseDatabase();
+
 
     private RecyclerView recyclerViewRefeicoes;
     private AdapterRefeicoes adapterRefeicoes;
@@ -51,22 +59,19 @@ public class RefeicoesFragment extends Fragment {
 
     public static final String REFEICAO_SELECIONADA = "refeicoes";
 
+
     public RefeicoesFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_refeicoes, container, false);
         setHasOptionsMenu(true);
 
         recyclerViewRefeicoes = view.findViewById(R.id.recyclerViewRefeicoes);
-
-        //inico
- /*       listaRefeicoes = new ArrayList<>();//lista
-       *//* refeicaoRef = ConfigFirebase.getFirebaseDatabase()
-                                    .child("refeicoes");*/
 
         FloatingActionButton fab = view.findViewById(R.id.fabAdicionarRefeicoes);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -114,15 +119,14 @@ public class RefeicoesFragment extends Fragment {
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_pesquisa, menu);
-
     }
 
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
         return super.onOptionsItemSelected(item);
     }
+
 
     public void adicionarRefeicao(){
         Intent intent = new Intent();
@@ -147,10 +151,11 @@ public class RefeicoesFragment extends Fragment {
                     listaRefeicoes.add( refeicao );
                 }
                 adapterRefeicoes.notifyDataSetChanged();
+
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                Toast.makeText(getContext(), "Sem internet!", Toast.LENGTH_SHORT).show();
             }
         });
     }

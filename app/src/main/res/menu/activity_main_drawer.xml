@@ -12,7 +12,7 @@
         <item
             android:id="@+id/nav_perfil"
             android:icon="@drawable/ic_perfil"
-            android:title="Perfil" />
+            android:title="@string/perfil" />
         <!--<item
             android:id="@+id/nav_diario"
             android:icon="@drawable/ic_diario"
@@ -20,28 +20,28 @@
         <item
             android:id="@+id/nav_calculadora"
             android:icon="@drawable/ic_calculator"
-            android:title="Calculadora" />
+            android:title="@string/calculadora" />
         <item
             android:id="@+id/nav_refeicoes"
             android:icon="@drawable/ic_refeicoes"
-            android:title="Refeições" />
+            android:title="@string/refei_es" />
 
         <item
             android:id="@+id/nav_registos"
             android:icon="@drawable/ic_registos"
-            android:title="Medições" />
+            android:title="@string/medi_es" />
 
         <item
             android:id="@+id/nav_lembretes"
             android:icon="@drawable/ic_lembretes"
-            android:title="Lembretes" />
+            android:title="@string/lembretes" />
         <item
             android:id="@+id/nav_info"
             android:icon="@drawable/ic_info"
-            android:title="Informações" />
+            android:title="@string/informa_es" />
         <item
             android:id="@+id/nav_config"
             android:icon="@drawable/ic_config"
-            android:title="Configurações" />
+            android:title="@string/configura_es" />
     </group>
 </menu>

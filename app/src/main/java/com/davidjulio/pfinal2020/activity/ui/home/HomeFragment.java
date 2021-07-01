@@ -116,7 +116,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()) {
-                    tvInfoNrMedicoes.setText("Ultimas Medições:");
+                    tvInfoNrMedicoes.setText(R.string.last_M);
                     listaMedicoes.clear();
 
                     for (DataSnapshot dadosMedicoes : dataSnapshot.getChildren()) {

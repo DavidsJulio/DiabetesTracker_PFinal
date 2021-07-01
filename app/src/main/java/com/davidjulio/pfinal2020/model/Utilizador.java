@@ -39,6 +39,7 @@ public class Utilizador {
     public void guardarUtilizador(){
         FirebaseAuth autenticacao = ConfigFirebase.getFirebaseAutenticacao();
         String idUtilizador = Base64Custom.codificarBase64( autenticacao.getCurrentUser().getEmail() );
+
         DatabaseReference firebase = ConfigFirebase.getFirebaseDatabase();
         firebase.child("utilizadores")
                 .child(idUtilizador)
@@ -166,8 +167,6 @@ public class Utilizador {
         Double correcaoGlicemia = (double)( glicemiaRefeicao - glicemiaAlvo )/fsi;
         Double metabolizacaoHC = hcRefeicao / rHC;
 
-
-        //TODO: ARREDONDAMENTOS CORRETAMENTE
         int dose = (int)(correcaoGlicemia + metabolizacaoHC);
 
         return  dose;

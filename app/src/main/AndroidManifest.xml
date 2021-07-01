@@ -9,12 +9,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.ui.medicoes.AdicionarMedicaoActivity" android:label="Adicionar Medição"></activity>
-        <!-- <activity android:name=".notification.Lixo"></activity> -->
+        <activity
+            android:name=".activity.ui.medicoes.AdicionarMedicaoActivity"
+            android:label="@string/add_Me" /> <!-- <activity android:name=".notification.Lixo"></activity> -->
         <activity android:name=".activity.ui.lembretes.AdicionarLembreteActivity" />
         <activity
             android:name=".activity.ui.refeicoes.AdicionarRefeicaoActivity"
-            android:label="Adicionar Refeição"
+            android:label="@string/add_meal"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.LoadingActivity"
@@ -28,7 +29,9 @@
         <activity
             android:name=".activity.TelaPrincipalActivity"
             android:label="@string/title_activity_tela_principal"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
         <activity android:name=".activity.LoginActivity" />
         <activity android:name=".activity.RegistoActivity" />
         <activity
@@ -39,8 +42,8 @@
     <uses-feature
         android:name="android.hardware.camera2"
         android:required="true" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
     <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
 </manifest>
